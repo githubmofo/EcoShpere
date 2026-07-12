@@ -289,32 +289,32 @@ export default function GoalsPage() {
       </div>
 
       {/* 1. ROADMAP MILESTONES ROW */}
-      <Card className="bg-slate-900/30 backdrop-blur-md border border-white/5 rounded-3xl p-6 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-green-500/5 to-transparent rounded-bl-full pointer-events-none" />
-        <CardTitle className="text-xs font-black text-white uppercase tracking-widest flex items-center gap-2 mb-4">
-          <Rocket className="h-4 w-4 text-green-400" />
+      <Card className="bg-card backdrop-blur-md border border-border rounded-3xl p-6 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-green-500/10 to-transparent rounded-bl-full pointer-events-none" />
+        <CardTitle className="text-xs font-black text-foreground uppercase tracking-widest flex items-center gap-2 mb-4">
+          <Rocket className="h-4 w-4 text-green-500" />
           Sustainability roadmap timeline
         </CardTitle>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 pt-2">
-          <div className="p-3 bg-slate-950/40 rounded-2xl border border-green-500/10 relative">
-            <span className="absolute -top-2.5 left-3.5 bg-green-500 text-slate-950 text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full">Phase 1</span>
-            <p className="text-xs font-bold text-white mt-1 uppercase tracking-wide">Q1 Mappings</p>
-            <p className="text-[10px] text-slate-400 mt-1">Configure active factor registry parameters. (100% Mapped)</p>
+          <div className="p-3 bg-muted rounded-2xl border border-green-500/20 relative">
+            <span className="absolute -top-2.5 left-3.5 bg-green-500 text-white text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full">Phase 1</span>
+            <p className="text-xs font-bold text-foreground mt-1 uppercase tracking-wide">Q1 Mappings</p>
+            <p className="text-[10px] text-muted-foreground mt-1">Configure active factor registry parameters. (100% Mapped)</p>
           </div>
-          <div className="p-3 bg-slate-950/40 rounded-2xl border border-emerald-500/10 relative">
-            <span className="absolute -top-2.5 left-3.5 bg-emerald-500 text-slate-950 text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full">Phase 2</span>
-            <p className="text-xs font-bold text-white mt-1 uppercase tracking-wide">Q2 Reductions</p>
-            <p className="text-[10px] text-slate-400 mt-1">Aggregate logged entries under department caps. (Active)</p>
+          <div className="p-3 bg-muted rounded-2xl border border-emerald-500/20 relative">
+            <span className="absolute -top-2.5 left-3.5 bg-emerald-500 text-white text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full">Phase 2</span>
+            <p className="text-xs font-bold text-foreground mt-1 uppercase tracking-wide">Q2 Reductions</p>
+            <p className="text-[10px] text-muted-foreground mt-1">Aggregate logged entries under department caps. (Active)</p>
           </div>
-          <div className="p-3 bg-slate-950/40 rounded-2xl border border-white/5 relative">
-            <span className="absolute -top-2.5 left-3.5 bg-slate-800 text-slate-400 text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full">Phase 3</span>
-            <p className="text-xs font-bold text-white mt-1 uppercase tracking-wide">Q3 Offsets</p>
-            <p className="text-[10px] text-slate-400 mt-1">Initiate tree planting and solar grid credits. (Pending)</p>
+          <div className="p-3 bg-muted rounded-2xl border border-border relative">
+            <span className="absolute -top-2.5 left-3.5 bg-background border border-border text-muted-foreground text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full">Phase 3</span>
+            <p className="text-xs font-bold text-foreground mt-1 uppercase tracking-wide">Q3 Offsets</p>
+            <p className="text-[10px] text-muted-foreground mt-1">Initiate tree planting and solar grid credits. (Pending)</p>
           </div>
-          <div className="p-3 bg-slate-950/40 rounded-2xl border border-white/5 relative">
-            <span className="absolute -top-2.5 left-3.5 bg-slate-800 text-slate-400 text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full">Phase 4</span>
-            <p className="text-xs font-bold text-white mt-1 uppercase tracking-wide">Q4 Net Zero</p>
-            <p className="text-[10px] text-slate-400 mt-1">Final audit reports validation for executive brief. (Pending)</p>
+          <div className="p-3 bg-muted rounded-2xl border border-border relative">
+            <span className="absolute -top-2.5 left-3.5 bg-background border border-border text-muted-foreground text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full">Phase 4</span>
+            <p className="text-xs font-bold text-foreground mt-1 uppercase tracking-wide">Q4 Net Zero</p>
+            <p className="text-[10px] text-muted-foreground mt-1">Final audit reports validation for executive brief. (Pending)</p>
           </div>
         </div>
       </Card>
@@ -326,7 +326,7 @@ export default function GoalsPage() {
         <div className="lg:col-span-2 space-y-6">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest">Active Goals</h3>
+              <h3 className="text-xs font-black text-muted-foreground uppercase tracking-widest">Active Goals</h3>
             </div>
             <Button onClick={openCreateModal} className="bg-green-600 hover:bg-green-500 text-white rounded-xl gap-1.5 font-bold px-4 py-2.5 shadow-[0_4px_15px_rgba(22,163,74,0.25)] transition-all hover:scale-[1.02] cursor-pointer">
               <Plus className="h-4 w-4" />
@@ -341,16 +341,16 @@ export default function GoalsPage() {
                 key={goal.id}
                 whileHover={{ y: -4 }}
                 onClick={() => setSelectedGoal(goal)}
-                className="bg-slate-900/30 backdrop-blur-md border border-white/5 hover:border-white/10 rounded-3xl p-6 flex flex-col justify-between h-48 shadow-lg cursor-pointer hover:shadow-2xl transition-all duration-300 relative group"
+                className="bg-card backdrop-blur-md border border-border hover:border-border/80 rounded-3xl p-6 flex flex-col justify-between h-48 shadow-lg cursor-pointer hover:shadow-2xl transition-all duration-300 relative group"
               >
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Department Unit</span>
-                    <h4 className="text-xs font-black text-white group-hover:text-green-400 mt-1 uppercase tracking-wider transition-colors">{goal.department}</h4>
+                    <span className="text-[8px] font-black text-muted-foreground uppercase tracking-widest">Department Unit</span>
+                    <h4 className="text-xs font-black text-foreground group-hover:text-green-500 mt-1 uppercase tracking-wider transition-colors">{goal.department}</h4>
                   </div>
                   <span className={`inline-flex items-center gap-1.5 text-[8px] font-black px-2.5 py-0.5 rounded-full border uppercase tracking-wider ${getStatusBadge(goal.status)}`}>
                     <span className={`h-1 w-1 rounded-full ${
-                      goal.status === "on-track" ? "bg-green-400 animate-ping" : goal.status === "at-risk" ? "bg-yellow-400 animate-ping" : "bg-red-400 animate-ping"
+                      goal.status === "on-track" ? "bg-green-500 animate-ping" : goal.status === "at-risk" ? "bg-yellow-500 animate-ping" : "bg-red-500 animate-ping"
                     }`} />
                     {goal.status}
                   </span>
@@ -358,16 +358,16 @@ export default function GoalsPage() {
 
                 <div className="flex items-center justify-between gap-6 mt-3">
                   <div className="space-y-1">
-                    <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest block">Logged actual</span>
-                    <p className="text-sm font-extrabold text-white font-mono leading-none">{goal.currentEmissions.toLocaleString()} kg</p>
-                    <span className="text-[8px] text-slate-500 font-bold block pt-1.5 uppercase tracking-wide">Target Cap: {goal.targetEmissions.toLocaleString()} kg</span>
+                    <span className="text-[8px] font-black text-muted-foreground uppercase tracking-widest block">Logged actual</span>
+                    <p className="text-sm font-extrabold text-foreground font-mono leading-none">{goal.currentEmissions.toLocaleString()} kg</p>
+                    <span className="text-[8px] text-muted-foreground font-bold block pt-1.5 uppercase tracking-wide">Target Cap: {goal.targetEmissions.toLocaleString()} kg</span>
                   </div>
                   <GoalProgressRing score={goal.currentEmissions} target={goal.targetEmissions} status={goal.status} />
                 </div>
 
-                <div className="flex items-center justify-between border-t border-white/5 pt-3 text-[9px] text-slate-500 font-bold uppercase tracking-wider">
+                <div className="flex items-center justify-between border-t border-border pt-3 text-[9px] text-muted-foreground font-bold uppercase tracking-wider">
                   <span>Cycle: {goal.startDate}</span>
-                  <div className="flex items-center gap-1 text-slate-400 hover:text-white transition-colors">
+                  <div className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors">
                     <span>Audit details</span>
                     <ChevronRight className="h-3 w-3" />
                   </div>
@@ -379,21 +379,21 @@ export default function GoalsPage() {
 
         {/* Right: AI Sustainability Coach */}
         <div className="space-y-6">
-          <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest block">AI Sustainability Coach</h3>
+          <h3 className="text-xs font-black text-muted-foreground uppercase tracking-widest block">AI Sustainability Coach</h3>
           
-          <Card className="bg-slate-900/30 backdrop-blur-md border border-emerald-500/20 rounded-3xl p-6 shadow-xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-emerald-500/5 to-transparent rounded-bl-full pointer-events-none" />
+          <Card className="bg-card backdrop-blur-md border border-emerald-500/20 rounded-3xl p-6 shadow-xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-emerald-500/10 to-transparent rounded-bl-full pointer-events-none" />
             <div className="space-y-4">
-              <div className="flex items-center gap-2 pb-3 border-b border-white/5">
-                <Brain className="h-5 w-5 text-emerald-400 animate-pulse" />
-                <span className="text-xs font-black text-white uppercase tracking-wider">Strategic Recommendations</span>
+              <div className="flex items-center gap-2 pb-3 border-b border-border">
+                <Brain className="h-5 w-5 text-emerald-500 animate-pulse" />
+                <span className="text-xs font-black text-foreground uppercase tracking-wider">Strategic Recommendations</span>
               </div>
 
-              <div className="space-y-3.5 text-xs leading-relaxed text-slate-300">
+              <div className="space-y-3.5 text-xs leading-relaxed text-foreground/80">
                 <p>
                   We analyzed **{goals.length} active departmental goals**. 
                 </p>
-                <div className="p-3 bg-red-500/5 border border-red-500/10 rounded-2xl text-[11px] text-red-400 flex gap-2">
+                <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-2xl text-[11px] text-red-500 flex gap-2">
                   <AlertCircle className="h-4 w-4 shrink-0" />
                   <p>
                     **Operations** and **R&D** units are currently executing **behind** or **at-risk** status limits thresholds.
@@ -404,10 +404,10 @@ export default function GoalsPage() {
                 </p>
               </div>
 
-              <div className="pt-3 border-t border-white/5">
-                <Button className="w-full bg-slate-950/60 hover:bg-slate-900 border border-white/5 text-xs text-white rounded-xl gap-2 font-bold py-3.5 cursor-pointer">
+              <div className="pt-3 border-t border-border">
+                <Button className="w-full bg-muted hover:bg-muted/80 border border-border text-xs text-foreground rounded-xl gap-2 font-bold py-3.5 cursor-pointer">
                   Generate Full ESG Brief
-                  <ArrowRight className="h-4 w-4 text-emerald-400" />
+                  <ArrowRight className="h-4 w-4 text-emerald-500" />
                 </Button>
               </div>
             </div>

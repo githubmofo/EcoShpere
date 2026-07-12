@@ -203,15 +203,15 @@ export default function EnvironmentalLandingPage() {
       </div>
 
       {/* 2. ENVIRONMENTAL STATUS RIBBON (Alert Ticker) */}
-      <div className="p-4 bg-slate-950/50 border border-white/5 rounded-2xl relative overflow-hidden flex flex-col md:flex-row items-center gap-4.5">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-green-500/10 border border-green-500/20 text-green-400 text-[9px] font-black uppercase tracking-wider shrink-0">
+      <div className="p-4 bg-muted border border-border rounded-2xl relative overflow-hidden flex flex-col md:flex-row items-center gap-4.5">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-green-500/10 border border-green-500/20 text-green-600 dark:text-green-400 text-[9px] font-black uppercase tracking-wider shrink-0">
           <Flame className="h-3.5 w-3.5" />
           Status Feed
         </div>
-        <div className="flex-1 overflow-hidden text-xs text-slate-300 font-semibold tracking-wide flex flex-col sm:flex-row gap-4 sm:gap-8 justify-around">
-          <span className="flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-green-400" /> Operations logged 15,000 kWh Grid Average offset</span>
-          <span className="flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-yellow-400" /> Warning: R&D department is nearing goal limits</span>
-          <span className="flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-blue-400" /> Sales logged 800 miles Fleet travel</span>
+        <div className="flex-1 overflow-hidden text-xs text-foreground/80 font-semibold tracking-wide flex flex-col sm:flex-row gap-4 sm:gap-8 justify-around">
+          <span className="flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-green-500" /> Operations logged 15,000 kWh Grid Average offset</span>
+          <span className="flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-yellow-500" /> Warning: R&D department is nearing goal limits</span>
+          <span className="flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-blue-500" /> Sales logged 800 miles Fleet travel</span>
         </div>
       </div>
 
@@ -219,58 +219,58 @@ export default function EnvironmentalLandingPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         
         {/* KPI 1: Carbon Output */}
-        <Card className="bg-slate-900/30 backdrop-blur-md border border-white/5 rounded-3xl relative overflow-hidden hover:border-white/10 transition-all duration-300">
+        <Card className="bg-card backdrop-blur-md border border-border rounded-3xl relative overflow-hidden hover:border-primary/50 transition-all duration-300">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Carbon Emissions</CardTitle>
-            <Leaf className="h-4 w-4 text-green-400" />
+            <CardTitle className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Total Carbon Emissions</CardTitle>
+            <Leaf className="h-4 w-4 text-green-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-black text-white font-mono tracking-tighter">
-              {totalEmissions.toLocaleString()} <span className="text-xs font-semibold text-slate-400">kg CO₂e</span>
+            <div className="text-3xl font-black text-foreground font-mono tracking-tighter">
+              {totalEmissions.toLocaleString()} <span className="text-xs font-semibold text-muted-foreground">kg CO₂e</span>
             </div>
-            <p className="text-[10px] text-slate-400 mt-1">Aggregated energy logs footprint index</p>
+            <p className="text-[10px] text-muted-foreground mt-1">Aggregated energy logs footprint index</p>
           </CardContent>
         </Card>
 
         {/* KPI 2: Saved Carbon */}
-        <Card className="bg-slate-900/30 backdrop-blur-md border border-white/5 rounded-3xl relative overflow-hidden hover:border-white/10 transition-all duration-300">
+        <Card className="bg-card backdrop-blur-md border border-border rounded-3xl relative overflow-hidden hover:border-primary/50 transition-all duration-300">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Active Reduction Targets</CardTitle>
-            <Target className="h-4 w-4 text-emerald-400" />
+            <CardTitle className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Active Reduction Targets</CardTitle>
+            <Target className="h-4 w-4 text-emerald-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-black text-white font-mono tracking-tighter">
-              {activeGoals} <span className="text-xs font-semibold text-slate-400">Departments</span>
+            <div className="text-3xl font-black text-foreground font-mono tracking-tighter">
+              {activeGoals} <span className="text-xs font-semibold text-muted-foreground">Departments</span>
             </div>
-            <p className="text-[10px] text-slate-400 mt-1">Active reduction goals mapped under cycle</p>
+            <p className="text-[10px] text-muted-foreground mt-1">Active reduction goals mapped under cycle</p>
           </CardContent>
         </Card>
 
         {/* KPI 3: Goal Achievement */}
-        <Card className="bg-slate-900/30 backdrop-blur-md border border-white/5 rounded-3xl relative overflow-hidden hover:border-white/10 transition-all duration-300">
+        <Card className="bg-card backdrop-blur-md border border-border rounded-3xl relative overflow-hidden hover:border-primary/50 transition-all duration-300">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Goal Achievement Rate</CardTitle>
-            <Award className="h-4 w-4 text-amber-400" />
+            <CardTitle className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Goal Achievement Rate</CardTitle>
+            <Award className="h-4 w-4 text-amber-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-black text-emerald-400 font-mono tracking-tighter">
+            <div className="text-3xl font-black text-emerald-500 font-mono tracking-tighter">
               {avgAchievement}%
             </div>
-            <p className="text-[10px] text-slate-400 mt-1">Average progress of all active goal caps</p>
+            <p className="text-[10px] text-muted-foreground mt-1">Average progress of all active goal caps</p>
           </CardContent>
         </Card>
 
       </div>
 
       {/* 4. AI ENVIRONMENTAL INSIGHTS */}
-      <Card className="bg-slate-950/60 border border-green-500/20 rounded-3xl relative overflow-hidden shadow-2xl">
+      <Card className="bg-card border border-green-500/20 rounded-3xl relative overflow-hidden shadow-lg">
         <CardContent className="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-6 z-10">
           <div className="space-y-1.5 flex-1 pl-1">
-            <span className="text-[10px] text-emerald-400 font-black uppercase tracking-widest block flex items-center gap-1.5">
+            <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-black uppercase tracking-widest block flex items-center gap-1.5">
               <Sparkles className="h-4 w-4" />
               AI Environmental Advisor
             </span>
-            <p className="text-xs text-white font-bold leading-normal mt-1">
+            <p className="text-xs text-foreground font-bold leading-normal mt-1">
               "We project Operations will hit its reduction cap within 14 days if manufacturing emission multipliers remain active. Consider migrating grid average multipliers to solar indexes."
             </p>
           </div>
@@ -285,7 +285,7 @@ export default function EnvironmentalLandingPage() {
 
       {/* 5. tabs replacement (Large Premium Navigation Cards) */}
       <div className="space-y-4">
-        <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest">Sustain OS Command Centers</h3>
+        <h3 className="text-xs font-black text-muted-foreground uppercase tracking-widest">Sustain OS Command Centers</h3>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {navCards.map((card, index) => {
@@ -295,14 +295,14 @@ export default function EnvironmentalLandingPage() {
                 <motion.div
                   whileHover={{ y: -6, scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className={`bg-slate-900/30 backdrop-blur-md border border-white/5 rounded-3xl p-6 h-48 flex flex-col justify-between transition-all duration-300 cursor-pointer ${card.glow}`}
+                  className={`bg-card backdrop-blur-md border border-border rounded-3xl p-6 h-48 flex flex-col justify-between transition-all duration-300 cursor-pointer ${card.glow}`}
                 >
-                  <div className={`p-3 rounded-2xl border border-white/5 w-fit ${card.iconBg} ${card.iconColor}`}>
+                  <div className={`p-3 rounded-2xl border border-border w-fit ${card.iconBg} ${card.iconColor.replace('400', '500')}`}>
                     <Icon className="h-5 w-5" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-black text-white uppercase tracking-wider">{card.title}</h4>
-                    <p className="text-[10px] text-slate-400 mt-1 leading-relaxed">{card.desc}</p>
+                    <h4 className="text-xs font-black text-foreground uppercase tracking-wider">{card.title}</h4>
+                    <p className="text-[10px] text-muted-foreground mt-1 leading-relaxed">{card.desc}</p>
                   </div>
                 </motion.div>
               </Link>

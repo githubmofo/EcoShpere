@@ -50,7 +50,7 @@ export default function PlatformFrame({ children }: { children: React.ReactNode 
   const currentModule = MODULES.find(m => pathname.startsWith(m.href)) || MODULES[0];
 
   return (
-    <div className="flex min-h-screen w-full bg-esg-bg-root text-esg-text-primary transition-colors duration-300">
+    <div className="flex h-screen w-full overflow-hidden bg-esg-bg-root text-esg-text-primary transition-colors duration-300">
       
       {/* Mobile Sidebar Overlay */}
       {isSidebarOpen && (

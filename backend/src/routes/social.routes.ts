@@ -7,7 +7,9 @@ const router = Router();
 router.get("/dashboard", SocialController.getDashboardMetrics);
 
 router.get("/csr-activities", SocialController.getCsrActivities);
+router.post("/csr-activities", SocialController.createActivity);
 router.get("/participation", SocialController.getParticipation);
+router.post("/participation", SocialController.joinParticipation);
 router.get("/diversity-summary", SocialController.getDiversitySummary);
 
 export default router;

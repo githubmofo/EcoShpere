@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar, Users } from "lucide-react";
 import { useTransition } from "react";
 import { apiPost } from "@/lib/api-client";
+import { toast } from "@/components/feedback/Toaster";
 
 export function CsrActivityCard({ activity, onJoin }: { activity: CsrActivity; onJoin: () => void }) {
   const [isPending, startTransition] = useTransition();
@@ -21,9 +22,19 @@ export function CsrActivityCard({ activity, onJoin }: { activity: CsrActivity; o
           activityTitle: activity.title,
           department: "Engineering"
         });
+        toast({
+          title: "Joined Activity",
+          description: `You have successfully joined ${activity.title}!`,
+          variant: "success",
+        });
         onJoin();
       } catch (e) {
         console.error("Failed to join activity", e);
+        toast({
+          title: "Failed to join",
+          description: "There was an error joining the activity. Please try again.",
+          variant: "error",
+        });
       }
     });
   };

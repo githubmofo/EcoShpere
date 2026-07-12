@@ -7,6 +7,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useRouter, usePathname } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Target, Award } from "lucide-react";
+import { mockCsrActivities } from "@/lib/mock-data";
 
 export default function SocialPage({ children }: { children?: React.ReactNode }) {
   const router = useRouter();
@@ -88,21 +89,15 @@ export default function SocialPage({ children }: { children?: React.ReactNode })
                   <p className="text-sm text-orange-800/70 dark:text-orange-200/50 mb-6">Drive community impact</p>
                   
                   <div className="flex flex-col gap-3 mt-auto">
-                    {/* Hardcoded slice of mockCsrActivities for visual impact */}
-                    <div className="bg-white/80 dark:bg-slate-950/50 backdrop-blur-sm p-4 rounded-lg border border-orange-200/50 dark:border-orange-900/50 flex justify-between items-center">
-                      <div>
-                        <p className="font-semibold text-sm text-slate-900 dark:text-slate-100">Beach Cleanup Drive</p>
-                        <p className="text-xs text-muted-foreground mt-0.5">Environment • 12 Participants</p>
+                    {mockCsrActivities.slice(0, 2).map((act) => (
+                      <div key={act.id} className="bg-white/80 dark:bg-slate-950/50 backdrop-blur-sm p-4 rounded-lg border border-orange-200/50 dark:border-orange-900/50 flex justify-between items-center">
+                        <div>
+                          <p className="font-semibold text-sm text-slate-900 dark:text-slate-100">{act.title}</p>
+                          <p className="text-xs text-muted-foreground mt-0.5">{act.category} • {act.participantCount} Participants</p>
+                        </div>
+                        <span className="px-2 py-1 bg-orange-100 dark:bg-orange-900/50 text-orange-700 dark:text-orange-300 rounded text-[10px] font-bold uppercase tracking-wider">{act.status}</span>
                       </div>
-                      <span className="px-2 py-1 bg-orange-100 dark:bg-orange-900/50 text-orange-700 dark:text-orange-300 rounded text-[10px] font-bold uppercase tracking-wider">Planned</span>
-                    </div>
-                    <div className="bg-white/80 dark:bg-slate-950/50 backdrop-blur-sm p-4 rounded-lg border border-orange-200/50 dark:border-orange-900/50 flex justify-between items-center">
-                      <div>
-                        <p className="font-semibold text-sm text-slate-900 dark:text-slate-100">Mentorship for Youth in Tech</p>
-                        <p className="text-xs text-muted-foreground mt-0.5">Education • 5 Participants</p>
-                      </div>
-                      <span className="px-2 py-1 bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 rounded text-[10px] font-bold uppercase tracking-wider">Ongoing</span>
-                    </div>
+                    ))}
                   </div>
                 </div>
               </div>

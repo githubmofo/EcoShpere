@@ -7,6 +7,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useRouter, usePathname } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ShieldAlert, CheckSquare, FileSignature } from "lucide-react";
+import { mockComplianceIssues } from "@/lib/mock-data";
 
 export default function GovernancePage({ children }: { children?: React.ReactNode }) {
   const router = useRouter();
@@ -94,21 +95,17 @@ export default function GovernancePage({ children }: { children?: React.ReactNod
                   <p className="text-sm text-red-800/70 dark:text-red-200/50 mb-6">Action required immediately</p>
                   
                   <div className="flex flex-col gap-3 mt-auto">
-                    {/* Hardcoded slice of mockComplianceIssues for visual impact */}
-                    <div className="bg-white/80 dark:bg-slate-950/50 backdrop-blur-sm p-4 rounded-lg border border-red-200/50 dark:border-red-900/50 flex justify-between items-center">
-                      <div className="flex-1 pr-4">
-                        <p className="font-semibold text-sm text-slate-900 dark:text-slate-100">Unencrypted backups</p>
-                        <p className="text-xs text-muted-foreground mt-0.5 truncate">Database backups to offsite storage are not encrypted at rest.</p>
+                    {mockComplianceIssues.slice(0, 2).map((issue) => (
+                      <div key={issue.id} className="bg-white/80 dark:bg-slate-950/50 backdrop-blur-sm p-4 rounded-lg border border-red-200/50 dark:border-red-900/50 flex justify-between items-center">
+                        <div className="flex-1 pr-4">
+                          <p className="font-semibold text-sm text-slate-900 dark:text-slate-100">{issue.title}</p>
+                          <p className="text-xs text-muted-foreground mt-0.5 truncate">{issue.description}</p>
+                        </div>
+                        <span className={`shrink-0 px-2 py-1 ${issue.status === 'Open' ? 'bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300' : 'bg-yellow-100 dark:bg-yellow-900/50 text-yellow-700 dark:text-yellow-300'} rounded text-[10px] font-bold uppercase tracking-wider`}>
+                          {issue.status}
+                        </span>
                       </div>
-                      <span className="shrink-0 px-2 py-1 bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300 rounded text-[10px] font-bold uppercase tracking-wider">Overdue</span>
-                    </div>
-                    <div className="bg-white/80 dark:bg-slate-950/50 backdrop-blur-sm p-4 rounded-lg border border-red-200/50 dark:border-red-900/50 flex justify-between items-center">
-                      <div className="flex-1 pr-4">
-                        <p className="font-semibold text-sm text-slate-900 dark:text-slate-100">Missing MFA on legacy systems</p>
-                        <p className="text-xs text-muted-foreground mt-0.5 truncate">Internal applications do not enforce Multi-Factor Authentication.</p>
-                      </div>
-                      <span className="shrink-0 px-2 py-1 bg-yellow-100 dark:bg-yellow-900/50 text-yellow-700 dark:text-yellow-300 rounded text-[10px] font-bold uppercase tracking-wider">High</span>
-                    </div>
+                    ))}
                   </div>
                 </div>
               </div>

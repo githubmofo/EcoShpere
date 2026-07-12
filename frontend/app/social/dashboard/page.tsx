@@ -80,9 +80,12 @@ export default function SocialDashboardPage() {
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={mockTrendData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-border)" />
-                  <XAxis dataKey="month" axisLine={false} tickLine={false} />
-                  <YAxis axisLine={false} tickLine={false} />
-                  <Tooltip />
+                  <XAxis dataKey="month" axisLine={false} tickLine={false} stroke="var(--color-muted-foreground)" />
+                  <YAxis axisLine={false} tickLine={false} stroke="var(--color-muted-foreground)" />
+                  <Tooltip 
+                    contentStyle={{ backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--border))', color: 'hsl(var(--foreground))' }} 
+                    itemStyle={{ color: 'hsl(var(--foreground))' }} 
+                  />
                   <Line type="monotone" dataKey="participants" stroke="var(--color-primary)" strokeWidth={3} dot={{r: 4}} />
                 </LineChart>
               </ResponsiveContainer>
@@ -99,9 +102,13 @@ export default function SocialDashboardPage() {
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={mockDeptData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-border)" />
-                  <XAxis dataKey="dept" axisLine={false} tickLine={false} />
-                  <YAxis axisLine={false} tickLine={false} />
-                  <Tooltip cursor={{fill: 'transparent'}} />
+                  <XAxis dataKey="dept" axisLine={false} tickLine={false} stroke="var(--color-muted-foreground)" />
+                  <YAxis axisLine={false} tickLine={false} stroke="var(--color-muted-foreground)" />
+                  <Tooltip 
+                    cursor={{fill: 'var(--color-muted)'}} 
+                    contentStyle={{ backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--border))', color: 'hsl(var(--foreground))' }} 
+                    itemStyle={{ color: 'hsl(var(--foreground))' }} 
+                  />
                   <Bar dataKey="rate" fill="var(--color-chart-3)" radius={[4, 4, 0, 0]} barSize={40} />
                 </BarChart>
               </ResponsiveContainer>

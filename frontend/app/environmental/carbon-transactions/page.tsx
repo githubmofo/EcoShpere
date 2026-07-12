@@ -306,12 +306,12 @@ export default function CarbonTransactionsPage() {
 
       {/* 1. SNAPSHOT & STATS */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="bg-slate-900/30 backdrop-blur-md border border-white/5 rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-green-500/5 to-transparent rounded-bl-full pointer-events-none" />
+        <Card className="bg-card backdrop-blur-md border border-border rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-green-500/10 to-transparent rounded-bl-full pointer-events-none" />
           <div className="space-y-1">
-            <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block">Carbon Snapshot</span>
-            <h4 className="text-base font-black text-white uppercase tracking-wider">Carbon operations center</h4>
-            <p className="text-xs text-slate-400 leading-normal mt-1">
+            <span className="text-[9px] font-black text-muted-foreground uppercase tracking-widest block">Carbon Snapshot</span>
+            <h4 className="text-base font-black text-foreground uppercase tracking-wider">Carbon operations center</h4>
+            <p className="text-xs text-muted-foreground leading-normal mt-1">
               Live financial-style transaction logging system.
             </p>
           </div>
@@ -321,88 +321,88 @@ export default function CarbonTransactionsPage() {
           </Button>
         </Card>
 
-        <Card className="bg-slate-900/30 backdrop-blur-md border border-white/5 rounded-3xl p-6 flex flex-col justify-between">
+        <Card className="bg-card backdrop-blur-md border border-border rounded-3xl p-6 flex flex-col justify-between">
           <CardHeader className="p-0 flex flex-row items-center justify-between pb-2">
-            <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Total Footprint</span>
-            <Globe className="h-4 w-4 text-green-400" />
+            <span className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">Total Footprint</span>
+            <Globe className="h-4 w-4 text-green-500" />
           </CardHeader>
           <CardContent className="p-0 mt-4">
-            <div className="text-3xl font-black text-white font-mono">
-              {filteredTxs.reduce((sum, tx) => sum + tx.emissionsValue, 0).toLocaleString()} <span className="text-xs font-semibold text-slate-400">kg</span>
+            <div className="text-3xl font-black text-foreground font-mono">
+              {filteredTxs.reduce((sum, tx) => sum + tx.emissionsValue, 0).toLocaleString()} <span className="text-xs font-semibold text-muted-foreground">kg</span>
             </div>
-            <p className="text-[10px] text-slate-400 mt-2">Aggregated logged emissions</p>
+            <p className="text-[10px] text-muted-foreground mt-2">Aggregated logged emissions</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-900/30 backdrop-blur-md border border-white/5 rounded-3xl p-6 flex flex-col justify-between">
+        <Card className="bg-card backdrop-blur-md border border-border rounded-3xl p-6 flex flex-col justify-between">
           <CardHeader className="p-0 flex flex-row items-center justify-between pb-2">
-            <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Logged entries</span>
-            <Database className="h-4 w-4 text-blue-400" />
+            <span className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">Logged entries</span>
+            <Database className="h-4 w-4 text-blue-500" />
           </CardHeader>
           <CardContent className="p-0 mt-4">
-            <div className="text-3xl font-black text-white font-mono">{filteredTxs.length}</div>
-            <p className="text-[10px] text-slate-400 mt-2">Total transaction registry logs count</p>
+            <div className="text-3xl font-black text-foreground font-mono">{filteredTxs.length}</div>
+            <p className="text-[10px] text-muted-foreground mt-2">Total transaction registry logs count</p>
           </CardContent>
         </Card>
       </div>
 
       {/* 2. ADVANCED CONTROL DESK FILTERS */}
-      <Card className="bg-slate-900/30 backdrop-blur-md border border-white/5 rounded-3xl p-4 flex flex-col md:flex-row items-center justify-between gap-4">
+      <Card className="bg-card backdrop-blur-md border border-border rounded-3xl p-4 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2">
-          <Sliders className="h-4 w-4 text-slate-400" />
-          <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">Advanced filters</span>
+          <Sliders className="h-4 w-4 text-muted-foreground" />
+          <span className="text-xs font-bold text-foreground/80 uppercase tracking-wider">Advanced filters</span>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full md:w-auto">
           <select
             value={filterDept}
             onChange={(e) => setFilterDept(e.target.value)}
-            className="flex h-9 rounded-xl border border-white/5 bg-slate-950/40 px-3 py-1 text-xs text-white shadow-xs focus-visible:outline-none"
+            className="flex h-9 rounded-xl border border-border bg-muted px-3 py-1 text-xs text-foreground shadow-xs focus-visible:outline-none"
           >
-            <option value="All" className="bg-slate-900">All Departments</option>
-            <option value="Operations" className="bg-slate-900">Operations</option>
-            <option value="Facilities" className="bg-slate-900">Facilities</option>
-            <option value="Sales" className="bg-slate-900">Sales</option>
-            <option value="R&D" className="bg-slate-900">R&D</option>
-            <option value="HR" className="bg-slate-900">HR</option>
+            <option value="All" className="bg-background text-foreground">All Departments</option>
+            <option value="Operations" className="bg-background text-foreground">Operations</option>
+            <option value="Facilities" className="bg-background text-foreground">Facilities</option>
+            <option value="Sales" className="bg-background text-foreground">Sales</option>
+            <option value="R&D" className="bg-background text-foreground">R&D</option>
+            <option value="HR" className="bg-background text-foreground">HR</option>
           </select>
 
           <select
             value={filterSource}
             onChange={(e) => setFilterSource(e.target.value)}
-            className="flex h-9 rounded-xl border border-white/5 bg-slate-950/40 px-3 py-1 text-xs text-white shadow-xs focus-visible:outline-none"
+            className="flex h-9 rounded-xl border border-border bg-muted px-3 py-1 text-xs text-foreground shadow-xs focus-visible:outline-none"
           >
-            <option value="All" className="bg-slate-900">All Sources</option>
-            <option value="Purchase" className="bg-slate-900">Purchase</option>
-            <option value="Manufacturing" className="bg-slate-900">Manufacturing</option>
-            <option value="Expense" className="bg-slate-900">Expense</option>
-            <option value="Fleet" className="bg-slate-900">Fleet</option>
-            <option value="Other" className="bg-slate-900">Other</option>
+            <option value="All" className="bg-background text-foreground">All Sources</option>
+            <option value="Purchase" className="bg-background text-foreground">Purchase</option>
+            <option value="Manufacturing" className="bg-background text-foreground">Manufacturing</option>
+            <option value="Expense" className="bg-background text-foreground">Expense</option>
+            <option value="Fleet" className="bg-background text-foreground">Fleet</option>
+            <option value="Other" className="bg-background text-foreground">Other</option>
           </select>
 
           <Input
             type="date"
             value={filterStartDate}
             onChange={(e) => setFilterStartDate(e.target.value)}
-            className="h-9 bg-slate-950/40 border-white/5 rounded-xl text-xs text-white"
+            className="h-9 bg-muted border-border rounded-xl text-xs text-foreground"
           />
 
           <Input
             type="date"
             value={filterEndDate}
             onChange={(e) => setFilterEndDate(e.target.value)}
-            className="h-9 bg-slate-950/40 border-white/5 rounded-xl text-xs text-white"
+            className="h-9 bg-muted border-border rounded-xl text-xs text-foreground"
           />
         </div>
       </Card>
 
       {/* 3. PREMIUM TRANSACTION TABLE */}
-      <Card className="bg-slate-900/30 backdrop-blur-md border border-white/5 rounded-3xl shadow-xl overflow-hidden hover:border-white/10 transition-all duration-300">
-        <CardHeader className="pb-3 border-b border-white/5 bg-slate-950/20">
-          <CardTitle className="text-xs font-black text-white uppercase tracking-wider flex items-center gap-2">
-            <Database className="h-4 w-4 text-green-400" />
+      <Card className="bg-card backdrop-blur-md border border-border rounded-3xl shadow-xl overflow-hidden hover:border-border/80 transition-all duration-300">
+        <CardHeader className="pb-3 border-b border-border bg-muted/40">
+          <CardTitle className="text-xs font-black text-foreground uppercase tracking-wider flex items-center gap-2">
+            <Database className="h-4 w-4 text-green-500" />
             Transaction Registry
           </CardTitle>
-          <CardDescription className="text-xs text-slate-400">
+          <CardDescription className="text-xs text-muted-foreground">
             Audit logs mapping greenhouse gas coefficients.
           </CardDescription>
         </CardHeader>
@@ -412,20 +412,20 @@ export default function CarbonTransactionsPage() {
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500"></div>
             </div>
           ) : filteredTxs.length === 0 ? (
-            <div className="py-16 text-center text-xs text-slate-400 border border-dashed border-white/5 rounded-2xl">
+            <div className="py-16 text-center text-xs text-muted-foreground border border-dashed border-border rounded-2xl">
               No transactions match selected criteria.
             </div>
           ) : (
-            <div className="overflow-x-auto rounded-3xl border border-white/5 bg-slate-950/15">
+            <div className="overflow-x-auto rounded-3xl border border-border bg-background">
               <Table>
-                <TableHeader className="bg-slate-950/40">
-                  <TableRow className="border-b border-white/5">
-                    <TableHead className="font-black text-xs text-slate-300 uppercase tracking-wider py-4">Department</TableHead>
-                    <TableHead className="font-black text-xs text-slate-300 uppercase tracking-wider py-4">Source Type</TableHead>
-                    <TableHead className="font-black text-xs text-slate-300 uppercase tracking-wider py-4">Logged Qty</TableHead>
-                    <TableHead className="font-black text-xs text-slate-300 uppercase tracking-wider py-4">Emissions (kg CO₂e)</TableHead>
-                    <TableHead className="font-black text-xs text-slate-300 uppercase tracking-wider py-4">Operation Date</TableHead>
-                    <TableHead className="font-black text-xs text-slate-300 uppercase tracking-wider py-4 text-right">Audit Profile</TableHead>
+                <TableHeader className="bg-muted">
+                  <TableRow className="border-b border-border hover:bg-transparent">
+                    <TableHead className="font-black text-xs text-muted-foreground uppercase tracking-wider py-4">Department</TableHead>
+                    <TableHead className="font-black text-xs text-muted-foreground uppercase tracking-wider py-4">Source Type</TableHead>
+                    <TableHead className="font-black text-xs text-muted-foreground uppercase tracking-wider py-4">Logged Qty</TableHead>
+                    <TableHead className="font-black text-xs text-muted-foreground uppercase tracking-wider py-4">Emissions (kg CO₂e)</TableHead>
+                    <TableHead className="font-black text-xs text-muted-foreground uppercase tracking-wider py-4">Operation Date</TableHead>
+                    <TableHead className="font-black text-xs text-muted-foreground uppercase tracking-wider py-4 text-right">Audit Profile</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -433,23 +433,23 @@ export default function CarbonTransactionsPage() {
                     <TableRow 
                       key={tx.id} 
                       onClick={() => setSelectedTx(tx)}
-                      className="hover:bg-white/[0.02] border-b border-white/5 transition-colors cursor-pointer"
+                      className="hover:bg-muted/50 border-b border-border transition-colors cursor-pointer"
                     >
-                      <TableCell className="font-bold text-xs text-white py-4">{tx.department}</TableCell>
+                      <TableCell className="font-bold text-xs text-foreground py-4">{tx.department}</TableCell>
                       <TableCell className="py-4">
                         <span className={`text-[9px] font-bold px-2.5 py-0.5 rounded-full border ${getSourceBadgeStyle(tx.sourceType)}`}>
                           {tx.sourceType}
                         </span>
                       </TableCell>
-                      <TableCell className="font-mono text-xs text-slate-300 py-4">{tx.quantity.toLocaleString()}</TableCell>
-                      <TableCell className="font-mono text-xs font-extrabold text-green-400 py-4">{tx.emissionsValue.toLocaleString()}</TableCell>
-                      <TableCell className="text-xs text-slate-400 py-4">{tx.operationDate}</TableCell>
+                      <TableCell className="font-mono text-xs text-muted-foreground py-4">{tx.quantity.toLocaleString()}</TableCell>
+                      <TableCell className="font-mono text-xs font-extrabold text-green-500 py-4">{tx.emissionsValue.toLocaleString()}</TableCell>
+                      <TableCell className="text-xs text-muted-foreground py-4">{tx.operationDate}</TableCell>
                       <TableCell className="text-right py-4" onClick={(e) => e.stopPropagation()}>
                         <Button 
                           variant="ghost" 
                           size="icon" 
                           onClick={() => setSelectedTx(tx)}
-                          className="h-8 w-8 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white border border-transparent hover:border-white/5 cursor-pointer"
+                          className="h-8 w-8 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground border border-transparent hover:border-border cursor-pointer"
                         >
                           <Eye className="h-3.5 w-3.5" />
                         </Button>
@@ -465,21 +465,21 @@ export default function CarbonTransactionsPage() {
 
       {/* DEPARTMENT COMPARISON CHART */}
       {filteredTxs.length > 0 && (
-        <Card className="bg-slate-900/30 backdrop-blur-md border border-white/5 rounded-3xl shadow-xl overflow-hidden hover:border-white/10 transition-all duration-300">
-          <CardHeader className="pb-4 border-b border-white/5 bg-slate-950/20">
-            <CardTitle className="text-sm font-black text-white uppercase tracking-wider flex items-center gap-2">
-              <BarChart2 className="h-4 w-4 text-emerald-400" />
+        <Card className="bg-card backdrop-blur-md border border-border rounded-3xl shadow-xl overflow-hidden hover:border-border/80 transition-all duration-300">
+          <CardHeader className="pb-4 border-b border-border bg-muted/40">
+            <CardTitle className="text-sm font-black text-foreground uppercase tracking-wider flex items-center gap-2">
+              <BarChart2 className="h-4 w-4 text-emerald-500" />
               Aggregate Departmental Footprint
             </CardTitle>
-            <CardDescription className="text-xs text-slate-400">Total emission distribution by business department unit</CardDescription>
+            <CardDescription className="text-xs text-muted-foreground">Total emission distribution by business department unit</CardDescription>
           </CardHeader>
           <CardContent className="pt-6">
             <div className="h-[240px] w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#ffffff05" />
-                  <XAxis dataKey="department" stroke="#ffffff30" fontSize={10} tickLine={false} />
-                  <YAxis stroke="#ffffff30" fontSize={10} tickLine={false} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--color-esg-border-subtle, #88888830)" />
+                  <XAxis dataKey="department" stroke="var(--color-esg-text-muted, #88888880)" fontSize={10} tickLine={false} />
+                  <YAxis stroke="var(--color-esg-text-muted, #88888880)" fontSize={10} tickLine={false} />
                   <Tooltip content={<CustomTooltip />} />
                   <Bar dataKey="emissions" name="CO₂ Emissions (kg)" radius={[6, 6, 0, 0]}>
                     {chartData.map((entry, index) => (

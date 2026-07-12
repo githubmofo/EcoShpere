@@ -97,7 +97,10 @@ export default function GovernanceDashboardPage() {
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>
-                  <Tooltip />
+                  <Tooltip 
+                    contentStyle={{ backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--border))', color: 'hsl(var(--foreground))' }} 
+                    itemStyle={{ color: 'hsl(var(--foreground))' }} 
+                  />
                   <Legend verticalAlign="bottom" height={36} />
                 </PieChart>
               </ResponsiveContainer>
@@ -114,9 +117,12 @@ export default function GovernanceDashboardPage() {
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={mockAckTrend} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-border)" />
-                  <XAxis dataKey="month" axisLine={false} tickLine={false} />
-                  <YAxis axisLine={false} tickLine={false} domain={[0, 100]} tickFormatter={(val) => `${val}%`} />
-                  <Tooltip />
+                  <XAxis dataKey="month" axisLine={false} tickLine={false} stroke="var(--color-muted-foreground)" />
+                  <YAxis axisLine={false} tickLine={false} domain={[0, 100]} tickFormatter={(val) => `${val}%`} stroke="var(--color-muted-foreground)" />
+                  <Tooltip 
+                    contentStyle={{ backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--border))', color: 'hsl(var(--foreground))' }} 
+                    itemStyle={{ color: 'hsl(var(--foreground))' }} 
+                  />
                   <Line type="monotone" dataKey="ack" stroke="var(--color-primary)" strokeWidth={3} dot={{r: 4}} />
                 </LineChart>
               </ResponsiveContainer>
