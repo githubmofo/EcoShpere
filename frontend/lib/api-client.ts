@@ -15,8 +15,8 @@ import { calculateOverallScore } from "./scoring";
 
 const API_BASE_URL =
   typeof process !== "undefined"
-    ? process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:4000/api"
-    : "http://localhost:4000/api";
+    ? process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api"
+    : "http://localhost:5000/api";
 
 // Local storage helper keys
 const STORAGE_KEYS = {
