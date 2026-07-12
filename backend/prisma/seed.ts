@@ -102,11 +102,39 @@ async function main() {
   });
 
   // 5. ESG Policies
-  const policy = await prisma.esgPolicy.create({
+  const policy1 = await prisma.esgPolicy.create({
     data: {
       title: 'Zero Waste to Landfill 2030',
       description: 'Corporate commitment to eliminate landfill waste by 2030.',
       effectiveDate: new Date('2025-01-01'),
+      status: 'ACTIVE',
+    },
+  });
+
+  const policy2 = await prisma.esgPolicy.create({
+    data: {
+      title: 'Anti-Bribery and Corruption',
+      description: 'Zero-tolerance policy towards any form of bribery or corruption in business dealings.',
+      effectiveDate: new Date('2024-06-15'),
+      status: 'ACTIVE',
+    },
+  });
+
+  const policy3 = await prisma.esgPolicy.create({
+    data: {
+      title: 'Remote Work & Telecommuting',
+      description: 'Guidelines and allowances for remote work to reduce commuting emissions.',
+      effectiveDate: new Date('2023-09-01'),
+      status: 'ACTIVE',
+    },
+  });
+
+  const policy4 = await prisma.esgPolicy.create({
+    data: {
+      title: 'Supplier Code of Conduct',
+      description: 'Mandatory environmental and social standards for all tier 1 and tier 2 suppliers.',
+      effectiveDate: new Date('2025-11-01'),
+      status: 'DRAFT',
     },
   });
 
@@ -143,10 +171,32 @@ async function main() {
     data: {
       title: 'Local Park Cleanup',
       categoryId: csrCat.id,
-      description: 'Join us to clean up the local park this weekend.',
+      description: 'Join us to clean up the local park this weekend. We will be picking up trash, painting benches, and planting some local flora.',
       startDate: new Date(),
       endDate: new Date(new Date().getTime() + 86400000), // +1 day
       status: 'ONGOING',
+    },
+  });
+
+  const csr2 = await prisma.csrActivity.create({
+    data: {
+      title: 'Annual Tree Planting Drive',
+      categoryId: csrCat.id,
+      description: 'Help us reach our goal of planting 10,000 trees this year. Transportation to the site will be provided.',
+      startDate: new Date(new Date().getTime() + 5 * 86400000),
+      endDate: new Date(new Date().getTime() + 6 * 86400000),
+      status: 'PLANNED',
+    },
+  });
+
+  const csr3 = await prisma.csrActivity.create({
+    data: {
+      title: 'Food Bank Volunteering',
+      categoryId: csrCat.id,
+      description: 'Sort and pack donated food for distribution to local families in need.',
+      startDate: new Date(new Date().getTime() - 10 * 86400000),
+      endDate: new Date(new Date().getTime() - 9 * 86400000),
+      status: 'COMPLETED',
     },
   });
 
@@ -188,6 +238,29 @@ async function main() {
       { departmentId: mfg.id, environmentalScore: 65, socialScore: 70, governanceScore: 80, totalScore: 71.6 },
       { departmentId: logistics.id, environmentalScore: 55, socialScore: 60, governanceScore: 75, totalScore: 63.3 },
     ],
+  });
+
+  // 10b. Audits
+  await prisma.audit.create({
+    data: {
+      title: 'ISO 14001 Annual Recertification',
+      description: 'Annual environmental management system audit conducted by external auditors.',
+      departmentId: mfg.id,
+      auditorId: adminUser.id,
+      auditDate: new Date(),
+      status: 'IN_PROGRESS',
+    },
+  });
+
+  await prisma.audit.create({
+    data: {
+      title: 'Supplier Labor Rights Audit',
+      description: 'Comprehensive review of working conditions and labor rights at tier 1 suppliers.',
+      departmentId: logistics.id,
+      auditorId: adminUser.id,
+      auditDate: new Date(new Date().getTime() - 30 * 86400000),
+      status: 'COMPLETED',
+    },
   });
 
   // 11. Configuration Models

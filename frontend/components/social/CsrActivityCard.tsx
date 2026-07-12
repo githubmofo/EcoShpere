@@ -9,6 +9,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, Users, Loader2, CheckCircle2 } from "lucide-react";
@@ -89,6 +98,52 @@ export function CsrActivityCard({
       </CardContent>
 
       <CardFooter className="flex flex-col gap-2">
+        <Dialog>
+          <DialogTrigger render={<Button variant="secondary" className="w-full">View Details</Button>} />
+          <DialogContent className="sm:max-w-[480px]">
+            <DialogHeader>
+              <DialogTitle>{activity.title}</DialogTitle>
+              <DialogDescription>
+                {activity.category} • {activity.defaultPoints} pts
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4 text-sm">
+              <p className="whitespace-pre-wrap">{activity.description}</p>
+              <div className="flex items-center gap-2 text-muted-foreground mt-2">
+                <Calendar className="w-4 h-4" />
+                <span>{activity.startDate} → {activity.endDate}</span>
+              </div>
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <Users className="w-4 h-4" />
+                <span>{activity.participantCount} Participants</span>
+              </div>
+            </div>
+            <DialogFooter>
+              {joined || isCompleted ? (
+                <Button variant="outline" className="w-full" disabled>
+                  <CheckCircle2 className="w-4 h-4 mr-2 text-green-500" />
+                  {isCompleted ? "Activity Completed" : "Joined!"}
+                </Button>
+              ) : (
+                <Button
+                  className="w-full"
+                  onClick={handleJoin}
+                  disabled={isPending || !canJoin}
+                >
+                  {isPending ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Joining...
+                    </>
+                  ) : (
+                    "Join Activity"
+                  )}
+                </Button>
+              )}
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
         {joined || isCompleted ? (
           <Button variant="outline" className="w-full" disabled>
             <CheckCircle2 className="w-4 h-4 mr-2 text-green-500" />

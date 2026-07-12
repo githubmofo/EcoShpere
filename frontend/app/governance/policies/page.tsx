@@ -6,6 +6,14 @@ import { apiGet, apiPost } from "@/lib/api-client";
 import GovernancePage from "../page";
 import { PolicyFormDialog } from "@/components/governance/PolicyFormDialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Plus, BellRing } from "lucide-react";
@@ -92,10 +100,36 @@ export default function PoliciesPage() {
                     </div>
                   </TableCell>
                   <TableCell className="text-right">
-                    <Button variant="ghost" size="sm" onClick={() => handleRemind(p.id)}>
-                      <BellRing className="w-4 h-4 mr-2" />
-                      Remind
-                    </Button>
+                    <div className="flex justify-end gap-2">
+                      <Dialog>
+                        <DialogTrigger render={<Button variant="outline" size="sm">View</Button>} />
+                        <DialogContent>
+                          <DialogHeader>
+                            <DialogTitle>{p.title} <Badge variant="outline" className="ml-2">v{p.version}</Badge></DialogTitle>
+                            <DialogDescription>Effective Date: {p.effectiveDate}</DialogDescription>
+                          </DialogHeader>
+                          <div className="py-4">
+                            <p className="text-sm whitespace-pre-wrap">{p.description}</p>
+                            <div className="mt-6">
+                              <h4 className="text-sm font-semibold mb-2">Acknowledgement Status</h4>
+                              <div className="flex items-center gap-2">
+                                <div className="w-full bg-secondary h-2 rounded-full overflow-hidden">
+                                  <div 
+                                    className="bg-primary h-full transition-all" 
+                                    style={{ width: `${p.totalEmployees > 0 ? (p.acknowledgedCount / p.totalEmployees) * 100 : 0}%` }}
+                                  />
+                                </div>
+                                <span className="text-xs text-muted-foreground whitespace-nowrap">{p.acknowledgedCount} / {p.totalEmployees}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+                      <Button variant="ghost" size="sm" onClick={() => handleRemind(p.id)}>
+                        <BellRing className="w-4 h-4 mr-2" />
+                        Remind
+                      </Button>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))
