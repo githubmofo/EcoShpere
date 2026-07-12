@@ -272,16 +272,16 @@ export async function apiPatch<T>(endpoint: string, body: unknown): Promise<T> {
   return makeRequest<T>(endpoint, "PATCH", body);
 }
 
-export async function getCategories() { return []; }
-export async function createCategory(data: any) { return data; }
-export async function updateCategory(id: string, data: any) { return data; }
-export async function getDepartments() { return []; }
-export async function createDepartment(data: any) { return data; }
-export async function deleteDepartment(id: string) {}
-export async function getEsgConfig() { return { auto_emission_enabled: true, weights: { environmental: 40, social: 30, governance: 30 } }; }
-export async function updateEsgConfig(data: any) { return data; }
-export async function getNotificationSettings() { return {}; }
-export async function updateNotificationSettings(data: any) { return data; }
+export async function getCategories() { return apiGet<any[]>("/settings/categories"); }
+export async function createCategory(data: any) { return apiPost("/settings/categories", data); }
+export async function updateCategory(id: string, data: any) { return apiPatch(`/settings/categories/${id}`, data); }
+export async function getDepartments() { return apiGet<any[]>("/settings/departments"); }
+export async function createDepartment(data: any) { return apiPost("/settings/departments", data); }
+export async function deleteDepartment(id: string) { return apiDelete(`/settings/departments/${id}`); }
+export async function getEsgConfig() { return apiGet<any>("/settings/esg-config"); }
+export async function updateEsgConfig(data: any) { return apiPatch("/settings/esg-config", data); }
+export async function getNotificationSettings() { return apiGet<any>("/settings/notification-settings"); }
+export async function updateNotificationSettings(data: any) { return apiPatch("/settings/notification-settings", data); }
 
 export async function apiDelete<T>(endpoint: string): Promise<T> {
   return makeRequest<T>(endpoint, "DELETE");

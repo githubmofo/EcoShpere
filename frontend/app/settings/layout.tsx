@@ -17,7 +17,7 @@ export default function SettingsLayout({
   return (
     <SettingsProvider>
       <div className="p-8 max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">Settings & Administration</h1>
+        <h1 className="text-3xl font-bold mb-6 text-foreground">Settings & Administration</h1>
         <TabBar tabs={settingsTabs} />
         <div className="mt-6">
           {children}

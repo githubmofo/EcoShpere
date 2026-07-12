@@ -67,76 +67,76 @@ export default function EsgConfigPage() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <div className="lg:col-span-2">
-        <div className="bg-white p-6 rounded-lg shadow border border-gray-200">
-          <h2 className="text-xl font-semibold mb-4">ESG Configuration</h2>
+        <div className="glass-card p-6 rounded-lg">
+          <h2 className="text-xl font-semibold mb-4 text-foreground">ESG Configuration</h2>
           
-          {error && <div className="mb-4 p-3 bg-red-100 text-red-700 rounded text-sm">{error}</div>}
-          {success && <div className="mb-4 p-3 bg-green-100 text-green-700 rounded text-sm">{success}</div>}
+          {error && <div className="mb-4 p-3 bg-destructive/10 text-destructive border border-destructive/20 rounded text-sm">{error}</div>}
+          {success && <div className="mb-4 p-3 bg-primary/10 text-primary border border-primary/20 rounded text-sm">{success}</div>}
 
           <form onSubmit={handleSave} className="space-y-6">
             <div>
-              <h3 className="text-lg font-medium text-gray-900 border-b pb-2 mb-4">Pillar Weights</h3>
-              <p className="text-sm text-gray-500 mb-4">Set the percentage weight for each ESG pillar. The sum must exactly equal 100.</p>
+              <h3 className="text-lg font-medium text-foreground border-b border-border pb-2 mb-4">Pillar Weights</h3>
+              <p className="text-sm text-muted-foreground mb-4">Set the percentage weight for each ESG pillar. The sum must exactly equal 100.</p>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Environmental (%)</label>
-                  <input type="number" min="0" max="100" value={formData.envWeight} onChange={e => setFormData({...formData, envWeight: parseInt(e.target.value) || 0})} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border" />
+                  <label className="block text-sm font-medium text-muted-foreground mb-1">Environmental (%)</label>
+                  <input type="number" min="0" max="100" value={formData.envWeight} onChange={e => setFormData({...formData, envWeight: parseInt(e.target.value) || 0})} className="block w-full rounded-md border-border bg-background/50 text-foreground shadow-sm focus:border-primary focus:ring-primary sm:text-sm p-2.5 border" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Social (%)</label>
-                  <input type="number" min="0" max="100" value={formData.socialWeight} onChange={e => setFormData({...formData, socialWeight: parseInt(e.target.value) || 0})} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border" />
+                  <label className="block text-sm font-medium text-muted-foreground mb-1">Social (%)</label>
+                  <input type="number" min="0" max="100" value={formData.socialWeight} onChange={e => setFormData({...formData, socialWeight: parseInt(e.target.value) || 0})} className="block w-full rounded-md border-border bg-background/50 text-foreground shadow-sm focus:border-primary focus:ring-primary sm:text-sm p-2.5 border" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Governance (%)</label>
-                  <input type="number" min="0" max="100" value={formData.governanceWeight} onChange={e => setFormData({...formData, governanceWeight: parseInt(e.target.value) || 0})} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border" />
+                  <label className="block text-sm font-medium text-muted-foreground mb-1">Governance (%)</label>
+                  <input type="number" min="0" max="100" value={formData.governanceWeight} onChange={e => setFormData({...formData, governanceWeight: parseInt(e.target.value) || 0})} className="block w-full rounded-md border-border bg-background/50 text-foreground shadow-sm focus:border-primary focus:ring-primary sm:text-sm p-2.5 border" />
                 </div>
               </div>
-              <div className={`text-sm font-bold ${isTotalValid ? 'text-green-600' : 'text-red-600'}`}>
+              <div className={`text-sm font-bold ${isTotalValid ? 'text-primary' : 'text-destructive'}`}>
                 Total: {currentTotal}% {currentTotal > 100 && '(Exceeds 100%)'} {currentTotal < 100 && '(Under 100%)'}
               </div>
             </div>
 
             <div>
-              <h3 className="text-lg font-medium text-gray-900 border-b pb-2 mb-4 mt-8">Global Toggles</h3>
+              <h3 className="text-lg font-medium text-foreground border-b border-border pb-2 mb-4 mt-8">Global Toggles</h3>
               <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            <div className="flex items-center justify-between p-4 bg-muted/20 border border-border rounded-lg">
               <div>
-                <h4 className="text-sm font-medium text-gray-900">Auto Emission Calculation</h4>
-                <p className="text-sm text-gray-500">Automatically calculate emissions from department utilities</p>
+                <h4 className="text-sm font-medium text-foreground">Auto Emission Calculation</h4>
+                <p className="text-sm text-muted-foreground">Automatically calculate emissions from department utilities</p>
               </div>
               <button 
                 type="button"
                 onClick={() => setFormData({...formData, autoEmissionEnabled: !formData.autoEmissionEnabled})}
-                className={`${formData.autoEmissionEnabled ? 'bg-blue-600' : 'bg-gray-200'} relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
+                className={`${formData.autoEmissionEnabled ? 'bg-primary' : 'bg-muted'} relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background`}
               >
                 <span className={`${formData.autoEmissionEnabled ? 'translate-x-5' : 'translate-x-0'} pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out`} />
               </button>
             </div>
             
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            <div className="flex items-center justify-between p-4 bg-muted/20 border border-border rounded-lg">
               <div>
-                <h4 className="text-sm font-medium text-gray-900">Evidence Required for CSR</h4>
-                <p className="text-sm text-gray-500">Require users to upload proof before approving activities</p>
+                <h4 className="text-sm font-medium text-foreground">Evidence Required for CSR</h4>
+                <p className="text-sm text-muted-foreground">Require users to upload proof before approving activities</p>
               </div>
               <button 
                 type="button"
                 onClick={() => setFormData({...formData, evidenceRequiredEnabled: !formData.evidenceRequiredEnabled})}
-                className={`${formData.evidenceRequiredEnabled ? 'bg-blue-600' : 'bg-gray-200'} relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
+                className={`${formData.evidenceRequiredEnabled ? 'bg-primary' : 'bg-muted'} relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background`}
               >
                 <span className={`${formData.evidenceRequiredEnabled ? 'translate-x-5' : 'translate-x-0'} pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out`} />
               </button>
             </div>
 
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            <div className="flex items-center justify-between p-4 bg-muted/20 border border-border rounded-lg">
               <div>
-                <h4 className="text-sm font-medium text-gray-900">Auto-Award Badges</h4>
-                <p className="text-sm text-gray-500">Automatically award badges when XP thresholds are met</p>
+                <h4 className="text-sm font-medium text-foreground">Auto-Award Badges</h4>
+                <p className="text-sm text-muted-foreground">Automatically award badges when XP thresholds are met</p>
               </div>
               <button 
                 type="button"
                 onClick={() => setFormData({...formData, badgeAutoAwardEnabled: !formData.badgeAutoAwardEnabled})}
-                className={`${formData.badgeAutoAwardEnabled ? 'bg-blue-600' : 'bg-gray-200'} relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
+                className={`${formData.badgeAutoAwardEnabled ? 'bg-primary' : 'bg-muted'} relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background`}
               >
                 <span className={`${formData.badgeAutoAwardEnabled ? 'translate-x-5' : 'translate-x-0'} pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out`} />
               </button>
@@ -144,8 +144,8 @@ export default function EsgConfigPage() {
               </div>
             </div>
 
-            <div className="pt-5 border-t">
-              <button disabled={!isTotalValid || isSaving} type="submit" className={`px-4 py-2 text-white font-medium rounded shadow ${isTotalValid && !isSaving ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-400 cursor-not-allowed'}`}>
+            <div className="pt-5 border-t border-border">
+              <button disabled={!isTotalValid || isSaving} type="submit" className={`px-4 py-2 text-primary-foreground font-medium rounded shadow transition-colors ${isTotalValid && !isSaving ? 'bg-primary hover:bg-primary/90' : 'bg-muted text-muted-foreground cursor-not-allowed'}`}>
                 {isSaving ? 'Saving...' : 'Save Configuration'}
               </button>
             </div>
@@ -154,17 +154,17 @@ export default function EsgConfigPage() {
       </div>
 
       <div className="lg:col-span-1">
-        <div className="bg-gray-50 p-6 rounded-lg border border-gray-200 sticky top-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">Live Preview</h3>
-          <p className="text-sm text-gray-500 mb-6">This shows the mocked impact of your current weight distribution on the overall organizational score.</p>
+        <div className="glass-card p-6 rounded-lg sticky top-6">
+          <h3 className="text-lg font-semibold text-foreground mb-2">Live Preview</h3>
+          <p className="text-sm text-muted-foreground mb-6">This shows the mocked impact of your current weight distribution on the overall organizational score.</p>
           
-          <div className="bg-white p-6 rounded border shadow-sm text-center">
-            <span className="block text-sm font-medium text-gray-500 mb-1">Overall ESG Score</span>
-            <span className="block text-5xl font-bold text-gray-900">{livePreviewScore.toFixed(1)}</span>
-            <span className="block text-xs text-gray-400 mt-2">/ 100</span>
+          <div className="bg-background/40 p-6 rounded-xl border border-border shadow-inner text-center">
+            <span className="block text-sm font-medium text-muted-foreground mb-1 uppercase tracking-widest">Overall Score</span>
+            <span className="block text-5xl font-black text-foreground">{livePreviewScore.toFixed(1)}</span>
+            <span className="block text-xs text-muted-foreground mt-2">OUT OF 100</span>
           </div>
 
-          <div className="mt-6 text-xs text-gray-400">
+          <div className="mt-6 text-xs text-muted-foreground/70 text-center">
             * Uses a fixed set of mock department scores to demonstrate the weighting effect.
           </div>
         </div>

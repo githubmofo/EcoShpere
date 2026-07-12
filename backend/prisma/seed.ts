@@ -1,5 +1,6 @@
 import { prisma } from '../src/common/prisma-client';
 import { PrismaClient } from '@prisma/client';
+import * as crypto from "crypto";
 
 // Local constants — the schema uses plain String fields, not Prisma enums
 const Role = { ADMIN: 'ADMIN', DEPT_HEAD: 'DEPT_HEAD', EMPLOYEE: 'EMPLOYEE' } as const;
@@ -12,6 +13,7 @@ const Severity = { LOW: 'LOW', MEDIUM: 'MEDIUM', HIGH: 'HIGH', CRITICAL: 'CRITIC
 const IssueStatus = { OPEN: 'OPEN', IN_PROGRESS: 'IN_PROGRESS', RESOLVED: 'RESOLVED' } as const;
 
 const daysFromNow = (n: number) => new Date(Date.now() + n * 86400000);
+const DEFAULT_PASSWORD_HASH = crypto.createHash("sha256").update("password").digest("hex");
 
 async function main() {
   console.log('Seeding database...');
@@ -59,7 +61,7 @@ async function main() {
     points: number
   ) => {
     const u = await prisma.user.create({
-      data: { name, email, passwordHash: 'hashed_password_placeholder', role, departmentId },
+      data: { name, email, passwordHash: DEFAULT_PASSWORD_HASH, role, departmentId },
     });
     await prisma.employeeXpBalance.create({
       data: { employeeId: u.id, xpTotal: xp, pointsTotal: points },
@@ -81,7 +83,7 @@ async function main() {
     data: {
       name: 'Admin User',
       email: 'admin@ecosphere.com',
-      passwordHash: 'hashed_password_placeholder',
+      passwordHash: DEFAULT_PASSWORD_HASH,
       role: 'ADMIN',
       departmentId: corp.id,
     },
@@ -91,7 +93,7 @@ async function main() {
     data: {
       name: 'Sarah Manager',
       email: 'sarah.manager@ecosphere.com',
-      passwordHash: 'hashed_password_placeholder',
+      passwordHash: DEFAULT_PASSWORD_HASH,
       role: 'DEPT_HEAD',
       departmentId: mfg.id,
     },
@@ -109,7 +111,7 @@ async function main() {
     data: {
       name: 'John Doe',
       email: 'john.doe@ecosphere.com',
-      passwordHash: 'hashed_password_placeholder',
+      passwordHash: DEFAULT_PASSWORD_HASH,
       role: 'EMPLOYEE',
       departmentId: mfg.id,
     },
@@ -119,7 +121,7 @@ async function main() {
     data: {
       name: 'Jane Smith',
       email: 'jane.smith@ecosphere.com',
-      passwordHash: 'hashed_password_placeholder',
+      passwordHash: DEFAULT_PASSWORD_HASH,
       role: 'EMPLOYEE',
       departmentId: logistics.id,
     },
