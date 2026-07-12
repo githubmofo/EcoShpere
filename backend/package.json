@@ -4,11 +4,11 @@
   "description": "EcoSphere ESG Platform – Backend API",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "ts-node src/index.ts",
-    "build": "tsc",
-    "start": "node dist/index.js",
+    "dev": "tsc --rootDir . --outDir dist && node dist/src/index.js",
+    "build": "tsc --rootDir . --outDir dist",
+    "start": "node dist/src/index.js",
     "prisma:migrate": "prisma migrate dev",
-    "prisma:seed": "ts-node prisma/seed.ts",
+    "prisma:seed": "tsc --rootDir . --outDir dist && node dist/prisma/seed.js",
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -25,9 +25,11 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@prisma/adapter-mariadb": "^7.8.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "mariadb": "^3.5.3"
   },
   "devDependencies": {
     "@prisma/client": "^7.8.0",

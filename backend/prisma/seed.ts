@@ -1,6 +1,5 @@
-import { PrismaClient, Role, CategoryType } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '../src/common/prisma-client';
+import { Role, CategoryType } from '@prisma/client';
 
 async function main() {
   console.log('Seeding database...');
