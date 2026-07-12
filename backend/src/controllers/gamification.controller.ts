@@ -2,6 +2,7 @@
 // Gamification endpoints backed by Prisma / SQL Server.
 
 import { Request, Response } from "express";
+
 import prisma from "../common/prisma-client";
 
 // Local constants — schema uses plain Strings, not Prisma enums

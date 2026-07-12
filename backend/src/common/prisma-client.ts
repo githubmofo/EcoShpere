@@ -1,5 +1,5 @@
 // src/common/prisma-client.ts
-// Singleton Prisma client instance for SQL Server
+// Singleton Prisma client instance
 import { PrismaClient } from "@prisma/client";
 import "dotenv/config";
 

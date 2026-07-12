@@ -10,7 +10,8 @@ import {
   Trophy, FileText, Settings, Sun, Moon 
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { currentUser } from "@/lib/mock-data";
+import { useAuth } from "@/components/auth/AuthProvider";
+import { LogOut } from "lucide-react";
 
 const MODULES = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -26,8 +27,24 @@ export default function PlatformFrame({ children }: { children: React.ReactNode 
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  
-  const initials = currentUser.name.split(" ").map((p) => p[0]).join("");
+  const { user, logout, isLoading } = useAuth();
+
+  const isAuthPage = pathname === "/login" || pathname === "/register";
+
+  if (isAuthPage) {
+    return (
+      <div className="min-h-screen bg-esg-bg-root text-esg-text-primary flex flex-col">
+        <main className="flex-1 flex flex-col">{children}</main>
+      </div>
+    );
+  }
+
+  // Prevent flashing of UI before auth checks
+  if (isLoading || !user) {
+    return <div className="min-h-screen bg-esg-bg-root text-esg-text-primary" />;
+  }
+
+  const initials = user.name.split(" ").map((p) => p[0]).join("");
 
   // Determine current module for the Topbar title
   const currentModule = MODULES.find(m => pathname.startsWith(m.href)) || MODULES[0];
@@ -131,11 +148,18 @@ export default function PlatformFrame({ children }: { children: React.ReactNode 
                 {initials}
               </span>
               <div className="hidden leading-tight lg:block">
-                <p className="text-sm font-semibold">{currentUser.name}</p>
+                <p className="text-sm font-semibold">{user.name}</p>
                 <p className="text-[10px] text-esg-text-muted uppercase tracking-wide">
-                  {currentUser.role}
+                  {user.role}
                 </p>
               </div>
+              <button
+                onClick={logout}
+                className="ml-2 flex items-center gap-2 text-esg-text-muted hover:text-[var(--color-esg-accent-danger)] transition-colors"
+                title="Sign out"
+              >
+                <LogOut className="size-4" />
+              </button>
             </div>
           </div>
         </header>

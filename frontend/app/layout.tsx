@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "@/components/feedback/Toaster";
 import PlatformFrame from "@/components/layout/PlatformFrame";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { AuthProvider } from "@/components/auth/AuthProvider";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
@@ -39,8 +40,10 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          <PlatformFrame>{children}</PlatformFrame>
-          <Toaster />
+          <AuthProvider>
+            <PlatformFrame>{children}</PlatformFrame>
+            <Toaster />
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
