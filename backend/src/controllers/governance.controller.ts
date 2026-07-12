@@ -216,7 +216,6 @@ export class GovernanceController {
           policyId,
           employeeId: resolvedEmployeeId,
           acknowledgedAt: new Date(),
-          status: "COMPLETED",
         },
       });
 
