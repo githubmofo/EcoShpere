@@ -1,11 +1,7 @@
 // app/environmental/page.tsx
-// Member 1 – Environmental Tab Layout
+// Member 1 – Redirect base environmental route to the dashboard subpage
+import { redirect } from "next/navigation";
 
 export default function EnvironmentalPage() {
-  return (
-    <div>
-      <h1>Environmental</h1>
-      {/* TODO: Implement environmental overview */}
-    </div>
-  );
+  redirect("/environmental/dashboard");
 }
