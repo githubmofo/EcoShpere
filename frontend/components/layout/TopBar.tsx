@@ -72,7 +72,7 @@ export default function TopBar() {
       initial={{ y: -50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="h-16 border-b border-white/5 bg-slate-950/20 backdrop-blur-xl px-6 flex items-center justify-between sticky top-0 z-30"
+      className="h-16 border-b border-white/10 bg-slate-950/40 backdrop-blur-xl px-6 flex items-center justify-between sticky top-0 z-30"
     >
       
       {/* Left side: Org Switcher & Breadcrumbs */}

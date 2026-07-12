@@ -152,9 +152,18 @@ export default function Sidebar() {
       </nav>
 
       {/* Sidebar Footer */}
-      <div className="p-4 border-t border-white/5 bg-slate-950/20 text-center">
-        <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Fortune 500 Console</p>
-        <p className="text-[8px] text-slate-600/80 mt-0.5 uppercase tracking-widest">© 2026 EcoSphere Inc</p>
+      <div className="p-4 border-t border-white/5 bg-slate-950/20 flex flex-col gap-2.5">
+        <div className="flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg bg-zinc-900/60 border border-white/5 mx-2">
+          <span className="relative flex h-1.5 w-1.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+          </span>
+          <span className="text-[9px] text-emerald-400 font-extrabold uppercase tracking-widest">Sys Status: Live DB</span>
+        </div>
+        <div className="text-center">
+          <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Fortune 500 Console</p>
+          <p className="text-[8px] text-slate-600/80 mt-0.5 uppercase tracking-widest">© 2026 EcoSphere Inc</p>
+        </div>
       </div>
     </motion.aside>
   );
