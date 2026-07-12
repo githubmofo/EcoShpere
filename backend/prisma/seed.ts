@@ -138,6 +138,24 @@ async function main() {
     },
   });
 
+  const policy5 = await prisma.esgPolicy.create({
+    data: {
+      title: 'Diversity, Equity & Inclusion',
+      description: 'Company-wide commitment to fostering an inclusive workplace and diverse hiring practices.',
+      effectiveDate: new Date('2022-03-01'),
+      status: 'ACTIVE',
+    },
+  });
+
+  const policy6 = await prisma.esgPolicy.create({
+    data: {
+      title: 'Sustainable Procurement Policy',
+      description: 'Prioritizing vendors and suppliers with proven sustainable practices and lower carbon footprints.',
+      effectiveDate: new Date('2026-01-15'),
+      status: 'DRAFT',
+    },
+  });
+
   // 6. Badges & Rewards
   const badge1 = await prisma.badge.create({
     data: {
@@ -197,6 +215,28 @@ async function main() {
       startDate: new Date(new Date().getTime() - 10 * 86400000),
       endDate: new Date(new Date().getTime() - 9 * 86400000),
       status: 'COMPLETED',
+    },
+  });
+
+  const csr4 = await prisma.csrActivity.create({
+    data: {
+      title: 'River Cleanup Initiative',
+      categoryId: csrCat.id,
+      description: 'Join local environmental groups to clear plastic waste from the downtown riverfront.',
+      startDate: new Date(new Date().getTime() + 14 * 86400000),
+      endDate: new Date(new Date().getTime() + 15 * 86400000),
+      status: 'PLANNED',
+    },
+  });
+
+  const csr5 = await prisma.csrActivity.create({
+    data: {
+      title: 'Tech Mentorship Program',
+      categoryId: csrCat.id,
+      description: 'Mentor high school students in basic programming and web development skills over 4 weekends.',
+      startDate: new Date(new Date().getTime() + 2 * 86400000),
+      endDate: new Date(new Date().getTime() + 30 * 86400000),
+      status: 'ONGOING',
     },
   });
 

@@ -118,6 +118,14 @@ export function CsrActivityCard({
                 <span>{activity.participantCount} Participants</span>
               </div>
             </div>
+            
+            {joined && (
+              <div className="bg-green-50 text-green-700 border border-green-200 dark:border-green-900/50 dark:bg-green-900/20 dark:text-green-400 p-3 rounded-md mb-4 flex items-center gap-2 animate-in fade-in zoom-in-95 duration-300">
+                <CheckCircle2 className="w-5 h-5 shrink-0" />
+                <span className="text-sm font-medium">Successfully joined! You're now a participant.</span>
+              </div>
+            )}
+
             <DialogFooter>
               {joined || isCompleted ? (
                 <Button variant="outline" className="w-full" disabled>
@@ -143,6 +151,13 @@ export function CsrActivityCard({
             </DialogFooter>
           </DialogContent>
         </Dialog>
+
+        {joined && (
+          <div className="bg-green-50 text-green-700 border border-green-200 dark:border-green-900/50 dark:bg-green-900/20 dark:text-green-400 p-3 rounded-md flex items-center gap-2 animate-in fade-in zoom-in-95 duration-300">
+            <CheckCircle2 className="w-5 h-5 shrink-0" />
+            <span className="text-sm font-medium">Successfully joined!</span>
+          </div>
+        )}
 
         {joined || isCompleted ? (
           <Button variant="outline" className="w-full" disabled>
