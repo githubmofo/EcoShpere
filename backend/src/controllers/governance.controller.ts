@@ -181,6 +181,52 @@ export class GovernanceController {
     }
   }
 
+  // ── POST /api/governance/acknowledgements ─────────────────────
+  static async acknowledgePolicy(req: Request, res: Response) {
+    const { policyId, employeeId } = req.body as { policyId?: string; employeeId?: string };
+
+    if (!policyId || !employeeId) {
+      res.status(400).json({ error: "policyId and employeeId are required" });
+      return;
+    }
+
+    try {
+      let resolvedEmployeeId = employeeId;
+      const userExists = await prisma.user.findUnique({ where: { id: employeeId } });
+      if (!userExists) {
+        const fallback = await prisma.user.findFirst();
+        if (!fallback) {
+          res.status(400).json({ error: "No users in database. Please seed." });
+          return;
+        }
+        resolvedEmployeeId = fallback.id;
+      }
+
+      const existing = await prisma.policyAcknowledgement.findFirst({
+        where: { policyId, employeeId: resolvedEmployeeId },
+      });
+
+      if (existing) {
+        res.status(409).json({ error: "Policy already acknowledged" });
+        return;
+      }
+
+      const ack = await prisma.policyAcknowledgement.create({
+        data: {
+          policyId,
+          employeeId: resolvedEmployeeId,
+          acknowledgedAt: new Date(),
+          status: "COMPLETED",
+        },
+      });
+
+      res.status(201).json(ack);
+    } catch (err) {
+      console.error("[acknowledgePolicy]", err);
+      res.status(500).json({ error: "Failed to acknowledge policy" });
+    }
+  }
+
   // ── GET /api/governance/acknowledgements ─────────────────────
   static async getAcknowledgements(_req: Request, res: Response) {
     try {

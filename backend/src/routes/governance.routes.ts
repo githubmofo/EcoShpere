@@ -9,6 +9,7 @@ router.post("/policies", GovernanceController.createPolicy);
 router.get("/audits", GovernanceController.getAudits);
 router.post("/audits", GovernanceController.createAudit);
 router.get("/acknowledgements", GovernanceController.getAcknowledgements);
+router.post("/acknowledgements", GovernanceController.acknowledgePolicy);
 router.get("/compliance-issues", GovernanceController.getComplianceIssues);
 
 export default router;
