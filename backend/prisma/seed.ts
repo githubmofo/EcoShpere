@@ -281,7 +281,7 @@ async function main() {
   });
 
   // 10b. Audits
-  await prisma.audit.create({
+  const audit1 = await prisma.audit.create({
     data: {
       title: 'ISO 14001 Annual Recertification',
       description: 'Annual environmental management system audit conducted by external auditors.',
@@ -292,7 +292,7 @@ async function main() {
     },
   });
 
-  await prisma.audit.create({
+  const audit2 = await prisma.audit.create({
     data: {
       title: 'Supplier Labor Rights Audit',
       description: 'Comprehensive review of working conditions and labor rights at tier 1 suppliers.',
@@ -300,6 +300,111 @@ async function main() {
       auditorId: adminUser.id,
       auditDate: new Date(new Date().getTime() - 30 * 86400000),
       status: 'COMPLETED',
+    },
+  });
+
+  const audit3 = await prisma.audit.create({
+    data: {
+      title: 'Anti-Bribery Compliance Review',
+      description: 'Internal audit of gift policies, vendor payments, and third-party due diligence across all departments.',
+      departmentId: corp.id,
+      auditorId: headMfg.id,
+      auditDate: new Date(new Date().getTime() + 14 * 86400000),
+      status: 'SCHEDULED',
+    },
+  });
+
+  const audit4 = await prisma.audit.create({
+    data: {
+      title: 'Waste Management Process Audit',
+      description: 'Evaluate factory-floor waste sorting, hazardous material handling, and landfill diversion metrics.',
+      departmentId: mfg.id,
+      auditorId: adminUser.id,
+      auditDate: new Date(new Date().getTime() - 60 * 86400000),
+      status: 'COMPLETED',
+    },
+  });
+
+  const audit5 = await prisma.audit.create({
+    data: {
+      title: 'Data Privacy & GDPR Compliance Audit',
+      description: 'Review of personal data handling, consent management, data retention policies, and breach notification procedures.',
+      departmentId: corp.id,
+      auditorId: adminUser.id,
+      auditDate: new Date(new Date().getTime() - 15 * 86400000),
+      status: 'COMPLETED',
+    },
+  });
+
+  const audit6 = await prisma.audit.create({
+    data: {
+      title: 'Fleet Emissions Verification',
+      description: 'Third-party verification of reported Scope 1 emissions from the logistics fleet against fuel purchase records.',
+      departmentId: logistics.id,
+      auditorId: headMfg.id,
+      auditDate: new Date(new Date().getTime() + 7 * 86400000),
+      status: 'SCHEDULED',
+    },
+  });
+
+  // 10c. Compliance Issues
+  await prisma.complianceIssue.create({
+    data: {
+      auditId: audit2.id,
+      severity: 'HIGH',
+      description: 'Two tier-1 suppliers failed to provide evidence of minimum wage compliance for contract workers.',
+      ownerId: headMfg.id,
+      dueDate: new Date(new Date().getTime() + 30 * 86400000),
+      status: 'OPEN',
+      flaggedOverdue: false,
+    },
+  });
+
+  await prisma.complianceIssue.create({
+    data: {
+      auditId: audit4.id,
+      severity: 'MEDIUM',
+      description: 'Hazardous waste containers in Building C lacked proper labeling per OSHA 29 CFR 1910.1200.',
+      ownerId: emp1.id,
+      dueDate: new Date(new Date().getTime() - 5 * 86400000),
+      status: 'OPEN',
+      flaggedOverdue: true,
+    },
+  });
+
+  await prisma.complianceIssue.create({
+    data: {
+      auditId: audit5.id,
+      severity: 'CRITICAL',
+      description: 'Customer PII stored in unencrypted S3 bucket accessible via public URL. Immediate remediation required.',
+      ownerId: adminUser.id,
+      dueDate: new Date(new Date().getTime() + 7 * 86400000),
+      status: 'IN_PROGRESS',
+      flaggedOverdue: false,
+    },
+  });
+
+  await prisma.complianceIssue.create({
+    data: {
+      auditId: audit4.id,
+      severity: 'LOW',
+      description: 'Recycling station signage in the cafeteria does not meet the updated corporate branding guidelines.',
+      ownerId: emp2.id,
+      dueDate: new Date(new Date().getTime() + 45 * 86400000),
+      status: 'OPEN',
+      flaggedOverdue: false,
+    },
+  });
+
+  await prisma.complianceIssue.create({
+    data: {
+      auditId: audit2.id,
+      severity: 'HIGH',
+      description: 'Supplier onboarding process lacks mandatory ESG risk assessment questionnaire for new vendors.',
+      ownerId: headMfg.id,
+      dueDate: new Date(new Date().getTime() + 20 * 86400000),
+      status: 'OPEN',
+      flaggedOverdue: false,
     },
   });
 

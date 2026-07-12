@@ -4,6 +4,7 @@ import { GovernanceController } from "../controllers/governance.controller";
 
 const router = Router();
 
+router.get("/dashboard", GovernanceController.getDashboard);
 router.get("/policies", GovernanceController.getPolicies);
 router.post("/policies", GovernanceController.createPolicy);
 router.get("/audits", GovernanceController.getAudits);

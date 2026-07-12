@@ -264,10 +264,53 @@ export class GovernanceController {
         },
         orderBy: { dueDate: "asc" },
       });
-      res.json(issues);
+      
+      const mapped = issues.map((i) => ({
+        ...i,
+        auditTitle: i.audit.title,
+        owner: i.owner.name,
+      }));
+      
+      res.json(mapped);
     } catch (err) {
       console.error("[getComplianceIssues]", err);
       res.status(500).json({ error: "Failed to fetch compliance issues" });
+    }
+  }
+
+  // ── GET /api/governance/dashboard ───────────────────
+  static async getDashboard(_req: Request, res: Response) {
+    try {
+      const openIssues = await prisma.complianceIssue.count({
+        where: { status: { in: ["OPEN", "IN_PROGRESS"] } },
+      });
+      const overdueIssues = await prisma.complianceIssue.count({
+        where: { flaggedOverdue: true },
+      });
+      const completedAudits = await prisma.audit.count({
+        where: { status: "COMPLETED" },
+      });
+      
+      // Compute acknowledgement percentage
+      const totalPolicies = await prisma.esgPolicy.count({ where: { status: "ACTIVE" } });
+      const totalEmployees = await prisma.user.count();
+      
+      let policiesAcknowledgedPercent = 0;
+      if (totalPolicies > 0 && totalEmployees > 0) {
+        const totalExpected = totalPolicies * totalEmployees;
+        const totalAcked = await prisma.policyAcknowledgement.count();
+        policiesAcknowledgedPercent = Math.round((totalAcked / totalExpected) * 100);
+      }
+
+      res.json({
+        openIssues,
+        overdueIssues,
+        completedAudits,
+        policiesAcknowledgedPercent,
+      });
+    } catch (err) {
+      console.error("[getDashboard]", err);
+      res.status(500).json({ error: "Failed to fetch dashboard metrics" });
     }
   }
 }
