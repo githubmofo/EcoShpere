@@ -9,10 +9,13 @@ EcoSphere is a comprehensive ESG (Environmental, Social, and Governance) managem
 git clone https://github.com/githubmofo/EcoShpere.git
 cd EcoShpere
 
+# Setup the Local Database
+The project is configured to use a local SQLite database (`dev.db`). No additional database server installation is required.
+
 # Setup the Backend
 cd backend
 npm install
-# Set up your .env file with DATABASE_URL
+# The .env file uses a local SQLite file (e.g., DATABASE_URL="file:./dev.db")
 npm run prisma:generate
 npm run prisma:push
 npm run prisma:seed
@@ -31,7 +34,7 @@ The backend API runs on http://localhost:4000.
 ## Requirements
 
 - Node.js 20+
-- MariaDB / MySQL (or any Prisma-supported database)
+- SQLite (built-in via Prisma)
 - npm or yarn
 
 ## Project Structure
@@ -56,7 +59,7 @@ frontend/
 | Variable | Required | Description |
 | --- | --- | --- |
 | `PORT` | No | API port (default: 4000) |
-| `DATABASE_URL` | Yes | Database connection string for Prisma |
+| `DATABASE_URL` | Yes | Local database connection string (e.g., `file:./dev.db`) |
 
 ### Frontend (`frontend/.env.local`)
 | Variable | Required | Description |
@@ -83,8 +86,8 @@ EcoSphere is broken down into three main pillars:
 - **Audits**: Track scheduled, in-progress, and completed audits alongside their findings.
 
 ## Tech Stack
-- **Frontend**: Next.js 16 (App Router), React 19, Tailwind CSS v4, Framer Motion, Recharts, shadcn/ui.
-- **Backend**: Node.js, Express, TypeScript, Prisma ORM, MariaDB.
+- **Frontend**: Next.js 16 (App Router, Turbopack), React 19, Tailwind CSS v4, Framer Motion, Recharts, shadcn/ui.
+- **Backend**: Node.js, Express, TypeScript, Prisma ORM, SQLite.
 
 ## Authors
 - Jenish Lad
