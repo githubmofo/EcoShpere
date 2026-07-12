@@ -1,21 +1,45 @@
 # EcoSphere — Gamification & Reports (Member 3)
 
 Two fully-built pages for the EcoSphere ESG platform, styled after the dark/orange
-mockup. They run entirely client-side on seeded demo data (`lib/mock-data.ts`), so no
-backend/MySQL is required to demo them.
+mockup. They read live data from the **Express + Prisma + MySQL** backend
+(`../backend`), and fall back to seeded demo data (`lib/mock-data.ts`) if the API is
+unreachable — so they always render.
 
 ## Run
 
+**1. Backend + database** (MySQL must be running):
+
+```bash
+cd backend
+npm install                 # first time only
+# .env → DATABASE_URL="mysql://root@localhost:3306/ecosphere"  PORT=5000
+npx prisma generate
+npx prisma db push          # creates the `ecosphere` DB + tables
+npm run prisma:seed         # seeds rich demo data
+npm run dev                 # API on http://localhost:5000
+```
+
+**2. Frontend:**
+
 ```bash
 cd frontend
-npm install          # first time only
-npm run dev          # http://localhost:3000  (root redirects to /gamification)
+npm install                 # first time only
+# .env.local → NEXT_PUBLIC_API_BASE_URL=http://localhost:5000/api
+npm run dev                 # http://localhost:3000  (root redirects to /gamification)
 ```
 
 - **Gamification:** http://localhost:3000/gamification
 - **Reports:** http://localhost:3000/reports
 
-`npm run build` type-checks and compiles both pages.
+`npm run build` (frontend) type-checks and compiles both pages.
+
+## Data flow
+
+`Next.js page → lib/api.ts fetch → Express (backend/src/routes,controllers) →
+Prisma (@prisma/adapter-mariadb) → MySQL`. Reads populate the pages on mount;
+mutations (approve / reject / redeem / lifecycle / create) persist to the DB
+best-effort while the UI updates optimistically. Backend endpoints live in
+`backend/src/controllers/gamification.controller.ts` and `reports.controller.ts`.
 
 ## Gamification (`app/gamification/page.tsx`)
 
