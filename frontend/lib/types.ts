@@ -49,10 +49,30 @@ export interface EnvironmentalGoal {
 export interface CsrActivity {
   id: string;
   title: string;
-  date: string;
-  participants: number;
-  impact: string;
+  categoryId: string;
+  category: string;
+  description: string;
+  startDate: string;
+  endDate: string;
   status: "planned" | "ongoing" | "completed";
+  defaultPoints: number;
+  departmentId: string;
+  department: string;
+  participantCount: number;
+}
+
+export interface EmployeeParticipation {
+  id: string;
+  employeeId: string;
+  employeeName: string;
+  activityId: string;
+  activityTitle: string;
+  department: string;
+  proofFileName: string | null;
+  pointsEarned: number;
+  status: "pending" | "approved" | "rejected";
+  comments: string;
+  submittedAt: string;
 }
 
 export interface DiversityMetric {
@@ -63,34 +83,69 @@ export interface DiversityMetric {
   period: string;
 }
 
+export interface DiversitySummary {
+  genderDistribution: { label: string; value: number; percentage: number }[];
+  ageGroups: { label: string; value: number; percentage: number }[];
+  trainingCompletion: { total: number; completed: number; percentage: number };
+}
+
 // ─── Governance ──────────────────────────────────────────────
 export interface Policy {
   id: string;
   title: string;
   category: string;
   version: string;
+  description: string;
   effectiveDate: string;
   status: "active" | "draft" | "archived";
+  acknowledgedCount: number;
+  totalEmployees: number;
+}
+
+export interface PolicyAcknowledgement {
+  id: string;
+  policyId: string;
+  policyTitle: string;
+  employeeId: string;
+  employeeName: string;
+  department: string;
+  acknowledgedAt: string | null;
+  status: "pending" | "acknowledged";
 }
 
 export interface Audit {
   id: string;
   title: string;
+  departmentId: string;
+  department: string;
+  description: string;
   auditor: string;
-  date: string;
+  auditorId: string;
+  auditDate: string;
   findings: number;
   status: "scheduled" | "in-progress" | "completed";
+  linkedIssueCount: number;
 }
 
 export interface ComplianceIssue {
   id: string;
+  auditId: string;
+  auditTitle: string;
   title: string;
+  description: string;
   severity: "low" | "medium" | "high" | "critical";
   status: "open" | "in-progress" | "resolved";
+  ownerId: string;
+  owner: string;
+  dueDate: string;
   reportedDate: string;
+<<<<<<< HEAD
   assignee: string;
   dueDate?: string;
   overdue?: boolean;
+=======
+  isOverdue: boolean;
+>>>>>>> origin/feature/member2-social-governance
 }
 
 // ─── Gamification ────────────────────────────────────────────
@@ -191,7 +246,11 @@ export interface EsgScore {
   period: string;
 }
 
+<<<<<<< HEAD
 export interface ReportDepartmentScore {
+=======
+export interface DepartmentScore {
+>>>>>>> origin/feature/member2-social-governance
   department: string;
   environmental: number;
   social: number;

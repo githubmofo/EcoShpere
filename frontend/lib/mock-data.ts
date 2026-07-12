@@ -1,4 +1,5 @@
 // lib/mock-data.ts
+<<<<<<< HEAD
 // Front-end seed data for demo/hackathon purposes.
 // This lets all pages run fully client-side without the backend.
 // Swap these for `lib/api-client` calls to wire the Express/Prisma API.
@@ -29,6 +30,28 @@ import type {
 // GAMIFICATION & REPORTS MODULE (from gamification_and_report)
 // ═══════════════════════════════════════════════════════════════
 
+=======
+import {
+  CsrActivity,
+  EmployeeParticipation,
+  DiversitySummary,
+  Policy,
+  PolicyAcknowledgement,
+  Audit,
+  ComplianceIssue,
+  CurrentUser,
+  Challenge,
+  Badge,
+  Reward,
+  RewardRedemption,
+  ChallengeParticipation,
+  LeaderboardEntry,
+  DepartmentScore,
+  MonthlyEmission,
+  ReportRow
+} from "./types";
+
+>>>>>>> origin/feature/member2-social-governance
 export const DEPARTMENTS = [
   "Manufacturing",
   "Corporate",
@@ -48,6 +71,224 @@ export const EMPLOYEES = [
   "Emma Brown",
 ] as const;
 
+<<<<<<< HEAD
+=======
+export const mockCsrActivities: CsrActivity[] = [
+  {
+    id: "act_1",
+    title: "Beach Cleanup Drive",
+    categoryId: "cat_env",
+    category: "Environment",
+    description: "Join us for a morning of cleaning up the local beach to protect marine life.",
+    startDate: "2026-08-15",
+    endDate: "2026-08-15",
+    status: "planned",
+    defaultPoints: 50,
+    departmentId: "all",
+    department: "All Departments",
+    participantCount: 12
+  },
+  {
+    id: "act_2",
+    title: "Mentorship for Youth in Tech",
+    categoryId: "cat_soc",
+    category: "Education",
+    description: "Provide mentorship to high school students interested in technology careers.",
+    startDate: "2026-07-01",
+    endDate: "2026-12-31",
+    status: "ongoing",
+    defaultPoints: 100,
+    departmentId: "dep_eng",
+    department: "Engineering",
+    participantCount: 5
+  },
+  {
+    id: "act_3",
+    title: "Food Drive Collection",
+    categoryId: "cat_soc_2",
+    category: "Community",
+    description: "Collecting non-perishable food items for the local food bank.",
+    startDate: "2026-06-01",
+    endDate: "2026-06-15",
+    status: "completed",
+    defaultPoints: 20,
+    departmentId: "all",
+    department: "All Departments",
+    participantCount: 45
+  }
+];
+
+export const mockParticipation: EmployeeParticipation[] = [
+  {
+    id: "part_1",
+    employeeId: "emp_101",
+    employeeName: "Alice Smith",
+    activityId: "act_2",
+    activityTitle: "Mentorship for Youth in Tech",
+    department: "Engineering",
+    proofFileName: "mentorship_log.pdf",
+    pointsEarned: 0,
+    status: "pending",
+    comments: "",
+    submittedAt: "2026-07-10T14:30:00Z"
+  },
+  {
+    id: "part_2",
+    employeeId: "emp_102",
+    employeeName: "Bob Johnson",
+    activityId: "act_3",
+    activityTitle: "Food Drive Collection",
+    department: "Sales",
+    proofFileName: "receipt_foodbank.jpg",
+    pointsEarned: 20,
+    status: "approved",
+    comments: "Great job, Bob!",
+    submittedAt: "2026-06-14T09:15:00Z"
+  }
+];
+
+export const mockDiversitySummary: DiversitySummary = {
+  genderDistribution: [
+    { label: "Female", value: 45, percentage: 45 },
+    { label: "Male", value: 50, percentage: 50 },
+    { label: "Non-binary", value: 5, percentage: 5 }
+  ],
+  ageGroups: [
+    { label: "18-25", value: 20, percentage: 20 },
+    { label: "26-35", value: 40, percentage: 40 },
+    { label: "36-45", value: 25, percentage: 25 },
+    { label: "46+", value: 15, percentage: 15 }
+  ],
+  trainingCompletion: {
+    total: 150,
+    completed: 120,
+    percentage: 80
+  }
+};
+
+export const mockPolicies: Policy[] = [
+  {
+    id: "pol_1",
+    title: "Anti-Bribery and Corruption Policy",
+    category: "Ethics",
+    version: "2.1",
+    description: "Guidelines and rules preventing bribery and corruption in all business dealings.",
+    effectiveDate: "2025-01-01",
+    status: "active",
+    acknowledgedCount: 140,
+    totalEmployees: 150
+  },
+  {
+    id: "pol_2",
+    title: "Data Privacy Policy (GDPR)",
+    category: "Compliance",
+    version: "3.0",
+    description: "Ensuring all employee and customer data is handled according to GDPR standards.",
+    effectiveDate: "2026-05-25",
+    status: "active",
+    acknowledgedCount: 110,
+    totalEmployees: 150
+  }
+];
+
+export const mockAcknowledgements: PolicyAcknowledgement[] = [
+  {
+    id: "ack_1",
+    policyId: "pol_1",
+    policyTitle: "Anti-Bribery and Corruption Policy",
+    employeeId: "emp_101",
+    employeeName: "Alice Smith",
+    department: "Engineering",
+    acknowledgedAt: "2026-01-05T10:00:00Z",
+    status: "acknowledged"
+  },
+  {
+    id: "ack_2",
+    policyId: "pol_2",
+    policyTitle: "Data Privacy Policy (GDPR)",
+    employeeId: "emp_102",
+    employeeName: "Bob Johnson",
+    department: "Sales",
+    acknowledgedAt: null,
+    status: "pending"
+  }
+];
+
+export const mockAudits: Audit[] = [
+  {
+    id: "aud_1",
+    title: "Q2 Information Security Audit",
+    departmentId: "dep_it",
+    department: "IT",
+    description: "Quarterly review of information security controls.",
+    auditor: "External Auditor Inc.",
+    auditorId: "ext_1",
+    auditDate: "2026-06-30",
+    findings: 3,
+    status: "completed",
+    linkedIssueCount: 3
+  },
+  {
+    id: "aud_2",
+    title: "Annual HR Compliance Review",
+    departmentId: "dep_hr",
+    department: "HR",
+    description: "Yearly review of HR policies and diversity targets.",
+    auditor: "Jane Doe (Internal)",
+    auditorId: "emp_50",
+    auditDate: "2026-11-15",
+    findings: 0,
+    status: "scheduled",
+    linkedIssueCount: 0
+  }
+];
+
+export const mockComplianceIssues: ComplianceIssue[] = [
+  {
+    id: "iss_1",
+    auditId: "aud_1",
+    auditTitle: "Q2 Information Security Audit",
+    title: "Missing MFA on legacy systems",
+    description: "Several legacy internal applications do not enforce Multi-Factor Authentication.",
+    severity: "high",
+    status: "open",
+    ownerId: "emp_20",
+    owner: "Charlie Dev",
+    dueDate: "2026-07-15",
+    reportedDate: "2026-07-01",
+    isOverdue: false // dynamic in real app
+  },
+  {
+    id: "iss_2",
+    auditId: "aud_1",
+    auditTitle: "Q2 Information Security Audit",
+    title: "Outdated server OS",
+    description: "One of the staging servers is running an EOL operating system.",
+    severity: "medium",
+    status: "resolved",
+    ownerId: "emp_21",
+    owner: "Dave Ops",
+    dueDate: "2026-07-10",
+    reportedDate: "2026-07-01",
+    isOverdue: false
+  },
+  {
+    id: "iss_3",
+    auditId: "aud_1",
+    auditTitle: "Q2 Information Security Audit",
+    title: "Unencrypted backups",
+    description: "Database backups to offsite storage are not encrypted at rest.",
+    severity: "critical",
+    status: "open",
+    ownerId: "emp_21",
+    owner: "Dave Ops",
+    dueDate: "2026-07-05", // Overdue relative to July 12
+    reportedDate: "2026-07-01",
+    isOverdue: true // computed as true since 2026-07-05 is passed
+  }
+];
+
+>>>>>>> origin/feature/member2-social-governance
 export const currentUser: CurrentUser = {
   id: "u-aditi",
   name: "Aditi Rao",
@@ -58,7 +299,10 @@ export const currentUser: CurrentUser = {
   badges: 3,
 };
 
+<<<<<<< HEAD
 // ─── Challenges (all lifecycle states) ───────────────────────
+=======
+>>>>>>> origin/feature/member2-social-governance
 export const challenges: Challenge[] = [
   {
     id: "c-1",
@@ -398,7 +642,11 @@ export const leaderboard: LeaderboardEntry[] = [
 ];
 
 // ─── Reports: department scores & emissions ──────────────────
+<<<<<<< HEAD
 export const departmentScores: ReportDepartmentScore[] = [
+=======
+export const departmentScores: DepartmentScore[] = [
+>>>>>>> origin/feature/member2-social-governance
   { department: "Manufacturing", environmental: 62, social: 78, governance: 70, total: 69 },
   { department: "Corporate", environmental: 80, social: 85, governance: 88, total: 84 },
   { department: "Logistics", environmental: 55, social: 68, governance: 72, total: 64 },
@@ -502,6 +750,7 @@ export const esgPillars = {
     departmentScores.reduce((s, d) => s + d.governance, 0) / departmentScores.length
   ),
 };
+<<<<<<< HEAD
 
 // ═══════════════════════════════════════════════════════════════
 // ENVIRONMENTAL / DASHBOARD MODULE (from member-1)
@@ -552,3 +801,5 @@ export const initialRecentActivities: RecentActivityItem[] = [
   { id: "act-4", type: "compliance", title: "Policy Compliance Audited", description: "Governance audit logged 2 minor findings.", timestamp: "2 days ago", status: "Resolved" },
   { id: "act-5", type: "challenge", title: "Eco-Challenge Completed", description: "Sales department won the 'Carpool Week' challenge.", timestamp: "3 days ago" },
 ];
+=======
+>>>>>>> origin/feature/member2-social-governance

@@ -3,61 +3,31 @@ generator client {
 }
 
 datasource db {
+<<<<<<< HEAD
   provider = "mysql"
+=======
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+>>>>>>> origin/feature/member2-social-governance
 }
 
 // ─── Enums ──────────────────────────────────────────────────────────
 
-enum Role {
-  ADMIN
-  DEPT_HEAD
-  EMPLOYEE
-  AUDITOR
-}
 
-enum CategoryType {
-  CSR_ACTIVITY
-  CHALLENGE
-}
 
-enum Status {
-  ACTIVE
-  INACTIVE
-  ARCHIVED
-  DRAFT
-}
 
-enum CsrStatus {
-  PLANNED
-  ONGOING
-  COMPLETED
-  CANCELLED
-}
 
-enum ApprovalStatus {
-  PENDING
-  APPROVED
-  REJECTED
-}
 
-enum AuditStatus {
-  SCHEDULED
-  IN_PROGRESS
-  COMPLETED
-}
 
-enum Severity {
-  LOW
-  MEDIUM
-  HIGH
-  CRITICAL
-}
 
-enum IssueStatus {
-  OPEN
-  IN_PROGRESS
-  RESOLVED
-}
+
+
+
+
+
+
+
+
 
 // ─── Master Data Models ─────────────────────────────────────────────
 
@@ -68,11 +38,11 @@ model Department {
   headUserId         String?
   parentDepartmentId String?
   employeeCount      Int                 @default(0)
-  status             Status              @default(ACTIVE)
+  status             String              @default("ACTIVE")
 
   // Relations
-  headUser           User?               @relation("DepartmentHead", fields: [headUserId], references: [id])
-  parentDepartment   Department?         @relation("SubDepartments", fields: [parentDepartmentId], references: [id])
+  headUser           User?               @relation("DepartmentHead", fields: [headUserId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  parentDepartment   Department?         @relation("SubDepartments", fields: [parentDepartmentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   subDepartments     Department[]        @relation("SubDepartments")
   users              User[]              @relation("DepartmentUsers")
   carbonTransactions CarbonTransaction[]
@@ -84,8 +54,8 @@ model Department {
 model Category {
   id          String         @id @default(uuid())
   name        String
-  type        CategoryType
-  status      Status         @default(ACTIVE)
+  type        String
+  status      String         @default("ACTIVE")
   
   csrActivities CsrActivity[]
   challenges    Challenge[]
@@ -96,7 +66,7 @@ model EmissionFactor {
   name        String
   factorValue Float
   unit        String
-  status      Status   @default(ACTIVE)
+  status      String   @default("ACTIVE")
 }
 
 model EnvironmentalGoal {
@@ -105,9 +75,9 @@ model EnvironmentalGoal {
   targetEmissions  Float
   startDate        DateTime
   endDate          DateTime
-  status           Status     @default(ACTIVE)
+  status           String     @default("ACTIVE")
 
-  department       Department @relation(fields: [departmentId], references: [id])
+  department       Department @relation(fields: [departmentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model EsgPolicy {
@@ -115,7 +85,7 @@ model EsgPolicy {
   title            String
   description      String                  @db.Text
   effectiveDate    DateTime
-  status           Status                  @default(ACTIVE)
+  status           String                  @default("ACTIVE")
 
   acknowledgements PolicyAcknowledgement[]
 }
@@ -137,7 +107,7 @@ model Reward {
   description     String
   pointsRequired  Int
   stock           Int
-  status          Status             @default(ACTIVE)
+  status          String             @default("ACTIVE")
 
   redemptions     RewardRedemption[]
 }
@@ -147,10 +117,10 @@ model User {
   name                String
   email               String                   @unique
   passwordHash        String
-  role                Role                     @default(EMPLOYEE)
+  role                String                     @default("EMPLOYEE")
   departmentId        String?
 
-  department          Department?              @relation("DepartmentUsers", fields: [departmentId], references: [id])
+  department          Department?              @relation("DepartmentUsers", fields: [departmentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   headedDepartments   Department[]             @relation("DepartmentHead")
   
   participations      EmployeeParticipation[]
@@ -175,7 +145,7 @@ model CarbonTransaction {
   operationDate   DateTime
   autoCalculated  Boolean    @default(false)
 
-  department      Department @relation(fields: [departmentId], references: [id])
+  department      Department @relation(fields: [departmentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model CsrActivity {
@@ -185,9 +155,9 @@ model CsrActivity {
   description     String                  @db.Text
   startDate       DateTime
   endDate         DateTime
-  status          CsrStatus               @default(PLANNED)
+  status          String               @default("PLANNED")
 
-  category        Category                @relation(fields: [categoryId], references: [id])
+  category        Category                @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   participations  EmployeeParticipation[]
 }
 
@@ -196,12 +166,12 @@ model EmployeeParticipation {
   employeeId      String
   csrActivityId   String
   proofPath       String?
-  approvalStatus  ApprovalStatus @default(PENDING)
+  approvalStatus  String @default("PENDING")
   pointsEarned    Int            @default(0)
   completionDate  DateTime?
 
-  employee        User           @relation(fields: [employeeId], references: [id])
-  csrActivity     CsrActivity    @relation(fields: [csrActivityId], references: [id])
+  employee        User           @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  csrActivity     CsrActivity    @relation(fields: [csrActivityId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model Challenge {
@@ -213,9 +183,9 @@ model Challenge {
   difficulty       String                   // e.g., "Easy", "Medium", "Hard"
   evidenceRequired Boolean                  @default(true)
   deadline         DateTime
-  status           Status                   @default(ACTIVE)
+  status           String                   @default("ACTIVE")
 
-  category         Category                 @relation(fields: [categoryId], references: [id])
+  category         Category                 @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   participations   ChallengeParticipation[]
 }
 
@@ -225,11 +195,11 @@ model ChallengeParticipation {
   employeeId      String
   progressPercent Int            @default(0)
   proofPath       String?
-  approvalStatus  ApprovalStatus @default(PENDING)
+  approvalStatus  String @default("PENDING")
   xpAwarded       Int            @default(0)
 
-  challenge       Challenge      @relation(fields: [challengeId], references: [id])
-  employee        User           @relation(fields: [employeeId], references: [id])
+  challenge       Challenge      @relation(fields: [challengeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  employee        User           @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model PolicyAcknowledgement {
@@ -238,8 +208,8 @@ model PolicyAcknowledgement {
   employeeId      String
   acknowledgedAt  DateTime   @default(now())
 
-  policy          EsgPolicy  @relation(fields: [policyId], references: [id])
-  employee        User       @relation(fields: [employeeId], references: [id])
+  policy          EsgPolicy  @relation(fields: [policyId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  employee        User       @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model Audit {
@@ -249,25 +219,25 @@ model Audit {
   description     String            @db.Text
   auditDate       DateTime
   auditorId       String
-  status          AuditStatus       @default(SCHEDULED)
+  status          String       @default("SCHEDULED")
 
-  department      Department        @relation(fields: [departmentId], references: [id])
-  auditor         User              @relation("AuditAuditor", fields: [auditorId], references: [id])
+  department      Department        @relation(fields: [departmentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  auditor         User              @relation("AuditAuditor", fields: [auditorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   complianceIssues ComplianceIssue[]
 }
 
 model ComplianceIssue {
   id              String      @id @default(uuid())
   auditId         String
-  severity        Severity
+  severity        String
   description     String      @db.Text
   ownerId         String
   dueDate         DateTime
-  status          IssueStatus @default(OPEN)
+  status          String @default("OPEN")
   flaggedOverdue  Boolean     @default(false)
 
-  audit           Audit       @relation(fields: [auditId], references: [id])
-  owner           User        @relation("IssueOwner", fields: [ownerId], references: [id])
+  audit           Audit       @relation(fields: [auditId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  owner           User        @relation("IssueOwner", fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model DepartmentScore {
@@ -279,7 +249,7 @@ model DepartmentScore {
   totalScore        Float
   computedAt        DateTime   @default(now())
 
-  department        Department @relation(fields: [departmentId], references: [id])
+  department        Department @relation(fields: [departmentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model EmployeeXpBalance {
@@ -288,7 +258,7 @@ model EmployeeXpBalance {
   xpTotal         Int    @default(0)
   pointsTotal     Int    @default(0)
 
-  employee        User   @relation(fields: [employeeId], references: [id])
+  employee        User   @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model BadgeAssignment {
@@ -298,8 +268,8 @@ model BadgeAssignment {
   awardedAt       DateTime @default(now())
   source          String?
 
-  badge           Badge    @relation(fields: [badgeId], references: [id])
-  employee        User     @relation(fields: [employeeId], references: [id])
+  badge           Badge    @relation(fields: [badgeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  employee        User     @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model RewardRedemption {
@@ -308,10 +278,10 @@ model RewardRedemption {
   employeeId      String
   pointsSpent     Int
   redeemedAt      DateTime       @default(now())
-  status          ApprovalStatus @default(APPROVED)
+  status          String @default("APPROVED")
 
-  reward          Reward         @relation(fields: [rewardId], references: [id])
-  employee        User           @relation(fields: [employeeId], references: [id])
+  reward          Reward         @relation(fields: [rewardId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  employee        User           @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model Notification {
@@ -325,7 +295,7 @@ model Notification {
   readAt            DateTime?
   createdAt         DateTime  @default(now())
 
-  user              User      @relation(fields: [userId], references: [id])
+  user              User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 // ─── Configuration Models ───────────────────────────────────────────

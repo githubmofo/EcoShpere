@@ -14,6 +14,7 @@ import {
 import { calculateOverallScore } from "./scoring";
 
 const API_BASE_URL =
+<<<<<<< HEAD
   typeof process !== "undefined"
     ? process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api"
     : "http://localhost:5000/api";
@@ -238,6 +239,9 @@ async function makeRequest<T>(endpoint: string, method: string, body?: unknown):
     return handleMockRequest(endpoint, method, body) as T;
   }
 }
+=======
+  process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
+>>>>>>> origin/feature/member2-social-governance
 
 export async function apiGet<T>(endpoint: string): Promise<T> {
   return makeRequest<T>(endpoint, "GET");
@@ -253,6 +257,16 @@ export async function apiPut<T>(endpoint: string, body: unknown): Promise<T> {
 
 export async function apiPatch<T>(endpoint: string, body: unknown): Promise<T> {
   return makeRequest<T>(endpoint, "PATCH", body);
+}
+
+export async function apiPatch<T>(endpoint: string, body: unknown): Promise<T> {
+  const res = await fetch(`${API_BASE_URL}${endpoint}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) throw new Error(`API error: ${res.status}`);
+  return res.json();
 }
 
 export async function apiDelete<T>(endpoint: string): Promise<T> {

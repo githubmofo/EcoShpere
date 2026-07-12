@@ -3,7 +3,11 @@
 // app/reports/page.tsx
 // Member 3 – Reports Tab: prebuilt reports + custom report builder with exports.
 
+<<<<<<< HEAD
 import { useEffect, useState } from "react";
+=======
+import { useState } from "react";
+>>>>>>> origin/feature/member2-social-governance
 import PlatformFrame from "@/components/layout/PlatformFrame";
 import PillTabs from "@/components/shared/PillTabs";
 import { Toaster } from "@/components/feedback/Toaster";
@@ -16,6 +20,7 @@ import {
   EsgSummaryReport,
 } from "@/components/reports/ReportViews";
 import CustomBuilder from "@/components/reports/CustomBuilder";
+<<<<<<< HEAD
 import { fetchReportsData, mockReportsData, type ReportsData } from "@/lib/api";
 
 const REPORT_META = [
@@ -23,6 +28,34 @@ const REPORT_META = [
   { key: "social", icon: "👥", title: "Social Report", desc: "Diversity, CSR participation, training completion" },
   { key: "governance", icon: "🛡️", title: "Governance Report", desc: "Policies, audits, compliance & risk summary" },
   { key: "esg-summary", icon: "📊", title: "ESG Summary", desc: "Executive overview: all 4 scores + dept comparison" },
+=======
+
+const REPORT_META = [
+  {
+    key: "environmental",
+    icon: "🌿",
+    title: "Environmental Report",
+    desc: "Emissions, goals, vendor & product breakdown",
+  },
+  {
+    key: "social",
+    icon: "👥",
+    title: "Social Report",
+    desc: "Diversity, CSR participation, training completion",
+  },
+  {
+    key: "governance",
+    icon: "🛡️",
+    title: "Governance Report",
+    desc: "Policies, audits, compliance & risk summary",
+  },
+  {
+    key: "esg-summary",
+    icon: "📊",
+    title: "ESG Summary",
+    desc: "Executive overview: all 4 scores + dept comparison",
+  },
+>>>>>>> origin/feature/member2-social-governance
 ];
 
 const TABS = [
@@ -35,6 +68,7 @@ const TABS = [
 
 export default function ReportsPage() {
   const [tab, setTab] = useState("environmental");
+<<<<<<< HEAD
   const [data, setData] = useState<ReportsData>(mockReportsData);
 
   // Load live report data from the backend DB (falls back to seed data on error).
@@ -51,6 +85,8 @@ export default function ReportsPage() {
       active = false;
     };
   }, []);
+=======
+>>>>>>> origin/feature/member2-social-governance
 
   return (
     <PlatformFrame>
@@ -70,7 +106,13 @@ export default function ReportsPage() {
                 <span className="text-xl">{r.icon}</span>
                 <h3 className="font-medium leading-tight">{r.title}</h3>
               </div>
+<<<<<<< HEAD
               <p className="line-clamp-2 flex-1 text-xs text-muted-foreground">{r.desc}</p>
+=======
+              <p className="line-clamp-2 flex-1 text-xs text-muted-foreground">
+                {r.desc}
+              </p>
+>>>>>>> origin/feature/member2-social-governance
               <Button
                 variant={tab === r.key ? "default" : "outline"}
                 size="sm"
@@ -85,11 +127,19 @@ export default function ReportsPage() {
 
         <PillTabs tabs={TABS} value={tab} onChange={setTab} />
 
+<<<<<<< HEAD
         {tab === "environmental" && <EnvironmentalReport data={data} />}
         {tab === "social" && <SocialReport data={data} />}
         {tab === "governance" && <GovernanceReport data={data} />}
         {tab === "esg-summary" && <EsgSummaryReport data={data} />}
         {tab === "custom" && <CustomBuilder data={data} />}
+=======
+        {tab === "environmental" && <EnvironmentalReport />}
+        {tab === "social" && <SocialReport />}
+        {tab === "governance" && <GovernanceReport />}
+        {tab === "esg-summary" && <EsgSummaryReport />}
+        {tab === "custom" && <CustomBuilder />}
+>>>>>>> origin/feature/member2-social-governance
       </div>
       <Toaster />
     </PlatformFrame>

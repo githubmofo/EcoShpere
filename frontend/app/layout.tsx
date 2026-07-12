@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+<<<<<<< HEAD
 import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/layout/Sidebar";
@@ -14,6 +15,11 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
 });
+=======
+import "./globals.css";
+import { Toaster } from "@/components/feedback/Toaster";
+import PlatformFrame from "@/components/layout/PlatformFrame";
+>>>>>>> origin/feature/member2-social-governance
 
 export const metadata: Metadata = {
   title: "EcoSphere: ESG Management Platform",
@@ -26,6 +32,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+<<<<<<< HEAD
     <html
       lang="en"
       className={`${plusJakartaSans.variable} ${jetbrainsMono.variable} h-full antialiased dark`}
@@ -44,6 +51,12 @@ export default function RootLayout({
             {children}
           </main>
         </div>
+=======
+    <html lang="en" className="h-full antialiased font-sans">
+      <body className="min-h-full flex flex-col">
+        <PlatformFrame>{children}</PlatformFrame>
+        <Toaster />
+>>>>>>> origin/feature/member2-social-governance
       </body>
     </html>
   );

@@ -21,7 +21,11 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+<<<<<<< HEAD
 import type { ReportDepartmentScore, MonthlyEmission } from "@/lib/types";
+=======
+import type { DepartmentScore, MonthlyEmission } from "@/lib/types";
+>>>>>>> origin/feature/member2-social-governance
 
 export const CHART_COLORS = [
   "var(--chart-1)",
@@ -198,7 +202,11 @@ export function DeptScoreBars({
   data,
   height = 280,
 }: {
+<<<<<<< HEAD
   data: ReportDepartmentScore[];
+=======
+  data: DepartmentScore[];
+>>>>>>> origin/feature/member2-social-governance
   height?: number;
 }) {
   return (
