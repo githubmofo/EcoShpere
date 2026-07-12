@@ -24,7 +24,7 @@ export class SettingsController {
   static async updateDepartment(req: Request, res: Response) {
     try {
       const department = await prisma.department.update({
-        where: { id: req.params.id },
+        where: { id: req.params.id as string },
         data: req.body,
       });
       res.json(department);
@@ -35,7 +35,7 @@ export class SettingsController {
 
   static async deleteDepartment(req: Request, res: Response) {
     try {
-      await prisma.department.delete({ where: { id: req.params.id } });
+      await prisma.department.delete({ where: { id: req.params.id as string } });
       res.status(204).send();
     } catch (error) {
       res.status(500).json({ error: "Failed to delete department" });
@@ -64,7 +64,7 @@ export class SettingsController {
   static async updateCategory(req: Request, res: Response) {
     try {
       const category = await prisma.category.update({
-        where: { id: req.params.id },
+        where: { id: req.params.id as string },
         data: req.body,
       });
       res.json(category);
