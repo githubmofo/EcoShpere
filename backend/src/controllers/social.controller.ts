@@ -163,15 +163,72 @@ export class SocialController {
         orderBy: { completionDate: "desc" },
       });
 
-      res.json(records);
+      const mapped = records.map((r) => ({
+        id: r.id,
+        employeeId: r.employeeId,
+        employeeName: r.employee.name,
+        activityId: r.csrActivityId,
+        activityTitle: r.csrActivity.title,
+        department: r.employee.department?.name || "Unknown",
+        proofFileName: r.proofPath,
+        pointsEarned: r.pointsEarned,
+        status: r.approvalStatus.toLowerCase(),
+        comments: "",
+        submittedAt: r.completionDate,
+      }));
+
+      res.json(mapped);
     } catch (err) {
       console.error("[getParticipation]", err);
       res.status(500).json({ error: "Failed to fetch participation" });
     }
   }
 
-  // ── GET /api/social/diversity-training ──────────────────────
-  static async getDiversityTraining(_req: Request, res: Response) {
-    res.json({ message: "Diversity & training — coming soon" });
+  // ── GET /api/social/dashboard ───────────────────────────
+  static async getDashboard(_req: Request, res: Response) {
+    try {
+      const totalActivities = await prisma.csrActivity.count();
+      const participations = await prisma.employeeParticipation.findMany({
+        where: { approvalStatus: "APPROVED" },
+      });
+      const pointsAwarded = participations.reduce((acc, curr) => acc + curr.pointsEarned, 0);
+
+      // Mocked rates for dashboard
+      const participationRate = 65; 
+      const trainingCompletionRate = 82;
+
+      res.json({
+        totalActivities,
+        participationRate,
+        pointsAwarded,
+        trainingCompletionRate,
+      });
+    } catch (err) {
+      console.error("[getDashboard]", err);
+      res.status(500).json({ error: "Failed to fetch dashboard metrics" });
+    }
+  }
+
+  // ── GET /api/social/diversity-summary ──────────────────────
+  static async getDiversitySummary(_req: Request, res: Response) {
+    res.json({
+      genderDistribution: [
+        { label: "Male", value: 300, percentage: 55 },
+        { label: "Female", value: 230, percentage: 42 },
+        { label: "Other", value: 15, percentage: 3 },
+      ],
+      ageGroups: [
+        { label: "18-25", value: 45, percentage: 8 },
+        { label: "26-35", value: 180, percentage: 33 },
+        { label: "36-45", value: 200, percentage: 37 },
+        { label: "46-55", value: 90, percentage: 17 },
+        { label: "56+", value: 30, percentage: 5 },
+      ],
+      trainingCompletion: {
+        total: 545,
+        completed: 450,
+        percentage: 82.5,
+      },
+    });
   }
 }

@@ -250,6 +250,36 @@ async function main() {
     },
   });
 
+  await prisma.employeeParticipation.create({
+    data: {
+      employeeId: emp2.id,
+      csrActivityId: csr2.id,
+      approvalStatus: 'PENDING',
+      pointsEarned: 0,
+      completionDate: new Date(),
+    },
+  });
+
+  await prisma.employeeParticipation.create({
+    data: {
+      employeeId: adminUser.id,
+      csrActivityId: csr3.id,
+      approvalStatus: 'APPROVED',
+      pointsEarned: 100,
+      completionDate: new Date(new Date().getTime() - 9 * 86400000),
+    },
+  });
+
+  await prisma.employeeParticipation.create({
+    data: {
+      employeeId: headMfg.id,
+      csrActivityId: csr5.id,
+      approvalStatus: 'APPROVED',
+      pointsEarned: 200,
+      completionDate: new Date(new Date().getTime() - 2 * 86400000),
+    },
+  });
+
   // 9. Challenges
   const challenge = await prisma.challenge.create({
     data: {
