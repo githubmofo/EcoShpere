@@ -39,3 +39,12 @@ next-env.d.ts
 
 # Misc
 *.log
+
+# Local AI Tools
+local_tools/
+
+# Documents
+*.pdf
+
+# Agent Context
+.agent_context.md
