@@ -1,9 +1,9 @@
 // app/environmental/carbon-transactions/page.tsx
-// Member 1 – Carbon Transactions Subpage
+// Member 1 – Carbon Transactions Subpage (Enhanced Premium Design)
 "use client";
 
 import { useEffect, useState } from "react";
-import { Plus, Check, AlertCircle, Calendar, Filter, BarChart2, X, Leaf } from "lucide-react";
+import { Plus, Check, AlertCircle, Calendar, Filter, BarChart2, X, Leaf, Sparkles, Database, Calculator } from "lucide-react";
 import { apiGet, apiPost } from "@/lib/api-client";
 import { CarbonTransaction, EmissionFactor } from "@/lib/types";
 
@@ -27,6 +27,24 @@ interface Toast {
   message: string;
   type: "success" | "error";
 }
+
+// Custom Tooltip for bottom chart
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-slate-950/90 backdrop-blur-md border border-white/10 p-3.5 rounded-xl shadow-2xl">
+        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{label}</p>
+        <div className="mt-1.5 flex items-center gap-2">
+          <div className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: payload[0].payload.color || "#10b981" }} />
+          <p className="text-xs font-bold text-white">
+            Emissions: <span className="text-emerald-400 font-extrabold">{payload[0].value.toLocaleString()} kg CO₂e</span>
+          </p>
+        </div>
+      </div>
+    );
+  }
+  return null;
+};
 
 export default function CarbonTransactionsPage() {
   const [transactions, setTransactions] = useState<CarbonTransaction[]>([]);
@@ -108,7 +126,6 @@ export default function CarbonTransactionsPage() {
     setIsOpen(true);
   };
 
-  // Auto-calculated value helper
   const getCalculatedEmissions = () => {
     const quantity = parseFloat(formQuantity);
     const selectedFactor = factors.find(f => f.id === formFactorId);
@@ -164,12 +181,10 @@ export default function CarbonTransactionsPage() {
       id: tempId
     } as CarbonTransaction;
 
-    // Optimistic Update
     setTransactions(prev => [tempTx, ...prev]);
     setIsOpen(false);
     triggerToast("Carbon transaction logged successfully!");
     
-    // Dispatch a custom event to notify layout layout to update top stats
     if (typeof window !== "undefined") {
       window.dispatchEvent(new Event("ecosphere_carbon_updated"));
     }
@@ -178,13 +193,12 @@ export default function CarbonTransactionsPage() {
       const saved = await apiPost<CarbonTransaction>("/environmental/carbon-transactions", payload);
       setTransactions(prev => prev.map(t => t.id === tempId ? saved : t));
     } catch (err) {
-      console.error("API Error logging carbon:", err);
-      setTransactions(previousTxs); // rollback
+      console.error(err);
+      setTransactions(previousTxs);
       triggerToast("Failed to log transaction on backend.", "error");
     }
   };
 
-  // Filter transactions
   const getFilteredTransactions = () => {
     return transactions.filter(tx => {
       const deptMatch = filterDept === "All" || tx.department === filterDept;
@@ -204,14 +218,14 @@ export default function CarbonTransactionsPage() {
 
   const filteredTxs = getFilteredTransactions();
 
-  // Aggregate emissions per department for bottom chart
   const getChartData = () => {
     const deptTotals: { [dept: string]: number } = {};
     filteredTxs.forEach(tx => {
       deptTotals[tx.department] = (deptTotals[tx.department] || 0) + tx.emissionsValue;
     });
 
-    const colors = ["#22c55e", "#3b82f6", "#a855f7", "#fb923c", "#06b6d4"];
+    // Curated ESG color themes
+    const colors = ["#10b981", "#3b82f6", "#8b5cf6", "#fb923c", "#06b6d4"];
     return Object.keys(deptTotals).map((dept, idx) => ({
       department: dept,
       emissions: Number(deptTotals[dept].toFixed(2)),
@@ -221,23 +235,33 @@ export default function CarbonTransactionsPage() {
 
   const chartData = getChartData();
 
+  const getSourceBadgeStyle = (src: string) => {
+    switch (src) {
+      case "Purchase": return "bg-blue-500/10 text-blue-400 border-blue-500/20";
+      case "Manufacturing": return "bg-green-500/10 text-green-400 border-green-500/20";
+      case "Fleet": return "bg-amber-500/10 text-amber-400 border-amber-500/20";
+      case "Expense": return "bg-purple-500/10 text-purple-400 border-purple-500/20";
+      default: return "bg-slate-500/10 text-slate-400 border-slate-500/20";
+    }
+  };
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-in fade-in-0 duration-500">
       
-      {/* Toast notifications */}
+      {/* Toast Alert Banner Stack */}
       <div className="fixed top-6 right-6 z-50 space-y-3 pointer-events-none">
         {toasts.map(toast => (
           <div
             key={toast.id}
-            className={`pointer-events-auto p-4 rounded-xl border shadow-xl flex items-center justify-between gap-4 max-w-sm animate-in fade-in slide-in-from-top-4 duration-300 ${
+            className={`pointer-events-auto p-4.5 rounded-2xl border shadow-[0_20px_50px_rgba(0,0,0,0.3)] flex items-center justify-between gap-4 max-w-sm animate-in fade-in slide-in-from-top-4 duration-300 ${
               toast.type === "success" 
-                ? "bg-green-500/10 border-green-500/30 text-green-400" 
-                : "bg-red-500/10 border-red-500/30 text-red-400"
+                ? "bg-emerald-950/80 backdrop-blur-md border-emerald-500/20 text-emerald-400" 
+                : "bg-red-950/80 backdrop-blur-md border-red-500/20 text-red-400"
             }`}
           >
-            <div className="flex items-center gap-2.5">
+            <div className="flex items-center gap-3">
               {toast.type === "success" ? <Check className="h-4 w-4 shrink-0" /> : <AlertCircle className="h-4 w-4 shrink-0" />}
-              <span className="text-xs font-semibold">{toast.message}</span>
+              <span className="text-xs font-bold tracking-wide">{toast.message}</span>
             </div>
             <button onClick={() => removeToast(toast.id)} className="text-current opacity-70 hover:opacity-100 transition-opacity">
               <X className="h-3.5 w-3.5" />
@@ -247,26 +271,26 @@ export default function CarbonTransactionsPage() {
       </div>
 
       {/* FILTER BAR CARD */}
-      <Card className="bg-card/25 backdrop-blur-sm border border-border/80 rounded-2xl">
-        <CardHeader className="pb-3 flex flex-row items-center justify-between">
+      <Card className="bg-slate-900/30 backdrop-blur-md border border-white/5 rounded-3xl shadow-xl overflow-hidden hover:border-white/10 transition-all duration-300">
+        <CardHeader className="pb-4 border-b border-white/5 bg-slate-950/20 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex items-center gap-2">
             <Filter className="h-4 w-4 text-emerald-400" />
-            <CardTitle className="text-sm font-bold">Query Filters</CardTitle>
+            <CardTitle className="text-xs font-black text-white uppercase tracking-wider">Query Filter Desk</CardTitle>
           </div>
-          <Button onClick={openLogModal} className="bg-green-600 hover:bg-green-500 text-white rounded-xl gap-1.5 font-medium">
+          <Button onClick={openLogModal} className="bg-green-600 hover:bg-green-500 text-white rounded-xl gap-1.5 font-bold px-4 py-2.5 shadow-[0_4px_15px_rgba(22,163,74,0.25)] transition-all hover:scale-[1.03] cursor-pointer">
             <Plus className="h-4 w-4" />
             Log Transaction
           </Button>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-5">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             
-            <div className="space-y-1">
-              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide">Department</label>
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Department</label>
               <select
                 value={filterDept}
                 onChange={(e) => setFilterDept(e.target.value)}
-                className="flex h-9 w-full rounded-xl border border-border bg-background/50 px-3 py-1 text-xs shadow-xs focus-visible:outline-none"
+                className="flex h-9 w-full rounded-xl border border-white/5 bg-slate-950/40 px-3 py-1 text-xs text-white shadow-xs focus-visible:outline-none"
               >
                 <option value="All" className="bg-slate-900">All Departments</option>
                 <option value="Operations" className="bg-slate-900">Operations</option>
@@ -277,12 +301,12 @@ export default function CarbonTransactionsPage() {
               </select>
             </div>
 
-            <div className="space-y-1">
-              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide">Source Type</label>
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Source Type</label>
               <select
                 value={filterSource}
                 onChange={(e) => setFilterSource(e.target.value)}
-                className="flex h-9 w-full rounded-xl border border-border bg-background/50 px-3 py-1 text-xs shadow-xs focus-visible:outline-none"
+                className="flex h-9 w-full rounded-xl border border-white/5 bg-slate-950/40 px-3 py-1 text-xs text-white shadow-xs focus-visible:outline-none"
               >
                 <option value="All" className="bg-slate-900">All Sources</option>
                 <option value="Purchase" className="bg-slate-900">Purchase</option>
@@ -293,23 +317,23 @@ export default function CarbonTransactionsPage() {
               </select>
             </div>
 
-            <div className="space-y-1">
-              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide">From Date</label>
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">From Date</label>
               <Input
                 type="date"
                 value={filterStartDate}
                 onChange={(e) => setFilterStartDate(e.target.value)}
-                className="h-9 bg-background/50 border-border rounded-xl text-xs"
+                className="h-9 bg-slate-950/40 border-white/5 rounded-xl text-xs text-white"
               />
             </div>
 
-            <div className="space-y-1">
-              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide">To Date</label>
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">To Date</label>
               <Input
                 type="date"
                 value={filterEndDate}
                 onChange={(e) => setFilterEndDate(e.target.value)}
-                className="h-9 bg-background/50 border-border rounded-xl text-xs"
+                className="h-9 bg-slate-950/40 border-white/5 rounded-xl text-xs text-white"
               />
             </div>
 
@@ -318,53 +342,57 @@ export default function CarbonTransactionsPage() {
       </Card>
 
       {/* DATA TABLE */}
-      <Card className="bg-card/30 backdrop-blur-sm border border-border/80 rounded-2xl">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-base font-bold flex items-center gap-2">
-            <Leaf className="h-4 w-4 text-green-400" />
+      <Card className="bg-slate-900/30 backdrop-blur-md border border-white/5 rounded-3xl shadow-xl overflow-hidden hover:border-white/10 transition-all duration-300">
+        <CardHeader className="pb-3 border-b border-white/5 bg-slate-950/20">
+          <CardTitle className="text-sm font-black text-white uppercase tracking-wider flex items-center gap-2">
+            <Database className="h-4 w-4 text-green-400" />
             Transaction Registry
           </CardTitle>
-          <CardDescription className="text-xs">
-            Showing {filteredTxs.length} carbon emission entries mapped by filter query.
+          <CardDescription className="text-xs text-slate-400">
+            Showing {filteredTxs.length} carbon transaction records logged.
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-6">
           {loading ? (
-            <div className="flex justify-center p-8">
+            <div className="flex justify-center py-12">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500"></div>
             </div>
           ) : filteredTxs.length === 0 ? (
-            <div className="p-8 text-center text-xs text-muted-foreground border border-dashed border-border/60 rounded-xl">
-              No transactions match selected query criteria.
+            <div className="py-16 text-center text-xs text-slate-400 border border-dashed border-white/5 rounded-2xl">
+              No carbon transactions logged for this query.
             </div>
           ) : (
-            <div className="overflow-x-auto rounded-xl border border-border/60">
+            <div className="overflow-x-auto rounded-2xl border border-white/5 bg-slate-950/15">
               <Table>
-                <TableHeader className="bg-muted/30">
-                  <TableRow>
-                    <TableHead className="font-bold text-xs">Department</TableHead>
-                    <TableHead className="font-bold text-xs">Source Type</TableHead>
-                    <TableHead className="font-bold text-xs">Quantity</TableHead>
-                    <TableHead className="font-bold text-xs">Emissions (kg CO₂e)</TableHead>
-                    <TableHead className="font-bold text-xs">Operation Date</TableHead>
-                    <TableHead className="font-bold text-xs">Auto Calculated</TableHead>
+                <TableHeader className="bg-slate-950/40">
+                  <TableRow className="border-b border-white/5">
+                    <TableHead className="font-black text-xs text-slate-300 uppercase tracking-wider py-4">Department</TableHead>
+                    <TableHead className="font-black text-xs text-slate-300 uppercase tracking-wider py-4">Source Type</TableHead>
+                    <TableHead className="font-black text-xs text-slate-300 uppercase tracking-wider py-4">Logged Qty</TableHead>
+                    <TableHead className="font-black text-xs text-slate-300 uppercase tracking-wider py-4">Emissions (kg CO₂e)</TableHead>
+                    <TableHead className="font-black text-xs text-slate-300 uppercase tracking-wider py-4">Date</TableHead>
+                    <TableHead className="font-black text-xs text-slate-300 uppercase tracking-wider py-4">Auto Calc</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredTxs.map((tx) => (
-                    <TableRow key={tx.id} className="hover:bg-muted/10">
-                      <TableCell className="font-semibold text-xs text-foreground/90">{tx.department}</TableCell>
-                      <TableCell className="text-xs">{tx.sourceType}</TableCell>
-                      <TableCell className="font-mono text-xs">{tx.quantity.toLocaleString()}</TableCell>
-                      <TableCell className="font-mono text-xs font-bold text-green-400">{tx.emissionsValue.toLocaleString()}</TableCell>
-                      <TableCell className="text-xs text-muted-foreground">{tx.operationDate}</TableCell>
-                      <TableCell>
-                        <span className={`text-[9px] px-2 py-0.5 rounded-full border ${
+                    <TableRow key={tx.id} className="hover:bg-white/[0.02] border-b border-white/5 transition-colors">
+                      <TableCell className="font-bold text-xs text-white py-3.5">{tx.department}</TableCell>
+                      <TableCell className="py-3.5">
+                        <span className={`text-[9px] font-bold px-2.5 py-0.5 rounded-full border ${getSourceBadgeStyle(tx.sourceType)}`}>
+                          {tx.sourceType}
+                        </span>
+                      </TableCell>
+                      <TableCell className="font-mono text-xs text-slate-300 py-3.5">{tx.quantity.toLocaleString()}</TableCell>
+                      <TableCell className="font-mono text-xs font-extrabold text-green-400 py-3.5">{tx.emissionsValue.toLocaleString()}</TableCell>
+                      <TableCell className="text-xs text-slate-400 py-3.5">{tx.operationDate}</TableCell>
+                      <TableCell className="py-3.5">
+                        <span className={`text-[9px] px-2 py-0.5 rounded-full border font-bold ${
                           tx.autoCalculated 
                             ? "bg-green-500/10 border-green-500/20 text-green-400" 
                             : "bg-amber-500/10 border-amber-500/20 text-amber-400"
                         }`}>
-                          {tx.autoCalculated ? "Yes" : "No"}
+                          {tx.autoCalculated ? "Auto" : "Manual"}
                         </span>
                       </TableCell>
                     </TableRow>
@@ -378,27 +406,30 @@ export default function CarbonTransactionsPage() {
 
       {/* DEPARTMENT SUMMARY CHART */}
       {filteredTxs.length > 0 && (
-        <Card className="bg-card/30 backdrop-blur-sm border border-border/80 rounded-2xl">
-          <CardHeader>
-            <CardTitle className="text-sm font-bold flex items-center gap-2">
-              <BarChart2 className="h-4 w-4 text-emerald-400" />
-              Departmental Carbon Footprint Summary
+        <Card className="bg-slate-900/30 backdrop-blur-md border border-white/5 rounded-3xl shadow-xl overflow-hidden hover:border-white/10 transition-all duration-300">
+          <CardHeader className="pb-4 border-b border-white/5 bg-slate-950/20">
+            <CardTitle className="text-sm font-black text-white uppercase tracking-wider flex items-center gap-2">
+              <BarChart2 className="h-4 w-4 text-emerald-400 animate-pulse" />
+              Filtered Footprint by Department
             </CardTitle>
-            <CardDescription className="text-xs">Aggregate CO₂ output matching currently filtered records</CardDescription>
+            <CardDescription className="text-xs text-slate-400">Total footprint aggregated per business unit based on filter parameters</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-6">
             <div className="h-[240px] w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#ffffff0a" />
-                  <XAxis dataKey="department" stroke="#ffffff40" fontSize={11} tickLine={false} />
-                  <YAxis stroke="#ffffff40" fontSize={11} tickLine={false} />
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: "#1e293b", borderRadius: "12px", border: "1px solid #ffffff1a" }}
-                  />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#ffffff05" />
+                  <XAxis dataKey="department" stroke="#ffffff30" fontSize={10} tickLine={false} />
+                  <YAxis stroke="#ffffff30" fontSize={10} tickLine={false} />
+                  <Tooltip content={<CustomTooltip />} />
                   <Bar dataKey="emissions" name="CO₂ Emissions (kg)" radius={[6, 6, 0, 0]}>
                     {chartData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} opacity={0.8} />
+                      <Cell 
+                        key={`cell-${index}`} 
+                        fill={entry.color} 
+                        fillOpacity={0.7} 
+                        className="hover:fill-opacity-100 cursor-pointer transition-all duration-300"
+                      />
                     ))}
                   </Bar>
                 </BarChart>
@@ -410,79 +441,82 @@ export default function CarbonTransactionsPage() {
 
       {/* NEW TRANSACTION MODAL */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="w-[90vw] max-w-md bg-card/95 backdrop-blur-md border border-border p-6 rounded-2xl shadow-2xl">
+        <DialogContent className="w-[90vw] max-w-md bg-slate-900/95 backdrop-blur-lg border border-white/10 p-6 rounded-3xl shadow-2xl">
           <DialogHeader>
-            <DialogTitle className="text-base font-bold">Log Carbon Transaction</DialogTitle>
-            <DialogDescription className="text-xs">
-              Log raw greenhouse gas emission activities manually or compute automatically.
+            <DialogTitle className="text-base font-black text-white uppercase tracking-wider flex items-center gap-2">
+              <Leaf className="h-5 w-5 text-green-400" />
+              Log Carbon Transaction
+            </DialogTitle>
+            <DialogDescription className="text-xs text-slate-400 mt-1">
+              Log energy consumption records. Auto calculations map values using active factors.
             </DialogDescription>
           </DialogHeader>
 
           <form onSubmit={handleSubmit} className="space-y-4 py-2">
             
-            {/* Form Error Message */}
+            {/* Form Error Banner */}
             {formError && (
-              <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-xs text-red-400 flex items-start gap-2">
+              <div className="p-3.5 rounded-2xl bg-red-500/10 border border-red-500/20 text-xs text-red-400 flex items-start gap-2.5">
                 <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
                 <span>{formError}</span>
               </div>
             )}
 
             <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-muted-foreground uppercase tracking-wide">Department</label>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Department</label>
                 <select
                   value={formDept}
                   onChange={(e) => setFormDept(e.target.value)}
-                  className="flex h-9 w-full rounded-xl border border-border bg-background/40 px-3 py-1 text-xs shadow-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-green-500"
+                  className="flex h-[42px] w-full rounded-xl border border-white/5 bg-slate-950/60 px-3 py-1.5 text-xs text-white shadow-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-green-500"
                 >
-                  <option value="Operations" className="bg-slate-900 text-foreground">Operations</option>
-                  <option value="Facilities" className="bg-slate-900 text-foreground">Facilities</option>
-                  <option value="Sales" className="bg-slate-900 text-foreground">Sales</option>
-                  <option value="R&D" className="bg-slate-900 text-foreground">R&D</option>
-                  <option value="HR" className="bg-slate-900 text-foreground">HR</option>
+                  <option value="Operations" className="bg-slate-900">Operations</option>
+                  <option value="Facilities" className="bg-slate-900">Facilities</option>
+                  <option value="Sales" className="bg-slate-900">Sales</option>
+                  <option value="R&D" className="bg-slate-900">R&D</option>
+                  <option value="HR" className="bg-slate-900">HR</option>
                 </select>
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-muted-foreground uppercase tracking-wide">Source Type</label>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Source Type</label>
                 <select
                   value={formSource}
                   onChange={(e) => setFormSource(e.target.value)}
-                  className="flex h-9 w-full rounded-xl border border-border bg-background/40 px-3 py-1 text-xs shadow-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-green-500"
+                  className="flex h-[42px] w-full rounded-xl border border-white/5 bg-slate-950/60 px-3 py-1.5 text-xs text-white shadow-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-green-500"
                 >
-                  <option value="Purchase" className="bg-slate-900 text-foreground">Purchase</option>
-                  <option value="Manufacturing" className="bg-slate-900 text-foreground">Manufacturing</option>
-                  <option value="Expense" className="bg-slate-900 text-foreground">Expense</option>
-                  <option value="Fleet" className="bg-slate-900 text-foreground">Fleet</option>
-                  <option value="Other" className="bg-slate-900 text-foreground">Other</option>
+                  <option value="Purchase" className="bg-slate-900">Purchase</option>
+                  <option value="Manufacturing" className="bg-slate-900">Manufacturing</option>
+                  <option value="Expense" className="bg-slate-900">Expense</option>
+                  <option value="Fleet" className="bg-slate-900">Fleet</option>
+                  <option value="Other" className="bg-slate-900">Other</option>
                 </select>
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-muted-foreground uppercase tracking-wide">Quantity</label>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Log Qty</label>
                 <Input
                   type="number"
                   step="any"
                   value={formQuantity}
                   onChange={(e) => setFormQuantity(e.target.value)}
-                  placeholder="e.g. 1500"
-                  className="bg-background/40 border-border/80 focus-visible:ring-1 focus-visible:ring-green-500 rounded-xl"
+                  placeholder="e.g. 15000"
+                  className="bg-slate-950/60 border-white/5 focus-visible:ring-1 focus-visible:ring-green-500 focus-visible:border-green-500 rounded-xl py-5 text-white"
                 />
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-muted-foreground uppercase tracking-wide">Emission Factor</label>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Active Factor</label>
                 <select
                   value={formFactorId}
                   onChange={(e) => setFormFactorId(e.target.value)}
                   disabled={!formAutoCalc}
-                  className="flex h-9 w-full rounded-xl border border-border bg-background/40 px-3 py-1 text-xs shadow-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-green-500 disabled:opacity-50"
+                  className="flex h-[42px] w-full rounded-xl border border-white/5 bg-slate-950/60 px-3 py-1.5 text-xs text-white shadow-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-green-500 disabled:opacity-50"
                 >
                   {factors.length === 0 ? (
-                    <option className="text-foreground bg-slate-900">No Active Factors Available</option>
+                    <option className="text-foreground bg-slate-900">No active factors</option>
                   ) : (
                     factors.map(f => (
                       <option key={f.id} value={f.id} className="text-foreground bg-slate-900">
@@ -494,58 +528,62 @@ export default function CarbonTransactionsPage() {
               </div>
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-bold text-muted-foreground uppercase tracking-wide">Operation Date</label>
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Operation Date</label>
               <Input
                 type="date"
                 value={formDate}
                 onChange={(e) => setFormDate(e.target.value)}
-                className="bg-background/40 border-border/80 focus-visible:ring-1 focus-visible:ring-green-500 rounded-xl"
+                className="bg-slate-950/60 border-white/5 focus-visible:ring-1 focus-visible:ring-green-500 focus-visible:border-green-500 rounded-xl py-5 text-white"
               />
             </div>
 
-            {/* Auto calculate control */}
-            <div className="p-3 rounded-xl border border-border/80 bg-background/20 space-y-3">
+            {/* Calculations Wrapper */}
+            <div className="p-4.5 rounded-2xl border border-white/5 bg-slate-950/40 space-y-4">
               <div className="flex items-center gap-3">
                 <input
                   type="checkbox"
                   id="autoCalcCheck"
                   checked={formAutoCalc}
                   onChange={(e) => setFormAutoCalc(e.target.checked)}
-                  className="h-4 w-4 accent-green-600 rounded"
+                  className="h-4 w-4 accent-green-500 rounded cursor-pointer"
                 />
-                <label htmlFor="autoCalcCheck" className="text-xs font-bold cursor-pointer">
-                  Auto Calculate CO₂ Emissions
+                <label htmlFor="autoCalcCheck" className="text-xs font-bold text-slate-300 cursor-pointer select-none">
+                  Enable Smart CO₂ Auto Calculations
                 </label>
               </div>
 
               {formAutoCalc ? (
-                <div className="space-y-1">
-                  <span className="text-[10px] font-semibold text-muted-foreground">Calculated Emissions Value</span>
-                  <div className="p-2 border border-border/60 bg-muted/30 rounded-lg text-xs font-mono font-bold text-green-400">
-                    {getCalculatedEmissions().toLocaleString()} kg CO₂e
+                <div className="space-y-1.5 animate-in fade-in-0 duration-300">
+                  <span className="text-[9px] font-black text-slate-400 uppercase tracking-wider block">Calculated Footprint Output</span>
+                  <div className="p-3 border border-green-500/20 bg-green-500/5 rounded-xl text-xs font-mono font-extrabold text-green-400 flex items-center justify-between">
+                    <div className="flex items-center gap-1.5">
+                      <Calculator className="h-4 w-4 text-green-400 animate-pulse" />
+                      <span>{getCalculatedEmissions().toLocaleString()} kg CO₂e</span>
+                    </div>
+                    <span className="text-[9px] bg-green-500/10 border border-green-500/20 px-2 py-0.5 rounded-full uppercase tracking-wider">verified</span>
                   </div>
                 </div>
               ) : (
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-muted-foreground uppercase tracking-wide">Manual Emissions (kg CO₂e)</label>
+                <div className="space-y-2 animate-in fade-in-0 duration-300">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Manual CO₂ Emissions (kg)</label>
                   <Input
                     type="number"
                     step="any"
                     value={formManualEmissions}
                     onChange={(e) => setFormManualEmissions(e.target.value)}
-                    placeholder="Enter manual calculation"
-                    className="bg-background/40 border-border/80 focus-visible:ring-1 focus-visible:ring-green-500 rounded-xl"
+                    placeholder="Enter custom calculated emissions"
+                    className="bg-slate-950/60 border-white/5 focus-visible:ring-1 focus-visible:ring-green-500 focus-visible:border-green-500 rounded-xl py-5 text-white animate-in"
                   />
                 </div>
               )}
             </div>
 
-            <DialogFooter className="pt-2">
-              <Button type="button" variant="outline" onClick={() => setIsOpen(false)} className="rounded-xl border-border">
+            <DialogFooter className="pt-4 border-t border-white/5">
+              <Button type="button" variant="outline" onClick={() => setIsOpen(false)} className="rounded-xl border-white/10 text-slate-300 hover:bg-slate-800 cursor-pointer">
                 Cancel
               </Button>
-              <Button type="submit" className="bg-green-600 hover:bg-green-500 text-white rounded-xl font-medium">
+              <Button type="submit" className="bg-green-600 hover:bg-green-500 text-white rounded-xl font-bold px-5 shadow-[0_4px_15px_rgba(22,163,74,0.2)] cursor-pointer">
                 Log Entry
               </Button>
             </DialogFooter>

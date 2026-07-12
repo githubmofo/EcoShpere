@@ -1,9 +1,9 @@
 // app/environmental/goals/page.tsx
-// Member 1 – Environmental Goals Subpage
+// Member 1 – Environmental Goals Subpage (Enhanced Premium Design)
 "use client";
 
 import { useEffect, useState } from "react";
-import { Plus, Edit3, Check, AlertCircle, Target, Calendar, BarChart, X } from "lucide-react";
+import { Plus, Edit3, Check, AlertCircle, Target, Calendar, BarChart, X, Shield, Sparkles } from "lucide-react";
 import { apiGet, apiPost, apiPatch } from "@/lib/api-client";
 import { EnvironmentalGoal } from "@/lib/types";
 
@@ -73,7 +73,7 @@ export default function GoalsPage() {
     setFormTarget("");
     setFormCurrent("0");
     setFormStart(new Date().toISOString().split("T")[0]);
-    setFormEnd(new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString().split("T")[0]); // 6 months from now
+    setFormEnd(new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString().split("T")[0]);
     setFormStatus("on-track");
     setFormError("");
     setIsOpen(true);
@@ -122,7 +122,6 @@ export default function GoalsPage() {
       startDate: formStart,
       endDate: formEnd,
       status: formStatus,
-      // support backwards compatibility
       target: target,
       current: current,
       title: `${formDept} Reduction Target`
@@ -183,22 +182,22 @@ export default function GoalsPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-in fade-in-0 duration-500">
       
       {/* Toast Alert Banner Stack */}
       <div className="fixed top-6 right-6 z-50 space-y-3 pointer-events-none">
         {toasts.map(toast => (
           <div
             key={toast.id}
-            className={`pointer-events-auto p-4 rounded-xl border shadow-xl flex items-center justify-between gap-4 max-w-sm animate-in fade-in slide-in-from-top-4 duration-300 ${
+            className={`pointer-events-auto p-4.5 rounded-2xl border shadow-[0_20px_50px_rgba(0,0,0,0.3)] flex items-center justify-between gap-4 max-w-sm animate-in fade-in slide-in-from-top-4 duration-300 ${
               toast.type === "success" 
-                ? "bg-green-500/10 border-green-500/30 text-green-400" 
-                : "bg-red-500/10 border-red-500/30 text-red-400"
+                ? "bg-emerald-950/80 backdrop-blur-md border-emerald-500/20 text-emerald-400" 
+                : "bg-red-950/80 backdrop-blur-md border-red-500/20 text-red-400"
             }`}
           >
-            <div className="flex items-center gap-2.5">
+            <div className="flex items-center gap-3">
               {toast.type === "success" ? <Check className="h-4 w-4 shrink-0" /> : <AlertCircle className="h-4 w-4 shrink-0" />}
-              <span className="text-xs font-semibold">{toast.message}</span>
+              <span className="text-xs font-bold tracking-wide">{toast.message}</span>
             </div>
             <button onClick={() => removeToast(toast.id)} className="text-current opacity-70 hover:opacity-100 transition-opacity">
               <X className="h-3.5 w-3.5" />
@@ -207,24 +206,27 @@ export default function GoalsPage() {
         ))}
       </div>
 
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h3 className="text-base font-bold text-foreground">Reduction Targets</h3>
-          <p className="text-xs text-muted-foreground">Monitor carbon limits and offsets goals by department</p>
+          <h3 className="text-md font-black text-white uppercase tracking-wider flex items-center gap-2">
+            <Target className="h-5 w-5 text-green-400" />
+            Departmental Reduction Targets
+          </h3>
+          <p className="text-xs text-slate-400">Establish and monitor carbon limitation target goals</p>
         </div>
-        <Button onClick={openCreateModal} className="bg-green-600 hover:bg-green-500 text-white rounded-xl gap-1.5 font-medium">
+        <Button onClick={openCreateModal} className="bg-green-600 hover:bg-green-500 text-white rounded-xl gap-1.5 font-bold px-4 py-2.5 shadow-[0_4px_15px_rgba(22,163,74,0.25)] transition-all hover:scale-[1.03] cursor-pointer">
           <Plus className="h-4 w-4" />
           New Goal
         </Button>
       </div>
 
       {loading ? (
-        <div className="flex justify-center p-8">
+        <div className="flex justify-center py-12">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500"></div>
         </div>
       ) : goals.length === 0 ? (
-        <div className="p-8 text-center text-xs text-muted-foreground border border-dashed border-border/60 rounded-2xl">
-          No environmental goals defined yet. Click "New Goal" to setup a departmental target.
+        <div className="py-16 text-center text-xs text-slate-400 border border-dashed border-white/5 rounded-3xl">
+          No carbon target goals logged yet. Setup a departmental limit using the editor.
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -234,63 +236,77 @@ export default function GoalsPage() {
               : 100;
             const progressPct = progress.toFixed(1);
             
-            // Progress color
             let progressColor = "bg-green-500";
-            if (goal.status === "at-risk") progressColor = "bg-yellow-500";
-            if (goal.status === "behind") progressColor = "bg-red-500";
+            let shadowColor = "shadow-[0_0_10px_rgba(34,197,94,0.3)]";
+            if (goal.status === "at-risk") {
+              progressColor = "bg-yellow-500";
+              shadowColor = "shadow-[0_0_10px_rgba(245,158,11,0.3)]";
+            }
+            if (goal.status === "behind") {
+              progressColor = "bg-red-500";
+              shadowColor = "shadow-[0_0_10px_rgba(239,68,68,0.3)]";
+            }
 
             return (
-              <Card key={goal.id} className="bg-card/30 backdrop-blur-sm border border-border/80 rounded-2xl relative overflow-hidden flex flex-col justify-between hover:border-border/100 transition-all duration-300">
-                <CardHeader className="pb-3 flex flex-row items-start justify-between gap-4">
-                  <div>
-                    <span className="text-[10px] text-muted-foreground font-black uppercase tracking-wider">Department</span>
-                    <CardTitle className="text-base font-bold text-foreground/90 mt-0.5">{goal.department}</CardTitle>
+              <Card key={goal.id} className="group bg-slate-900/30 backdrop-blur-md border border-white/5 rounded-3xl shadow-xl overflow-hidden hover:border-white/10 transition-all duration-300 relative flex flex-col justify-between hover:shadow-[0_4px_25px_rgba(0,0,0,0.3)]">
+                <CardHeader className="pb-4 border-b border-white/5 bg-slate-950/20 flex flex-row items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2.5 rounded-xl bg-slate-950/60 border border-white/5 text-slate-300 group-hover:scale-105 transition-transform">
+                      <Target className="h-4.5 w-4.5 text-green-400" />
+                    </div>
+                    <div>
+                      <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">Business Unit</span>
+                      <CardTitle className="text-sm font-black text-white mt-0.5">{goal.department}</CardTitle>
+                    </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${getStatusBadge(goal.status)}`}>
+                    <span className={`inline-flex items-center gap-1.5 text-[9px] font-black px-2.5 py-0.5 rounded-full border uppercase tracking-wider ${getStatusBadge(goal.status)}`}>
+                      <span className={`h-1 w-1 rounded-full ${
+                        goal.status === "on-track" ? "bg-green-400" : goal.status === "at-risk" ? "bg-yellow-400" : "bg-red-400"
+                      } animate-ping`} />
                       {goal.status === "on-track" ? "On Track" : goal.status === "at-risk" ? "At Risk" : "Behind"}
                     </span>
                     <Button 
                       variant="ghost" 
                       size="icon" 
                       onClick={() => openEditModal(goal)}
-                      className="h-7 w-7 rounded-lg hover:bg-muted/60 text-muted-foreground hover:text-foreground border border-transparent hover:border-border/30"
+                      className="h-8 w-8 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white border border-transparent hover:border-white/5 cursor-pointer"
                     >
                       <Edit3 className="h-3.5 w-3.5" />
                     </Button>
                   </div>
                 </CardHeader>
 
-                <CardContent className="space-y-4 flex-1">
+                <CardContent className="py-6 space-y-4 flex-1">
                   
                   {/* Target details */}
-                  <div className="grid grid-cols-2 gap-4 border border-border/40 p-3.5 rounded-xl bg-background/25">
+                  <div className="grid grid-cols-2 gap-4 border border-white/5 p-3 rounded-2xl bg-slate-950/20">
                     <div>
-                      <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-wide">Target Cap</span>
-                      <p className="text-sm font-bold text-foreground/90 mt-0.5">{goal.targetEmissions.toLocaleString()} kg</p>
+                      <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Target Cap</span>
+                      <p className="text-xs font-bold text-white mt-0.5">{goal.targetEmissions.toLocaleString()} kg</p>
                     </div>
                     <div>
-                      <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-wide">Current Total</span>
-                      <p className="text-sm font-bold text-foreground/90 mt-0.5">{goal.currentEmissions.toLocaleString()} kg</p>
+                      <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Logged Output</span>
+                      <p className="text-xs font-bold text-white mt-0.5">{goal.currentEmissions.toLocaleString()} kg</p>
                     </div>
                   </div>
 
                   {/* Progress bar container */}
-                  <div className="space-y-2">
+                  <div className="space-y-2 pt-2">
                     <div className="flex justify-between items-center text-xs">
-                      <span className="text-muted-foreground font-medium">Goal limit progression</span>
-                      <span className="font-bold text-foreground/90">{progressPct}%</span>
+                      <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Target Threshold Progress</span>
+                      <span className="font-extrabold text-white">{progressPct}%</span>
                     </div>
-                    <div className="w-full bg-muted/60 h-2.5 rounded-full overflow-hidden border border-border/30">
-                      <div className={`h-full ${progressColor} transition-all duration-500`} style={{ width: `${progress}%` }} />
+                    <div className="w-full bg-slate-950 h-2.5 rounded-full overflow-hidden border border-white/5 relative">
+                      <div className={`h-full ${progressColor} ${shadowColor} rounded-full transition-all duration-700`} style={{ width: `${progress}%` }} />
                     </div>
                   </div>
 
                 </CardContent>
 
-                <CardFooter className="pt-2 border-t border-border/40 text-[10px] text-muted-foreground flex items-center gap-1.5 bg-background/15 px-6 py-3">
-                  <Calendar className="h-3 w-3 shrink-0" />
-                  <span>Cycle: {goal.startDate} to {goal.endDate}</span>
+                <CardFooter className="border-t border-white/5 text-[9px] font-bold text-slate-400 tracking-wider flex items-center gap-1.5 bg-slate-950/20 px-6 py-3.5 uppercase">
+                  <Calendar className="h-3.5 w-3.5 text-green-400/80 shrink-0" />
+                  <span>Cycle Period: {goal.startDate} to {goal.endDate}</span>
                 </CardFooter>
               </Card>
             );
@@ -300,12 +316,13 @@ export default function GoalsPage() {
 
       {/* NEW/EDIT GOAL MODAL */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="w-[90vw] max-w-md bg-card/95 backdrop-blur-md border border-border p-6 rounded-2xl shadow-2xl">
+        <DialogContent className="w-[90vw] max-w-md bg-slate-900/95 backdrop-blur-lg border border-white/10 p-6 rounded-3xl shadow-2xl">
           <DialogHeader>
-            <DialogTitle className="text-base font-bold">
+            <DialogTitle className="text-base font-black text-white uppercase tracking-wider flex items-center gap-2">
+              <Shield className="h-5 w-5 text-green-400 animate-pulse" />
               {editingId ? "Update Reduction Goal" : "New Reduction Goal"}
             </DialogTitle>
-            <DialogDescription className="text-xs">
+            <DialogDescription className="text-xs text-slate-400 mt-1">
               Establish emissions limitations targets and track execution cycle schedules.
             </DialogDescription>
           </DialogHeader>
@@ -314,95 +331,95 @@ export default function GoalsPage() {
             
             {/* Form Error Banner */}
             {formError && (
-              <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-xs text-red-400 flex items-start gap-2">
+              <div className="p-3.5 rounded-2xl bg-red-500/10 border border-red-500/20 text-xs text-red-400 flex items-start gap-2.5 animate-bounce">
                 <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
                 <span>{formError}</span>
               </div>
             )}
 
             <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-muted-foreground uppercase tracking-wide">Department</label>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Department</label>
                 <select
                   value={formDept}
                   onChange={(e) => setFormDept(e.target.value)}
-                  className="flex h-9 w-full rounded-xl border border-border bg-background/40 px-3 py-1 text-xs shadow-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-green-500"
+                  className="flex h-[42px] w-full rounded-xl border border-white/5 bg-slate-950/60 px-3 py-1.5 text-xs text-white shadow-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-green-500"
                 >
-                  <option value="Operations" className="bg-slate-900 text-foreground">Operations</option>
-                  <option value="Facilities" className="bg-slate-900 text-foreground">Facilities</option>
-                  <option value="Sales" className="bg-slate-900 text-foreground">Sales</option>
-                  <option value="R&D" className="bg-slate-900 text-foreground">R&D</option>
-                  <option value="HR" className="bg-slate-900 text-foreground">HR</option>
+                  <option value="Operations" className="bg-slate-900">Operations</option>
+                  <option value="Facilities" className="bg-slate-900">Facilities</option>
+                  <option value="Sales" className="bg-slate-900">Sales</option>
+                  <option value="R&D" className="bg-slate-900">R&D</option>
+                  <option value="HR" className="bg-slate-900">HR</option>
                 </select>
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-muted-foreground uppercase tracking-wide">Status</label>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Status</label>
                 <select
                   value={formStatus}
                   onChange={(e) => setFormStatus(e.target.value as any)}
-                  className="flex h-9 w-full rounded-xl border border-border bg-background/40 px-3 py-1 text-xs shadow-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-green-500"
+                  className="flex h-[42px] w-full rounded-xl border border-white/5 bg-slate-950/60 px-3 py-1.5 text-xs text-white shadow-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-green-500"
                 >
-                  <option value="on-track" className="bg-slate-900 text-foreground">On Track</option>
-                  <option value="at-risk" className="bg-slate-900 text-foreground">At Risk</option>
-                  <option value="behind" className="bg-slate-900 text-foreground">Behind</option>
+                  <option value="on-track" className="bg-slate-900">On Track</option>
+                  <option value="at-risk" className="bg-slate-900">At Risk</option>
+                  <option value="behind" className="bg-slate-900">Behind</option>
                 </select>
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-muted-foreground uppercase tracking-wide">Target Cap (kg CO₂e)</label>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Target Cap (kg CO₂e)</label>
                 <Input
                   type="number"
                   step="any"
                   value={formTarget}
                   onChange={(e) => setFormTarget(e.target.value)}
                   placeholder="e.g. 8000"
-                  className="bg-background/40 border-border/80 focus-visible:ring-1 focus-visible:ring-green-500 rounded-xl"
+                  className="bg-slate-950/60 border-white/5 focus-visible:ring-1 focus-visible:ring-green-500 focus-visible:border-green-500 rounded-xl py-5 text-white"
                 />
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-muted-foreground uppercase tracking-wide">Current Level (kg CO₂e)</label>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Current Level (kg)</label>
                 <Input
                   type="number"
                   step="any"
                   value={formCurrent}
                   onChange={(e) => setFormCurrent(e.target.value)}
                   placeholder="e.g. 1200"
-                  className="bg-background/40 border-border/80 focus-visible:ring-1 focus-visible:ring-green-500 rounded-xl"
+                  className="bg-slate-950/60 border-white/5 focus-visible:ring-1 focus-visible:ring-green-500 focus-visible:border-green-500 rounded-xl py-5 text-white"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-muted-foreground uppercase tracking-wide">Start Cycle Date</label>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Start Cycle Date</label>
                 <Input
                   type="date"
                   value={formStart}
                   onChange={(e) => setFormStart(e.target.value)}
-                  className="bg-background/40 border-border/80 focus-visible:ring-1 focus-visible:ring-green-500 rounded-xl text-xs"
+                  className="bg-slate-950/60 border-white/5 focus-visible:ring-1 focus-visible:ring-green-500 focus-visible:border-green-500 rounded-xl py-5 text-white text-xs"
                 />
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-muted-foreground uppercase tracking-wide">End Cycle Date</label>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">End Cycle Date</label>
                 <Input
                   type="date"
                   value={formEnd}
                   onChange={(e) => setFormEnd(e.target.value)}
-                  className="bg-background/40 border-border/80 focus-visible:ring-1 focus-visible:ring-green-500 rounded-xl text-xs"
+                  className="bg-slate-950/60 border-white/5 focus-visible:ring-1 focus-visible:ring-green-500 focus-visible:border-green-500 rounded-xl py-5 text-white text-xs"
                 />
               </div>
             </div>
 
-            <DialogFooter className="pt-2">
-              <Button type="button" variant="outline" onClick={() => setIsOpen(false)} className="rounded-xl border-border">
+            <DialogFooter className="pt-4 border-t border-white/5">
+              <Button type="button" variant="outline" onClick={() => setIsOpen(false)} className="rounded-xl border-white/10 text-slate-300 hover:bg-slate-800 cursor-pointer">
                 Cancel
               </Button>
-              <Button type="submit" className="bg-green-600 hover:bg-green-500 text-white rounded-xl font-medium">
+              <Button type="submit" className="bg-green-600 hover:bg-green-500 text-white rounded-xl font-bold px-5 shadow-[0_4px_15px_rgba(22,163,74,0.2)] cursor-pointer">
                 Save Target
               </Button>
             </DialogFooter>
