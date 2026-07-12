@@ -232,10 +232,22 @@ export class GovernanceController {
       const acks = await prisma.policyAcknowledgement.findMany({
         include: {
           policy: { select: { title: true } },
-          employee: { select: { name: true } },
+          employee: { select: { name: true, department: { select: { name: true } } } },
         },
       });
-      res.json(acks);
+
+      const mapped = acks.map((a) => ({
+        id: a.id,
+        policyId: a.policyId,
+        policyTitle: a.policy.title,
+        employeeId: a.employeeId,
+        employeeName: a.employee.name,
+        department: a.employee.department?.name ?? "Unknown",
+        acknowledgedAt: a.acknowledgedAt?.toISOString() ?? null,
+        status: "acknowledged",
+      }));
+
+      res.json(mapped);
     } catch (err) {
       console.error("[getAcknowledgements]", err);
       res.status(500).json({ error: "Failed to fetch acknowledgements" });
