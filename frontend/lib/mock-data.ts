@@ -1,5 +1,4 @@
 // lib/mock-data.ts
-<<<<<<< HEAD
 // Front-end seed data for demo/hackathon purposes.
 // This lets all pages run fully client-side without the backend.
 // Swap these for `lib/api-client` calls to wire the Express/Prisma API.
@@ -30,7 +29,6 @@ import type {
 // GAMIFICATION & REPORTS MODULE (from gamification_and_report)
 // ═══════════════════════════════════════════════════════════════
 
-=======
 import {
   CsrActivity,
   EmployeeParticipation,
@@ -51,7 +49,6 @@ import {
   ReportRow
 } from "./types";
 
->>>>>>> origin/feature/member2-social-governance
 export const DEPARTMENTS = [
   "Manufacturing",
   "Corporate",
@@ -71,8 +68,6 @@ export const EMPLOYEES = [
   "Emma Brown",
 ] as const;
 
-<<<<<<< HEAD
-=======
 export const mockCsrActivities: CsrActivity[] = [
   {
     id: "act_1",
@@ -288,7 +283,6 @@ export const mockComplianceIssues: ComplianceIssue[] = [
   }
 ];
 
->>>>>>> origin/feature/member2-social-governance
 export const currentUser: CurrentUser = {
   id: "u-aditi",
   name: "Aditi Rao",
@@ -299,10 +293,7 @@ export const currentUser: CurrentUser = {
   badges: 3,
 };
 
-<<<<<<< HEAD
 // ─── Challenges (all lifecycle states) ───────────────────────
-=======
->>>>>>> origin/feature/member2-social-governance
 export const challenges: Challenge[] = [
   {
     id: "c-1",
@@ -642,11 +633,8 @@ export const leaderboard: LeaderboardEntry[] = [
 ];
 
 // ─── Reports: department scores & emissions ──────────────────
-<<<<<<< HEAD
 export const departmentScores: ReportDepartmentScore[] = [
-=======
 export const departmentScores: DepartmentScore[] = [
->>>>>>> origin/feature/member2-social-governance
   { department: "Manufacturing", environmental: 62, social: 78, governance: 70, total: 69 },
   { department: "Corporate", environmental: 80, social: 85, governance: 88, total: 84 },
   { department: "Logistics", environmental: 55, social: 68, governance: 72, total: 64 },
@@ -750,7 +738,6 @@ export const esgPillars = {
     departmentScores.reduce((s, d) => s + d.governance, 0) / departmentScores.length
   ),
 };
-<<<<<<< HEAD
 
 // ═══════════════════════════════════════════════════════════════
 // ENVIRONMENTAL / DASHBOARD MODULE (from member-1)
@@ -801,5 +788,3 @@ export const initialRecentActivities: RecentActivityItem[] = [
   { id: "act-4", type: "compliance", title: "Policy Compliance Audited", description: "Governance audit logged 2 minor findings.", timestamp: "2 days ago", status: "Resolved" },
   { id: "act-5", type: "challenge", title: "Eco-Challenge Completed", description: "Sales department won the 'Carpool Week' challenge.", timestamp: "3 days ago" },
 ];
-=======
->>>>>>> origin/feature/member2-social-governance

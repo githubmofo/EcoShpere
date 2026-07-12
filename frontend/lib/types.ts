@@ -139,13 +139,10 @@ export interface ComplianceIssue {
   owner: string;
   dueDate: string;
   reportedDate: string;
-<<<<<<< HEAD
   assignee: string;
   dueDate?: string;
   overdue?: boolean;
-=======
   isOverdue: boolean;
->>>>>>> origin/feature/member2-social-governance
 }
 
 // ─── Gamification ────────────────────────────────────────────
@@ -246,11 +243,8 @@ export interface EsgScore {
   period: string;
 }
 
-<<<<<<< HEAD
 export interface ReportDepartmentScore {
-=======
 export interface DepartmentScore {
->>>>>>> origin/feature/member2-social-governance
   department: string;
   environmental: number;
   social: number;

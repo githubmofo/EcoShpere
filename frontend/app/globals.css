@@ -84,7 +84,6 @@
 }
 
 .dark {
-<<<<<<< HEAD
   --background: oklch(0.1 0.005 250); /* Ultra deep charcoal black */
   --foreground: oklch(0.97 0.005 250); /* Crisp off-white */
   --card: oklch(0.13 0.008 250 / 60%); /* Translucent card glass */
@@ -116,7 +115,6 @@
   --sidebar-accent-foreground: oklch(0.97 0.005 250);
   --sidebar-border: oklch(1 0 0 / 6%);
   --sidebar-ring: oklch(0.6 0.01 250);
-=======
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.19 0 0);
@@ -148,7 +146,6 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
->>>>>>> origin/feature/member2-social-governance
 }
 
 @layer base {

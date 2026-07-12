@@ -4,15 +4,12 @@
   "description": "EcoSphere ESG Platform – Backend API",
   "main": "dist/index.js",
   "scripts": {
-<<<<<<< HEAD
     "dev": "tsc --rootDir . --outDir dist && node dist/src/index.js",
     "build": "tsc --rootDir . --outDir dist",
     "start": "node dist/src/index.js",
-=======
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
->>>>>>> origin/feature/member2-social-governance
     "prisma:migrate": "prisma migrate dev",
     "prisma:seed": "tsc --rootDir . --outDir dist && node dist/prisma/seed.js",
     "prisma:generate": "prisma generate",
@@ -38,19 +35,16 @@
     "mariadb": "^3.5.3"
   },
   "devDependencies": {
-<<<<<<< HEAD
     "@prisma/client": "^6.19.3",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^26.1.1",
     "prisma": "^6.19.3",
-=======
     "@prisma/client": "^5.22.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^26.1.1",
     "prisma": "^5.22.0",
->>>>>>> origin/feature/member2-social-governance
     "ts-node": "^10.9.2",
     "typescript": "^7.0.2"
   }

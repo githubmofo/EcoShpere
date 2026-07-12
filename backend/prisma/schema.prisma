@@ -3,12 +3,9 @@ generator client {
 }
 
 datasource db {
-<<<<<<< HEAD
   provider = "mysql"
-=======
   provider = "sqlserver"
   url      = env("DATABASE_URL")
->>>>>>> origin/feature/member2-social-governance
 }
 
 // ─── Enums ──────────────────────────────────────────────────────────

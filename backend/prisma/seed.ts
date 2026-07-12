@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { prisma } from '../src/common/prisma-client';
 import {
   Role,
@@ -10,9 +9,7 @@ import {
   Severity,
   IssueStatus,
 } from '@prisma/client';
-=======
 import { PrismaClient } from '@prisma/client';
->>>>>>> origin/feature/member2-social-governance
 
 const daysFromNow = (n: number) => new Date(Date.now() + n * 86400000);
 
@@ -70,7 +67,6 @@ async function main() {
     return u;
   };
 
-<<<<<<< HEAD
   const aditi = await mkUser('Aditi Rao', 'aditi.rao@ecosphere.com', Role.ADMIN, corp.id, 4850, 1250);
   const rahul = await mkUser('Rahul Mehta', 'rahul.mehta@ecosphere.com', Role.DEPT_HEAD, mfg.id, 2740, 640);
   const sara = await mkUser('Sara Khan', 'sara.khan@ecosphere.com', Role.EMPLOYEE, corp.id, 2190, 410);
@@ -80,7 +76,6 @@ async function main() {
   const chen = await mkUser('Chen Wei', 'chen.wei@ecosphere.com', Role.EMPLOYEE, mfg.id, 980, 180);
 
   await prisma.department.update({ where: { id: mfg.id }, data: { headUserId: rahul.id } });
-=======
   // 2. Users
   const adminUser = await prisma.user.create({
     data: {
@@ -101,7 +96,6 @@ async function main() {
       departmentId: mfg.id,
     },
   });
->>>>>>> origin/feature/member2-social-governance
 
   // ── Categories ───────────────────────────────────────────────
   const catEnergy = await prisma.category.create({ data: { name: 'Energy', type: CategoryType.CHALLENGE } });
@@ -110,9 +104,7 @@ async function main() {
   const catWater = await prisma.category.create({ data: { name: 'Water', type: CategoryType.CHALLENGE } });
   const catCommunity = await prisma.category.create({ data: { name: 'Community', type: CategoryType.CSR_ACTIVITY } });
 
-<<<<<<< HEAD
   // ── Emission factors ─────────────────────────────────────────
-=======
   const emp1 = await prisma.user.create({
     data: {
       name: 'John Doe',
@@ -149,7 +141,6 @@ async function main() {
   });
 
   // 4. Emission Factors
->>>>>>> origin/feature/member2-social-governance
   await prisma.emissionFactor.createMany({
     data: [
       { name: 'Grid Electricity', factorValue: 0.5, unit: 'kgCO2e/kWh' },

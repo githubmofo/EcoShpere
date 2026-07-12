@@ -3,11 +3,8 @@
 // app/gamification/page.tsx
 // Member 3 – Gamification Tab: Challenges, Participation, Badges, Rewards, Leaderboard.
 
-<<<<<<< HEAD
 import { useEffect, useState } from "react";
-=======
 import { useState } from "react";
->>>>>>> origin/feature/member2-social-governance
 import { Award, Coins, Trophy, Zap } from "lucide-react";
 import PlatformFrame from "@/components/layout/PlatformFrame";
 import PillTabs from "@/components/shared/PillTabs";
@@ -20,7 +17,6 @@ import RewardsTab from "@/components/gamification/RewardsTab";
 import LeaderboardTab from "@/components/gamification/LeaderboardTab";
 import * as seed from "@/lib/mock-data";
 import { currentUser } from "@/lib/mock-data";
-<<<<<<< HEAD
 import {
   fetchGamification,
   approveParticipation as apiApprove,
@@ -29,8 +25,6 @@ import {
   updateChallengeStatus as apiStatus,
   createChallengeApi,
 } from "@/lib/api";
-=======
->>>>>>> origin/feature/member2-social-governance
 import type {
   Badge,
   Challenge,
@@ -68,7 +62,6 @@ export default function GamificationPage() {
   const [xp, setXp] = useState(currentUser.xp);
   const [points, setPoints] = useState(currentUser.points);
 
-<<<<<<< HEAD
   // Load live data from the backend DB (falls back to seed data on error).
   useEffect(() => {
     let active = true;
@@ -91,8 +84,6 @@ export default function GamificationPage() {
     };
   }, []);
 
-=======
->>>>>>> origin/feature/member2-social-governance
   const earnedBadges = badges.filter((b) => b.earned).length;
   const activeCount = challenges.filter((c) => c.status === "active").length;
   const pendingCount = participations.filter(
@@ -143,10 +134,7 @@ export default function GamificationPage() {
     setChallenges((prev) =>
       prev.map((x) => (x.id === id ? { ...x, status } : x))
     );
-<<<<<<< HEAD
     apiStatus(id, status).catch(() => {});
-=======
->>>>>>> origin/feature/member2-social-governance
     toast({
       title: "Challenge updated",
       description: c ? `“${c.title}” → ${STATUS_LABEL[status]}` : undefined,
@@ -156,10 +144,7 @@ export default function GamificationPage() {
 
   function handleAddChallenge(data: Omit<Challenge, "id">) {
     setChallenges((prev) => [{ ...data, id: `c-${Date.now()}` }, ...prev]);
-<<<<<<< HEAD
     createChallengeApi(data).catch(() => {});
-=======
->>>>>>> origin/feature/member2-social-governance
     toast({
       title: "Challenge created",
       description: `“${data.title}” saved as Draft`,
@@ -169,10 +154,7 @@ export default function GamificationPage() {
   function handleApprove(id: string) {
     const p = participations.find((x) => x.id === id);
     if (!p) return;
-<<<<<<< HEAD
     apiApprove(id).catch(() => {});
-=======
->>>>>>> origin/feature/member2-social-governance
     const challenge = challenges.find((c) => c.id === p.challengeId);
     const award = challenge?.xp ?? 100;
 
@@ -209,10 +191,7 @@ export default function GamificationPage() {
     setParticipations((prev) =>
       prev.map((x) => (x.id === id ? { ...x, approvalStatus: "rejected" } : x))
     );
-<<<<<<< HEAD
     apiReject(id).catch(() => {});
-=======
->>>>>>> origin/feature/member2-social-governance
     toast({ title: "Participation rejected", variant: "error" });
   }
 
@@ -245,10 +224,7 @@ export default function GamificationPage() {
       },
       ...prev,
     ]);
-<<<<<<< HEAD
     apiRedeem(id).catch(() => {});
-=======
->>>>>>> origin/feature/member2-social-governance
     toast({
       title: "Reward redeemed",
       description: `${r.name} · −${r.pointsCost} pts`,
