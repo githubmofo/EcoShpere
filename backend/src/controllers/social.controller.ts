@@ -115,9 +115,21 @@ export class SocialController {
     }
 
     try {
+      // Fallback to a valid user if hardcoded one doesn't exist
+      let resolvedEmployeeId = employeeId;
+      const userExists = await prisma.user.findUnique({ where: { id: employeeId } });
+      if (!userExists) {
+        const fallback = await prisma.user.findFirst();
+        if (!fallback) {
+          res.status(400).json({ error: "No users in database. Please seed." });
+          return;
+        }
+        resolvedEmployeeId = fallback.id;
+      }
+
       // Guard: check if already joined
       const existing = await prisma.employeeParticipation.findFirst({
-        where: { employeeId, csrActivityId: activityId },
+        where: { employeeId: resolvedEmployeeId, csrActivityId: activityId },
       });
       if (existing) {
         res.status(409).json({ error: "Already joined this activity" });
@@ -126,7 +138,7 @@ export class SocialController {
 
       const participation = await prisma.employeeParticipation.create({
         data: {
-          employeeId,
+          employeeId: resolvedEmployeeId,
           csrActivityId: activityId,
           approvalStatus: "PENDING",
           pointsEarned: 0,
