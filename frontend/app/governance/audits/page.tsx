@@ -86,11 +86,9 @@ export default function AuditsPage() {
         <h2 className="text-xl font-semibold">Compliance Audits</h2>
 
         <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger asChild>
-            <Button id="new-audit-btn">
-              <Plus className="w-4 h-4 mr-2" />
-              New Audit
-            </Button>
+          <DialogTrigger render={<Button id="new-audit-btn" />}>
+            <Plus className="w-4 h-4 mr-2" />
+            New Audit
           </DialogTrigger>
           <DialogContent className="sm:max-w-[480px]">
             <DialogHeader>

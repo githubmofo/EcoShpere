@@ -121,11 +121,9 @@ export default function CsrActivitiesPage() {
           </Button>
 
           <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-              <Button id="new-activity-btn">
-                <Plus className="w-4 h-4 mr-2" />
-                New Activity
-              </Button>
+            <DialogTrigger render={<Button id="new-activity-btn" />}>
+              <Plus className="w-4 h-4 mr-2" />
+              New Activity
             </DialogTrigger>
             <DialogContent className="sm:max-w-[480px]">
               <DialogHeader>
