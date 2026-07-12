@@ -13,6 +13,7 @@ import governanceRoutes from "./routes/governance.routes";
 import gamificationRoutes from "./routes/gamification.routes";
 import reportsRoutes from "./routes/reports.routes";
 import settingsRoutes from "./routes/settings.routes";
+import authRoutes from "./routes/auth.routes";
 
 dotenv.config();
 
@@ -31,6 +32,7 @@ app.use("/api/governance", governanceRoutes);
 app.use("/api/gamification", gamificationRoutes);
 app.use("/api/reports", reportsRoutes);
 app.use("/api/settings", settingsRoutes);
+app.use("/api/auth", authRoutes);
 
 // Health check
 app.get("/api/health", (_req, res) => {

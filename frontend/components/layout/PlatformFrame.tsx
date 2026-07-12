@@ -8,7 +8,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Bell, Leaf, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { currentUser } from "@/lib/mock-data";
+import { useAuth } from "@/components/auth/AuthProvider";
+import { LogOut } from "lucide-react";
 
 const MODULES = [
   { label: "Dashboard", href: "/dashboard" },
@@ -26,7 +27,24 @@ export default function PlatformFrame({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const initials = currentUser.name
+  const { user, logout, isLoading } = useAuth();
+
+  const isAuthPage = pathname === "/login" || pathname === "/register";
+
+  if (isAuthPage) {
+    return (
+      <div className="min-h-screen bg-background text-foreground flex flex-col">
+        <main className="flex-1 flex flex-col">{children}</main>
+      </div>
+    );
+  }
+
+  // Prevent flashing of UI before auth checks
+  if (isLoading || !user) {
+    return <div className="min-h-screen bg-background text-foreground" />;
+  }
+
+  const initials = user.name
     .split(" ")
     .map((p) => p[0])
     .join("");
@@ -63,16 +81,28 @@ export default function PlatformFrame({
           <span className="absolute right-2 top-2 size-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse" />
         </button>
 
-        <div className="flex items-center gap-2">
-          <span className="flex size-8 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
-            {initials}
-          </span>
-          <div className="hidden leading-tight sm:block">
-            <p className="text-xs font-medium">{currentUser.name}</p>
-            <p className="text-[10px] text-muted-foreground">
-              {currentUser.role}
-            </p>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <span className="flex size-8 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
+              {initials}
+            </span>
+            <div className="hidden leading-tight sm:block">
+              <p className="text-xs font-medium">{user.name}</p>
+              <p className="text-[10px] text-muted-foreground">
+                {user.role}
+              </p>
+            </div>
           </div>
+          
+          <div className="h-6 w-px bg-white/10 hidden md:block"></div>
+          
+          <button
+            onClick={logout}
+            className="flex items-center gap-2 text-muted-foreground hover:text-rose-400 transition-colors"
+            title="Sign out"
+          >
+            <LogOut className="size-4" />
+          </button>
         </div>
       </header>
 

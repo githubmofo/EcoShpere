@@ -2,7 +2,20 @@
 // Gamification endpoints backed by Prisma / MySQL.
 
 import { Request, Response } from "express";
-import { Status, ApprovalStatus } from "@prisma/client";
+const Status = {
+  ACTIVE: "ACTIVE",
+  DRAFT: "DRAFT",
+  ARCHIVED: "ARCHIVED",
+  INACTIVE: "INACTIVE",
+} as const;
+type Status = (typeof Status)[keyof typeof Status];
+
+const ApprovalStatus = {
+  PENDING: "PENDING",
+  APPROVED: "APPROVED",
+  REJECTED: "REJECTED",
+} as const;
+type ApprovalStatus = (typeof ApprovalStatus)[keyof typeof ApprovalStatus];
 import prisma from "../common/prisma-client";
 
 // DB Status enum → frontend challenge lifecycle status
