@@ -1,4 +1,4 @@
-import { PrismaClient, Role, CategoryType } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -36,7 +36,7 @@ async function main() {
       name: 'Admin User',
       email: 'admin@ecosphere.com',
       passwordHash: 'hashed_password_placeholder',
-      role: Role.ADMIN,
+      role: 'ADMIN',
       departmentId: corp.id,
     },
   });
@@ -46,7 +46,7 @@ async function main() {
       name: 'Sarah Manager',
       email: 'sarah.manager@ecosphere.com',
       passwordHash: 'hashed_password_placeholder',
-      role: Role.DEPT_HEAD,
+      role: 'DEPT_HEAD',
       departmentId: mfg.id,
     },
   });
@@ -62,7 +62,7 @@ async function main() {
       name: 'John Doe',
       email: 'john.doe@ecosphere.com',
       passwordHash: 'hashed_password_placeholder',
-      role: Role.EMPLOYEE,
+      role: 'EMPLOYEE',
       departmentId: mfg.id,
     },
   });
@@ -72,7 +72,7 @@ async function main() {
       name: 'Jane Smith',
       email: 'jane.smith@ecosphere.com',
       passwordHash: 'hashed_password_placeholder',
-      role: Role.EMPLOYEE,
+      role: 'EMPLOYEE',
       departmentId: logistics.id,
     },
   });
@@ -81,14 +81,14 @@ async function main() {
   const csrCat = await prisma.category.create({
     data: {
       name: 'Community Outreach',
-      type: CategoryType.CSR_ACTIVITY,
+      type: 'CSR_ACTIVITY',
     },
   });
 
   const challengeCat = await prisma.category.create({
     data: {
       name: 'Energy Savings',
-      type: CategoryType.CHALLENGE,
+      type: 'CHALLENGE',
     },
   });
 
