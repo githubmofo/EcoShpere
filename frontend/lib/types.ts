@@ -35,10 +35,30 @@ export interface EnvironmentalGoal {
 export interface CsrActivity {
   id: string;
   title: string;
-  date: string;
-  participants: number;
-  impact: string;
+  categoryId: string;
+  category: string;
+  description: string;
+  startDate: string;
+  endDate: string;
   status: "planned" | "ongoing" | "completed";
+  defaultPoints: number;
+  departmentId: string;
+  department: string;
+  participantCount: number;
+}
+
+export interface EmployeeParticipation {
+  id: string;
+  employeeId: string;
+  employeeName: string;
+  activityId: string;
+  activityTitle: string;
+  department: string;
+  proofFileName: string | null;
+  pointsEarned: number;
+  status: "pending" | "approved" | "rejected";
+  comments: string;
+  submittedAt: string;
 }
 
 export interface DiversityMetric {
@@ -49,68 +69,150 @@ export interface DiversityMetric {
   period: string;
 }
 
+export interface DiversitySummary {
+  genderDistribution: { label: string; value: number; percentage: number }[];
+  ageGroups: { label: string; value: number; percentage: number }[];
+  trainingCompletion: { total: number; completed: number; percentage: number };
+}
+
 // ─── Governance ──────────────────────────────────────────────
 export interface Policy {
   id: string;
   title: string;
   category: string;
   version: string;
+  description: string;
   effectiveDate: string;
   status: "active" | "draft" | "archived";
+  acknowledgedCount: number;
+  totalEmployees: number;
+}
+
+export interface PolicyAcknowledgement {
+  id: string;
+  policyId: string;
+  policyTitle: string;
+  employeeId: string;
+  employeeName: string;
+  department: string;
+  acknowledgedAt: string | null;
+  status: "pending" | "acknowledged";
 }
 
 export interface Audit {
   id: string;
   title: string;
+  departmentId: string;
+  department: string;
+  description: string;
   auditor: string;
-  date: string;
+  auditorId: string;
+  auditDate: string;
   findings: number;
   status: "scheduled" | "in-progress" | "completed";
+  linkedIssueCount: number;
 }
 
 export interface ComplianceIssue {
   id: string;
+  auditId: string;
+  auditTitle: string;
   title: string;
+  description: string;
   severity: "low" | "medium" | "high" | "critical";
   status: "open" | "in-progress" | "resolved";
+  ownerId: string;
+  owner: string;
+  dueDate: string;
   reportedDate: string;
-  assignee: string;
+  isOverdue: boolean;
 }
 
 // ─── Gamification ────────────────────────────────────────────
+// Full challenge lifecycle per the spec: Draft → Active → Under Review → Completed, or Archived.
+export type ChallengeStatus =
+  | "draft"
+  | "active"
+  | "under-review"
+  | "completed"
+  | "archived";
+
+export type Difficulty = "Easy" | "Medium" | "Hard";
+
 export interface Challenge {
   id: string;
   title: string;
   description: string;
-  points: number;
-  startDate: string;
-  endDate: string;
+  category: string;
+  icon: string; // emoji
+  xp: number;
+  difficulty: Difficulty;
+  deadline: string; // ISO date
+  status: ChallengeStatus;
+  evidenceRequired: boolean;
   participantCount: number;
-  status: "active" | "upcoming" | "completed";
 }
 
 export interface Badge {
   id: string;
   name: string;
   description: string;
-  icon: string;
+  icon: string; // emoji
+  criteria: string; // human-readable unlock rule
+  unlockType: "xp" | "challenges";
+  unlockThreshold: number;
+  earned: boolean;
   earnedBy: number;
-  criteria: string;
 }
 
 export interface Reward {
   id: string;
   name: string;
-  pointsCost: number;
   description: string;
-  available: boolean;
+  icon: string;
+  pointsCost: number;
+  stock: number;
+  category: string;
+}
+
+export interface RewardRedemption {
+  id: string;
+  rewardId: string;
+  rewardName: string;
+  pointsSpent: number;
+  redeemedAt: string;
+}
+
+export type ApprovalStatus = "pending" | "approved" | "rejected";
+
+export interface ChallengeParticipation {
+  id: string;
+  challengeId: string;
+  challengeTitle: string;
+  employee: string;
+  department: string;
+  progress: number; // 0-100
+  proof: string | null;
+  approvalStatus: ApprovalStatus;
+  xpAwarded: number;
 }
 
 export interface LeaderboardEntry {
   rank: number;
-  userId: string;
+  id: string;
   name: string;
+  kind: "employee" | "department";
   department: string;
+  xp: number;
+  badges: number;
+}
+
+export interface CurrentUser {
+  id: string;
+  name: string;
+  role: "Admin" | "Employee";
+  department: string;
+  xp: number;
   points: number;
   badges: number;
 }
@@ -122,6 +224,46 @@ export interface EsgScore {
   governance: number;
   overall: number;
   period: string;
+}
+
+export interface DepartmentScore {
+  department: string;
+  environmental: number;
+  social: number;
+  governance: number;
+  total: number;
+}
+
+export interface MonthlyEmission {
+  month: string; // e.g. "Feb"
+  emissions: number; // tCO2e
+  target: number;
+}
+
+export type ReportModule =
+  | "Environmental"
+  | "Social"
+  | "Governance"
+  | "Gamification";
+
+export type EsgCategory = "environmental" | "social" | "governance";
+
+export interface ReportFilters {
+  dateRange: string;
+  department: string;
+  module: string;
+  employee: string;
+  challenge: string;
+  esgCategory: string;
+}
+
+export interface ReportRow {
+  date: string;
+  department: string;
+  module: string;
+  metric: string;
+  value: string;
+  employee: string;
 }
 
 // ─── Settings ────────────────────────────────────────────────
