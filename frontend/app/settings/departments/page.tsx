@@ -10,7 +10,7 @@ export default function DepartmentsPage() {
   const [showModal, setShowModal] = useState(false);
   
   const [formData, setFormData] = useState<Partial<Department>>({
-    name: '', code: '', head_user_id: '', parent_department_id: '', employee_count: 0, status: 'Active'
+    name: '', code: '', headUserId: '', parentDepartmentId: '', employeeCount: 0, status: 'ACTIVE'
   });
   const [error, setError] = useState<string | null>(null);
 
@@ -47,14 +47,14 @@ export default function DepartmentsPage() {
     try {
       // Circular dependency prevention logic (basic)
       // Though for creation it cannot be its own parent since it doesn't exist yet.
-      // But if we add edit, we must check id !== parent_department_id
+      // But if we add edit, we must check id !== parentDepartmentId
       await createDepartment({
         ...formData,
-        parent_department_id: formData.parent_department_id === '' ? null : formData.parent_department_id,
-        employee_count: Number(formData.employee_count)
+        parentDepartmentId: formData.parentDepartmentId === '' ? null : formData.parentDepartmentId,
+        employeeCount: Number(formData.employeeCount)
       });
       setShowModal(false);
-      setFormData({ name: '', code: '', head_user_id: '', parent_department_id: '', employee_count: 0, status: 'Active' });
+      setFormData({ name: '', code: '', headUserId: '', parentDepartmentId: '', employeeCount: 0, status: 'ACTIVE' });
       await fetchDeps();
     } catch (err: unknown) {
       setError((err as Error).message || 'Failed to create department');
@@ -94,13 +94,13 @@ export default function DepartmentsPage() {
                 <tr key={dept.id}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{dept.name}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{dept.code}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{dept.head_user_id}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{dept.headUserId}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {departments.find(d => d.id === dept.parent_department_id)?.name || '-'}
+                    {departments.find(d => d.id === dept.parentDepartmentId)?.name || '-'}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{dept.employee_count}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{dept.employeeCount}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${dept.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${dept.status === 'ACTIVE' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
                       {dept.status}
                     </span>
                   </td>
@@ -139,11 +139,11 @@ export default function DepartmentsPage() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Head User ID</label>
-                  <input type="text" required value={formData.head_user_id} onChange={e => setFormData({...formData, head_user_id: e.target.value})} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border" />
+                  <input type="text" required value={formData.headUserId || ''} onChange={e => setFormData({...formData, headUserId: e.target.value})} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Parent Department</label>
-                  <select value={formData.parent_department_id || ''} onChange={e => setFormData({...formData, parent_department_id: e.target.value})} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border">
+                  <select value={formData.parentDepartmentId || ''} onChange={e => setFormData({...formData, parentDepartmentId: e.target.value})} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border">
                     <option value="">None</option>
                     {departments.map(d => (
                       <option key={d.id} value={d.id}>{d.name}</option>
@@ -152,13 +152,13 @@ export default function DepartmentsPage() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Employee Count</label>
-                  <input type="number" min="0" required value={formData.employee_count} onChange={e => setFormData({...formData, employee_count: parseInt(e.target.value)})} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border" />
+                  <input type="number" min="0" required value={formData.employeeCount} onChange={e => setFormData({...formData, employeeCount: parseInt(e.target.value)})} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Status</label>
-                  <select value={formData.status} onChange={e => setFormData({...formData, status: e.target.value as 'Active'|'Inactive'})} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border">
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
+                  <select value={formData.status} onChange={e => setFormData({...formData, status: e.target.value as 'ACTIVE'|'INACTIVE'})} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border">
+                    <option value="ACTIVE">Active</option>
+                    <option value="INACTIVE">Inactive</option>
                   </select>
                 </div>
                 <div className="mt-5 sm:mt-6 sm:flex sm:flex-row-reverse">

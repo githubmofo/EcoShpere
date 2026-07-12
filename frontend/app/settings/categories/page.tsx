@@ -11,7 +11,7 @@ export default function CategoriesPage() {
   const [isEditing, setIsEditing] = useState(false);
   
   const [formData, setFormData] = useState<Partial<Category>>({
-    name: '', type: 'CSR_ACTIVITY', status: 'Active'
+    name: '', type: 'CSR_ACTIVITY', status: 'ACTIVE'
   });
   const [error, setError] = useState<string | null>(null);
 
@@ -39,7 +39,7 @@ export default function CategoriesPage() {
   };
 
   const handleCreateNew = () => {
-    setFormData({ name: '', type: 'CSR_ACTIVITY', status: 'Active' });
+    setFormData({ name: '', type: 'CSR_ACTIVITY', status: 'ACTIVE' });
     setIsEditing(false);
     setShowModal(true);
   };
@@ -91,7 +91,7 @@ export default function CategoriesPage() {
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{cat.name}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{cat.type === 'CSR_ACTIVITY' ? 'CSR Activity' : 'Challenge'}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${cat.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${cat.status === 'ACTIVE' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
                       {cat.status}
                     </span>
                   </td>
@@ -133,9 +133,9 @@ export default function CategoriesPage() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Status</label>
-                  <select value={formData.status} onChange={e => setFormData({...formData, status: e.target.value as 'Active'|'Inactive'})} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border">
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
+                  <select value={formData.status} onChange={e => setFormData({...formData, status: e.target.value as 'ACTIVE'|'INACTIVE'})} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border">
+                    <option value="ACTIVE">Active</option>
+                    <option value="INACTIVE">Inactive</option>
                   </select>
                 </div>
                 <div className="mt-5 sm:mt-6 sm:flex sm:flex-row-reverse">

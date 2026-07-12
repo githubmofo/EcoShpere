@@ -5,7 +5,12 @@ import { getNotificationSettings, updateNotificationSettings } from '@/lib/api-c
 import { NotificationSettings } from '@/lib/types';
 
 export default function NotificationsPage() {
-  const [formData, setFormData] = useState<NotificationSettings | null>(null);
+  const [formData, setFormData] = useState<NotificationSettings>({
+    emailEnabled: true, inAppEnabled: true, 
+    notifyOnComplianceIssue: true, notifyOnComplianceOverdue: true,
+    notifyOnCsrApproval: true, notifyOnChallengeApproval: true,
+    notifyOnPolicyReminder: true, notifyOnBadgeUnlock: true
+  });
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -45,11 +50,11 @@ export default function NotificationsPage() {
 
   const getActiveTriggers = () => {
     const active = [];
-    if (formData.notifyComplianceIssueRaised) active.push("New Compliance Issue");
-    if (formData.notifyComplianceIssueOverdue) active.push("Overdue Compliance");
-    if (formData.notifyApprovalDecisions) active.push("CSR/Challenge Approval");
-    if (formData.notifyPolicyReminders) active.push("Policy Reminder");
-    if (formData.notifyBadgeUnlocks) active.push("Badge Unlocked");
+    if (formData.notifyOnComplianceIssue) active.push("New Compliance Issue");
+    if (formData.notifyOnComplianceOverdue) active.push("Overdue Compliance");
+    if (formData.notifyOnCsrApproval || formData.notifyOnChallengeApproval) active.push("CSR/Challenge Approval");
+    if (formData.notifyOnPolicyReminder) active.push("Policy Reminder");
+    if (formData.notifyOnBadgeUnlock) active.push("Badge Unlocked");
     return active;
   };
 
@@ -83,26 +88,75 @@ export default function NotificationsPage() {
             <div>
               <h3 className="text-lg font-medium text-gray-900 border-b pb-2 mb-4 mt-8">Notification Triggers</h3>
               <div className="space-y-4">
-                <label className="flex items-center space-x-3">
-                  <input type="checkbox" checked={formData.notifyComplianceIssueRaised} onChange={e => setFormData({...formData, notifyComplianceIssueRaised: e.target.checked})} className="h-4 w-4 text-blue-600 border-gray-300 rounded" />
-                  <span className="text-sm font-medium text-gray-700">Compliance Issue Raised</span>
-                </label>
-                <label className="flex items-center space-x-3 mt-4">
-                  <input type="checkbox" checked={formData.notifyComplianceIssueOverdue} onChange={e => setFormData({...formData, notifyComplianceIssueOverdue: e.target.checked})} className="h-4 w-4 text-blue-600 border-gray-300 rounded" />
-                  <span className="text-sm font-medium text-gray-700">Compliance Issue Overdue</span>
-                </label>
-                <label className="flex items-center space-x-3 mt-4">
-                  <input type="checkbox" checked={formData.notifyApprovalDecisions} onChange={e => setFormData({...formData, notifyApprovalDecisions: e.target.checked})} className="h-4 w-4 text-blue-600 border-gray-300 rounded" />
-                  <span className="text-sm font-medium text-gray-700">CSR/Challenge Approval Decisions</span>
-                </label>
-                <label className="flex items-center space-x-3 mt-4">
-                  <input type="checkbox" checked={formData.notifyPolicyReminders} onChange={e => setFormData({...formData, notifyPolicyReminders: e.target.checked})} className="h-4 w-4 text-blue-600 border-gray-300 rounded" />
-                  <span className="text-sm font-medium text-gray-700">Policy Reminders</span>
-                </label>
-                <label className="flex items-center space-x-3 mt-4">
-                  <input type="checkbox" checked={formData.notifyBadgeUnlocks} onChange={e => setFormData({...formData, notifyBadgeUnlocks: e.target.checked})} className="h-4 w-4 text-blue-600 border-gray-300 rounded" />
-                  <span className="text-sm font-medium text-gray-700">Badge Unlocks</span>
-                </label>
+            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div>
+                <h4 className="text-sm font-medium text-gray-900">Compliance Issue Raised</h4>
+                <p className="text-sm text-gray-500">Notify when a new compliance issue is flagged during audit</p>
+              </div>
+              <button 
+                type="button"
+                onClick={() => setFormData({...formData, notifyOnComplianceIssue: !formData.notifyOnComplianceIssue})}
+                className={`${formData.notifyOnComplianceIssue ? 'bg-blue-600' : 'bg-gray-200'} relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out`}
+              >
+                <span className={`${formData.notifyOnComplianceIssue ? 'translate-x-5' : 'translate-x-0'} inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out`} />
+              </button>
+            </div>
+            
+            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div>
+                <h4 className="text-sm font-medium text-gray-900">Compliance Issue Overdue</h4>
+                <p className="text-sm text-gray-500">Notify when an open issue passes its deadline</p>
+              </div>
+              <button 
+                type="button"
+                onClick={() => setFormData({...formData, notifyOnComplianceOverdue: !formData.notifyOnComplianceOverdue})}
+                className={`${formData.notifyOnComplianceOverdue ? 'bg-blue-600' : 'bg-gray-200'} relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out`}
+              >
+                <span className={`${formData.notifyOnComplianceOverdue ? 'translate-x-5' : 'translate-x-0'} inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out`} />
+              </button>
+            </div>
+
+            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div>
+                <h4 className="text-sm font-medium text-gray-900">CSR Approval Decisions</h4>
+                <p className="text-sm text-gray-500">Notify employees when their CSR activity is approved</p>
+              </div>
+              <button 
+                type="button"
+                onClick={() => setFormData({...formData, notifyOnCsrApproval: !formData.notifyOnCsrApproval})}
+                className={`${formData.notifyOnCsrApproval ? 'bg-blue-600' : 'bg-gray-200'} relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out`}
+              >
+                <span className={`${formData.notifyOnCsrApproval ? 'translate-x-5' : 'translate-x-0'} inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out`} />
+              </button>
+            </div>
+            
+            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div>
+                <h4 className="text-sm font-medium text-gray-900">Policy Reminders</h4>
+                <p className="text-sm text-gray-500">Send automated reminders for unacknowledged policies</p>
+              </div>
+              <button 
+                type="button"
+                onClick={() => setFormData({...formData, notifyOnPolicyReminder: !formData.notifyOnPolicyReminder})}
+                className={`${formData.notifyOnPolicyReminder ? 'bg-blue-600' : 'bg-gray-200'} relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out`}
+              >
+                <span className={`${formData.notifyOnPolicyReminder ? 'translate-x-5' : 'translate-x-0'} inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out`} />
+              </button>
+            </div>
+
+            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div>
+                <h4 className="text-sm font-medium text-gray-900">Badge Unlocks</h4>
+                <p className="text-sm text-gray-500">Notify users when they earn a new badge</p>
+              </div>
+              <button 
+                type="button"
+                onClick={() => setFormData({...formData, notifyOnBadgeUnlock: !formData.notifyOnBadgeUnlock})}
+                className={`${formData.notifyOnBadgeUnlock ? 'bg-blue-600' : 'bg-gray-200'} relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out`}
+              >
+                <span className={`${formData.notifyOnBadgeUnlock ? 'translate-x-5' : 'translate-x-0'} inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out`} />
+              </button>
+            </div>
               </div>
             </div>
 

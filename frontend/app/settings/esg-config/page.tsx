@@ -100,23 +100,47 @@ export default function EsgConfigPage() {
             <div>
               <h3 className="text-lg font-medium text-gray-900 border-b pb-2 mb-4 mt-8">Global Toggles</h3>
               <div className="space-y-4">
-                <label className="flex items-center space-x-3">
-                  <input type="checkbox" checked={formData.autoEmissionCalculation} onChange={e => setFormData({...formData, autoEmissionCalculation: e.target.checked})} className="h-4 w-4 text-blue-600 border-gray-300 rounded" />
-                  <span className="text-sm font-medium text-gray-700">Auto Emission Calculation</span>
-                </label>
-                <p className="text-xs text-gray-500 ml-7">Calculate carbon transactions automatically from ERP data without manual entry.</p>
+            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div>
+                <h4 className="text-sm font-medium text-gray-900">Auto Emission Calculation</h4>
+                <p className="text-sm text-gray-500">Automatically calculate emissions from department utilities</p>
+              </div>
+              <button 
+                type="button"
+                onClick={() => setFormData({...formData, autoEmissionEnabled: !formData.autoEmissionEnabled})}
+                className={`${formData.autoEmissionEnabled ? 'bg-blue-600' : 'bg-gray-200'} relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
+              >
+                <span className={`${formData.autoEmissionEnabled ? 'translate-x-5' : 'translate-x-0'} pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out`} />
+              </button>
+            </div>
+            
+            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div>
+                <h4 className="text-sm font-medium text-gray-900">Evidence Required for CSR</h4>
+                <p className="text-sm text-gray-500">Require users to upload proof before approving activities</p>
+              </div>
+              <button 
+                type="button"
+                onClick={() => setFormData({...formData, evidenceRequiredEnabled: !formData.evidenceRequiredEnabled})}
+                className={`${formData.evidenceRequiredEnabled ? 'bg-blue-600' : 'bg-gray-200'} relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
+              >
+                <span className={`${formData.evidenceRequiredEnabled ? 'translate-x-5' : 'translate-x-0'} pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out`} />
+              </button>
+            </div>
 
-                <label className="flex items-center space-x-3 mt-4">
-                  <input type="checkbox" checked={formData.evidenceRequirement} onChange={e => setFormData({...formData, evidenceRequirement: e.target.checked})} className="h-4 w-4 text-blue-600 border-gray-300 rounded" />
-                  <span className="text-sm font-medium text-gray-700">Evidence Requirement for CSR</span>
-                </label>
-                <p className="text-xs text-gray-500 ml-7">Require employees to upload proof files before approving CSR activities.</p>
-
-                <label className="flex items-center space-x-3 mt-4">
-                  <input type="checkbox" checked={formData.badgeAutoAward} onChange={e => setFormData({...formData, badgeAutoAward: e.target.checked})} className="h-4 w-4 text-blue-600 border-gray-300 rounded" />
-                  <span className="text-sm font-medium text-gray-700">Badge Auto-Award</span>
-                </label>
-                <p className="text-xs text-gray-500 ml-7">Automatically assign badges to employees when XP criteria are met.</p>
+            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div>
+                <h4 className="text-sm font-medium text-gray-900">Auto-Award Badges</h4>
+                <p className="text-sm text-gray-500">Automatically award badges when XP thresholds are met</p>
+              </div>
+              <button 
+                type="button"
+                onClick={() => setFormData({...formData, badgeAutoAwardEnabled: !formData.badgeAutoAwardEnabled})}
+                className={`${formData.badgeAutoAwardEnabled ? 'bg-blue-600' : 'bg-gray-200'} relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
+              >
+                <span className={`${formData.badgeAutoAwardEnabled ? 'translate-x-5' : 'translate-x-0'} pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out`} />
+              </button>
+            </div>
               </div>
             </div>
 

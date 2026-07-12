@@ -2,36 +2,39 @@ export interface Department {
   id: string;
   name: string;
   code: string;
-  head_user_id: string;
-  parent_department_id: string | null;
-  employee_count: number;
-  status: 'Active' | 'Inactive';
+  headUserId: string | null;
+  parentDepartmentId: string | null;
+  employeeCount: number;
+  status: 'ACTIVE' | 'INACTIVE';
 }
 
 export interface Category {
   id: string;
   name: string;
   type: 'CSR_ACTIVITY' | 'CHALLENGE';
-  status: 'Active' | 'Inactive';
+  status: 'ACTIVE' | 'INACTIVE';
 }
 
 export interface EsgConfig {
+  id?: string;
   envWeight: number;
   socialWeight: number;
   governanceWeight: number;
-  autoEmissionCalculation: boolean;
-  evidenceRequirement: boolean;
-  badgeAutoAward: boolean;
+  autoEmissionEnabled: boolean;
+  evidenceRequiredEnabled: boolean;
+  badgeAutoAwardEnabled: boolean;
 }
 
 export interface NotificationSettings {
+  id?: string;
   emailEnabled: boolean;
   inAppEnabled: boolean;
-  notifyComplianceIssueRaised: boolean;
-  notifyComplianceIssueOverdue: boolean;
-  notifyApprovalDecisions: boolean;
-  notifyPolicyReminders: boolean;
-  notifyBadgeUnlocks: boolean;
+  notifyOnComplianceIssue: boolean;
+  notifyOnComplianceOverdue: boolean;
+  notifyOnCsrApproval: boolean;
+  notifyOnChallengeApproval: boolean;
+  notifyOnPolicyReminder: boolean;
+  notifyOnBadgeUnlock: boolean;
 }
 
 export interface DepartmentScore {

@@ -77,8 +77,8 @@ export default function SettingsOverviewPage() {
             <h3 className="text-sm font-medium text-gray-500">Auto Emission Calc</h3>
             <p className="text-xs text-gray-400 mt-1">Automatic carbon transactions</p>
           </div>
-          <span className={`px-3 py-1 rounded-full text-xs font-medium ${esgConfig.autoEmissionCalculation ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
-            {esgConfig.autoEmissionCalculation ? 'Enabled' : 'Disabled'}
+          <span className={`px-3 py-1 rounded-full text-xs font-medium ${esgConfig.autoEmissionEnabled ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+            {esgConfig.autoEmissionEnabled ? 'Enabled' : 'Disabled'}
           </span>
         </div>
 
@@ -88,8 +88,8 @@ export default function SettingsOverviewPage() {
             <h3 className="text-sm font-medium text-gray-500">Evidence Required</h3>
             <p className="text-xs text-gray-400 mt-1">Proof files for CSR activities</p>
           </div>
-          <span className={`px-3 py-1 rounded-full text-xs font-medium ${esgConfig.evidenceRequirement ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
-            {esgConfig.evidenceRequirement ? 'Enabled' : 'Disabled'}
+          <span className={`px-3 py-1 rounded-full text-xs font-medium ${esgConfig.evidenceRequiredEnabled ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+            {esgConfig.evidenceRequiredEnabled ? 'Enabled' : 'Disabled'}
           </span>
         </div>
 
@@ -99,8 +99,8 @@ export default function SettingsOverviewPage() {
             <h3 className="text-sm font-medium text-gray-500">Badge Auto-Award</h3>
             <p className="text-xs text-gray-400 mt-1">Auto-assign based on XP</p>
           </div>
-          <span className={`px-3 py-1 rounded-full text-xs font-medium ${esgConfig.badgeAutoAward ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
-            {esgConfig.badgeAutoAward ? 'Enabled' : 'Disabled'}
+          <span className={`px-3 py-1 rounded-full text-xs font-medium ${esgConfig.badgeAutoAwardEnabled ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+            {esgConfig.badgeAutoAwardEnabled ? 'Enabled' : 'Disabled'}
           </span>
         </div>
 
