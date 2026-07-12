@@ -1,0 +1,17 @@
+// src/common/prisma-client.ts
+// Singleton Prisma client instance
+
+// import { PrismaClient } from "@prisma/client";
+//
+// const globalForPrisma = globalThis as unknown as {
+//   prisma: PrismaClient | undefined;
+// };
+//
+// export const prisma = globalForPrisma.prisma ?? new PrismaClient();
+//
+// if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+//
+// export default prisma;
+
+// TODO: Uncomment above after running `npx prisma generate`
+export {};
