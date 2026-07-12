@@ -48,6 +48,10 @@ export default function EnvironmentalLayout({
     { name: "Goals", href: "/environmental/goals", icon: Target },
   ];
 
+  if (pathname === "/environmental") {
+    return <>{children}</>;
+  }
+
   return (
     <div className="space-y-6">
       

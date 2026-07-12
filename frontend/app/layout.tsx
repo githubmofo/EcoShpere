@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Outfit, JetBrains_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/layout/Sidebar";
 import TopBar from "@/components/layout/TopBar";
 
-const outfit = Outfit({
-  variable: "--font-outfit",
+const plusJakartaSans = Plus_Jakarta_Sans({
+  variable: "--font-plus-jakarta-sans",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  weight: ["300", "400", "500", "600", "700", "800"],
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${outfit.variable} ${jetbrainsMono.variable} h-full antialiased dark`}
+      className={`${plusJakartaSans.variable} ${jetbrainsMono.variable} h-full antialiased dark`}
     >
       <body className="min-h-full bg-background text-foreground flex overflow-hidden">
         {/* Left Navigation Sidebar */}
