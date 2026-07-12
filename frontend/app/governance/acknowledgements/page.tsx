@@ -2,18 +2,21 @@
 
 import { useEffect, useState, useTransition } from "react";
 import { PolicyAcknowledgement, Policy } from "@/lib/types";
-import { apiGet, apiPost } from "@/lib/api-client";
+import { apiGet } from "@/lib/api-client";
 import GovernancePage from "../page";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CheckCircle2 } from "lucide-react";
 
 export default function AcknowledgementsPage() {
   const [acks, setAcks] = useState<PolicyAcknowledgement[]>([]);
   const [policies, setPolicies] = useState<Policy[]>([]);
   const [loading, setLoading] = useState(true);
   const [isPending, startTransition] = useTransition();
+  // Track which policies were acknowledged in this session (covers the UUID mismatch)
+  const [locallyAcked, setLocallyAcked] = useState<Set<string>>(new Set());
 
   const fetchData = async () => {
     setLoading(true);
@@ -24,6 +27,10 @@ export default function AcknowledgementsPage() {
       ]);
       setAcks(aData);
       setPolicies(pData);
+
+      // Pre-populate locallyAcked from server data so already-acknowledged policies show correctly
+      const ackedPolicyIds = new Set(aData.map(a => a.policyId));
+      setLocallyAcked(prev => new Set([...prev, ...ackedPolicyIds]));
     } catch (e) {
       console.error(e);
     } finally {
@@ -38,12 +45,26 @@ export default function AcknowledgementsPage() {
   const handleAcknowledge = (policyId: string) => {
     startTransition(async () => {
       try {
-        await apiPost("/governance/acknowledgements", {
-          policyId,
-          employeeId: "emp_current",
-          employeeName: "Current User",
-          department: "Engineering"
+        const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
+        const res = await fetch(`${API_BASE_URL}/governance/acknowledgements`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            policyId,
+            employeeId: "emp_current",
+          }),
         });
+
+        if (res.status === 409) {
+          // Already acknowledged — treat as success
+          setLocallyAcked(prev => new Set(prev).add(policyId));
+          return;
+        }
+
+        if (!res.ok) throw new Error(`API error: ${res.status}`);
+
+        // Success — mark as acknowledged locally and refresh data
+        setLocallyAcked(prev => new Set(prev).add(policyId));
         fetchData();
       } catch (e) {
         console.error(e);
@@ -76,8 +97,8 @@ export default function AcknowledgementsPage() {
               </TableHeader>
               <TableBody>
                 {policies.map(p => {
-                  const ack = acks.find(a => a.policyId === p.id && a.employeeId === "emp_current");
-                  const isAcked = !!ack;
+                  const isAcked = locallyAcked.has(p.id);
+                  const ack = acks.find(a => a.policyId === p.id);
                   
                   return (
                     <TableRow key={p.id}>
@@ -87,7 +108,10 @@ export default function AcknowledgementsPage() {
                       <TableCell className="text-right">
                         {isAcked ? (
                           <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
-                            Acknowledged on {new Date(ack.acknowledgedAt!).toLocaleDateString()}
+                            <CheckCircle2 className="w-3.5 h-3.5 mr-1.5 inline-block" />
+                            {ack?.acknowledgedAt
+                              ? `Acknowledged on ${new Date(ack.acknowledgedAt).toLocaleDateString()}`
+                              : "Acknowledged ✓"}
                           </Badge>
                         ) : (
                           <Button 

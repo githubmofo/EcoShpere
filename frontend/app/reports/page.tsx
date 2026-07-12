@@ -4,7 +4,7 @@
 // Member 3 – Reports Tab: prebuilt reports + custom report builder with exports.
 
 import { useEffect, useState } from "react";
-import PlatformFrame from "@/components/layout/PlatformFrame";
+
 import PillTabs from "@/components/shared/PillTabs";
 import { Toaster } from "@/components/feedback/Toaster";
 import { Card } from "@/components/ui/card";
@@ -73,7 +73,7 @@ export default function ReportsPage() {
   }, []);
 
   return (
-    <PlatformFrame>
+    <>
       <div className="space-y-5">
         <div>
           <h1 className="text-xl font-semibold">Reports</h1>
@@ -119,6 +119,6 @@ export default function ReportsPage() {
         {tab === "custom" && <CustomBuilder data={data} />}
       </div>
       <Toaster />
-    </PlatformFrame>
+    </>
   );
 }

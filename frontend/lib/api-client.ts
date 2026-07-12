@@ -8,7 +8,14 @@ import {
   initialEnvironmentalGoals,
   initialDepartmentScores,
   initialEmissionsTrend,
-  initialRecentActivities
+  initialRecentActivities,
+  mockCsrActivities,
+  mockParticipation,
+  mockDiversitySummary,
+  mockPolicies,
+  mockAcknowledgements,
+  mockAudits,
+  mockComplianceIssues
 } from "./mock-data";
 
 import { computeOverallEsgScore } from "./scoring";
@@ -86,6 +93,14 @@ function handleMockRequest(endpoint: string, method: string, body?: any): any {
   if (endpoint.startsWith("/dashboard/recent-activity")) {
     return getLocalStorageData(STORAGE_KEYS.RECENT_ACTIVITIES, initialRecentActivities);
   }
+
+  if (endpoint.startsWith("/social/csr-activities")) return mockCsrActivities;
+  if (endpoint.startsWith("/social/participation")) return mockParticipation;
+  if (endpoint.startsWith("/social/diversity-summary")) return mockDiversitySummary;
+  if (endpoint.startsWith("/governance/policies")) return mockPolicies;
+  if (endpoint.startsWith("/governance/acknowledgements")) return mockAcknowledgements;
+  if (endpoint.startsWith("/governance/audits")) return mockAudits;
+  if (endpoint.startsWith("/governance/compliance-issues")) return mockComplianceIssues;
 
   if (endpoint.startsWith("/environmental/summary")) {
     const txs = getLocalStorageData(STORAGE_KEYS.CARBON_TRANSACTIONS, initialCarbonTransactions);

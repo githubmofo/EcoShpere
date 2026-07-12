@@ -30,7 +30,7 @@ export default function RootLayout({
       lang="en"
       className={`${plusJakartaSans.variable} ${jetbrainsMono.variable} h-full antialiased dark`}
     >
-      <body className="min-h-full bg-background text-foreground flex overflow-hidden">
+      <body className="min-h-full bg-background text-foreground">
         <PlatformFrame>{children}</PlatformFrame>
         <Toaster />
       </body>

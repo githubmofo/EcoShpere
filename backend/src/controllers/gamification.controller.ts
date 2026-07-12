@@ -1,9 +1,14 @@
 // src/controllers/gamification.controller.ts
-// Gamification endpoints backed by Prisma / MySQL.
+// Gamification endpoints backed by Prisma / SQL Server.
 
 import { Request, Response } from "express";
-import { Status, ApprovalStatus } from "@prisma/client";
 import prisma from "../common/prisma-client";
+
+// Local constants — schema uses plain Strings, not Prisma enums
+const Status = { ACTIVE: 'ACTIVE', DRAFT: 'DRAFT', ARCHIVED: 'ARCHIVED', INACTIVE: 'INACTIVE' } as const;
+type Status = (typeof Status)[keyof typeof Status];
+const ApprovalStatus = { PENDING: 'PENDING', APPROVED: 'APPROVED', REJECTED: 'REJECTED' } as const;
+type ApprovalStatus = (typeof ApprovalStatus)[keyof typeof ApprovalStatus];
 
 // DB Status enum → frontend challenge lifecycle status
 const STATUS_TO_UI: Record<Status, string> = {

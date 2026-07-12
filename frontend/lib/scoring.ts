@@ -63,9 +63,9 @@ export function computeOverallEsgScore(
   const validWeights = getValidWeights(weights);
 
   // Compute the average E, S, and G scores across all departments first
-  const totalEnv = departmentScores.reduce((sum, dept) => sum + dept.environmentalScore, 0);
-  const totalSoc = departmentScores.reduce((sum, dept) => sum + dept.socialScore, 0);
-  const totalGov = departmentScores.reduce((sum, dept) => sum + dept.governanceScore, 0);
+  const totalEnv = departmentScores.reduce((sum, dept) => sum + (dept.environmentalScore ?? dept.environmental), 0);
+  const totalSoc = departmentScores.reduce((sum, dept) => sum + (dept.socialScore ?? dept.social), 0);
+  const totalGov = departmentScores.reduce((sum, dept) => sum + (dept.governanceScore ?? dept.governance), 0);
   
   const avgEnv = totalEnv / departmentScores.length;
   const avgSoc = totalSoc / departmentScores.length;

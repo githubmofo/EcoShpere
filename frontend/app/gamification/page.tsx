@@ -5,7 +5,7 @@
 
 import { useEffect, useState } from "react";
 import { Award, Coins, Trophy, Zap } from "lucide-react";
-import PlatformFrame from "@/components/layout/PlatformFrame";
+
 import PillTabs from "@/components/shared/PillTabs";
 import { KpiCard } from "@/components/shared/kit";
 import { Toaster, toast } from "@/components/feedback/Toaster";
@@ -239,7 +239,7 @@ export default function GamificationPage() {
   ];
 
   return (
-    <PlatformFrame>
+    <>
       <div className="space-y-5">
         <div>
           <h1 className="text-xl font-semibold">Gamification</h1>
@@ -311,6 +311,6 @@ export default function GamificationPage() {
         )}
       </div>
       <Toaster />
-    </PlatformFrame>
+    </>
   );
 }

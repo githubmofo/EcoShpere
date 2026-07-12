@@ -93,7 +93,7 @@ export default function ComplianceIssuesPage() {
                   <TableCell>
                     <div className="flex items-center gap-2">
                       <span className={issue.isOverdue ? "font-semibold text-destructive" : ""}>
-                        {issue.dueDate}
+                        {new Date(issue.dueDate).toLocaleDateString()}
                       </span>
                       {issue.isOverdue && (
                         <Badge variant="destructive" className="h-5 px-1 text-[10px] uppercase">

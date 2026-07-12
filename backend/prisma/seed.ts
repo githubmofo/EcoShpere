@@ -1,15 +1,15 @@
 import { prisma } from '../src/common/prisma-client';
-import {
-  Role,
-  CategoryType,
-  Status,
-  CsrStatus,
-  ApprovalStatus,
-  AuditStatus,
-  Severity,
-  IssueStatus,
-} from '@prisma/client';
 import { PrismaClient } from '@prisma/client';
+
+// Local constants — the schema uses plain String fields, not Prisma enums
+const Role = { ADMIN: 'ADMIN', DEPT_HEAD: 'DEPT_HEAD', EMPLOYEE: 'EMPLOYEE' } as const;
+const CategoryType = { CHALLENGE: 'CHALLENGE', CSR_ACTIVITY: 'CSR_ACTIVITY' } as const;
+const Status = { DRAFT: 'DRAFT', ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE', ARCHIVED: 'ARCHIVED' } as const;
+const CsrStatus = { PLANNED: 'PLANNED', ONGOING: 'ONGOING', COMPLETED: 'COMPLETED' } as const;
+const ApprovalStatus = { PENDING: 'PENDING', APPROVED: 'APPROVED', REJECTED: 'REJECTED' } as const;
+const AuditStatus = { SCHEDULED: 'SCHEDULED', IN_PROGRESS: 'IN_PROGRESS', COMPLETED: 'COMPLETED' } as const;
+const Severity = { LOW: 'LOW', MEDIUM: 'MEDIUM', HIGH: 'HIGH', CRITICAL: 'CRITICAL' } as const;
+const IssueStatus = { OPEN: 'OPEN', IN_PROGRESS: 'IN_PROGRESS', RESOLVED: 'RESOLVED' } as const;
 
 const daysFromNow = (n: number) => new Date(Date.now() + n * 86400000);
 

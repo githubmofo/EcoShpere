@@ -130,8 +130,8 @@ export default function CustomBuilder({ data }: { data: ReportsData }) {
             <select value={challenge} onChange={(e) => setChallenge(e.target.value)} className={selectClass()}>
               <option value="all">All</option>
               {data.challenges.map((c) => (
-                <option key={c.id} value={c.title}>
-                  {c.title}
+                <option key={c} value={c}>
+                  {c}
                 </option>
               ))}
             </select>
