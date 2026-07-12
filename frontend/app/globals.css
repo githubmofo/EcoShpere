@@ -46,6 +46,24 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  --color-module-env: var(--module-env);
+  --color-module-soc: var(--module-soc);
+  --color-module-gov: var(--module-gov);
+  --color-module-gam: var(--module-gam);
+  --color-module-rep: var(--module-rep);
+  --color-module-set: var(--module-set);
+
+  --color-esg-bg-root: var(--esg-bg-root);
+  --color-esg-bg-surface: var(--esg-bg-surface);
+  --color-esg-bg-surface-muted: var(--esg-bg-surface-muted);
+  --color-esg-border-subtle: var(--esg-border-subtle);
+  --color-esg-text-primary: var(--esg-text-primary);
+  --color-esg-text-muted: var(--esg-text-muted);
+  --color-esg-accent-primary: var(--esg-accent-primary);
+  --color-esg-accent-secondary: var(--esg-accent-secondary);
+  --color-esg-accent-success: var(--esg-accent-success);
+  --color-esg-accent-warning: var(--esg-accent-warning);
+  --color-esg-accent-danger: var(--esg-accent-danger);
 }
 
 :root {
@@ -81,6 +99,25 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  
+  --module-env: hsl(142, 71%, 45%);
+  --module-soc: hsl(221, 83%, 53%);
+  --module-gov: hsl(262, 83%, 58%);
+  --module-gam: hsl(24, 98%, 50%);
+  --module-rep: hsl(175, 84%, 32%);
+  --module-set: hsl(215, 20%, 65%);
+
+  --esg-bg-root: oklch(0.98 0 0);
+  --esg-bg-surface: oklch(1 0 0);
+  --esg-bg-surface-muted: oklch(0.96 0 0);
+  --esg-border-subtle: oklch(0.92 0 0);
+  --esg-text-primary: oklch(0.145 0 0);
+  --esg-text-muted: oklch(0.556 0 0);
+  --esg-accent-primary: oklch(0.6 0.15 250);
+  --esg-accent-secondary: oklch(0.7 0.17 150);
+  --esg-accent-success: oklch(0.65 0.15 150);
+  --esg-accent-warning: oklch(0.75 0.14 60);
+  --esg-accent-danger: oklch(0.6 0.18 20);
 }
 
 .dark {
@@ -125,6 +162,25 @@
   --sidebar-accent-foreground: oklch(0.97 0.005 250);
   --sidebar-border: oklch(1 0 0 / 6%);
   --sidebar-ring: oklch(0.75 0.15 140);
+  
+  --module-env: hsl(142, 71%, 45%);
+  --module-soc: hsl(221, 83%, 53%);
+  --module-gov: hsl(262, 83%, 58%);
+  --module-gam: hsl(24, 98%, 50%);
+  --module-rep: hsl(175, 84%, 32%);
+  --module-set: hsl(215, 20%, 65%);
+
+  --esg-bg-root: oklch(0.1 0.005 250);
+  --esg-bg-surface: oklch(0.13 0.008 250);
+  --esg-bg-surface-muted: oklch(0.16 0.008 250);
+  --esg-border-subtle: oklch(1 0 0 / 10%);
+  --esg-text-primary: oklch(0.97 0.005 250);
+  --esg-text-muted: oklch(0.65 0.01 250);
+  --esg-accent-primary: oklch(0.65 0.17 250);
+  --esg-accent-secondary: oklch(0.705 0.17 150);
+  --esg-accent-success: oklch(0.705 0.17 150);
+  --esg-accent-warning: oklch(0.75 0.14 60);
+  --esg-accent-danger: oklch(0.65 0.18 20);
 }
 
 @layer base {

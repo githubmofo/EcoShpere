@@ -19,7 +19,7 @@ export default function NotificationsPage() {
     const fetchSettings = async () => {
       try {
         const data = await getNotificationSettings();
-        setFormData(data);
+        setFormData(prev => ({ ...prev, ...data }));
       } catch (err) {
         console.error(err);
       }

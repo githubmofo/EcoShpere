@@ -1,111 +1,152 @@
 "use client";
 
-// components/layout/PlatformFrame.tsx
-// App shell for the EcoSphere platform: top app bar + module tabs + a "window"
-// container. Mirrors the mockup (EcoSphere: <Module> window with orange active tab).
-
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bell, Leaf, Search } from "lucide-react";
+import { useTheme } from "next-themes";
+import { 
+  Bell, Leaf, Search, Menu, X, 
+  LayoutDashboard, Globe, Users, Shield, 
+  Trophy, FileText, Settings, Sun, Moon 
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { currentUser } from "@/lib/mock-data";
 
 const MODULES = [
-  { label: "Dashboard", href: "/dashboard" },
-  { label: "Environmental", href: "/environmental" },
-  { label: "Social", href: "/social" },
-  { label: "Governance", href: "/governance" },
-  { label: "Gamification", href: "/gamification" },
-  { label: "Reports", href: "/reports" },
-  { label: "Settings", href: "/settings" },
+  { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { label: "Environmental", href: "/environmental", icon: Globe },
+  { label: "Social", href: "/social", icon: Users },
+  { label: "Governance", href: "/governance", icon: Shield },
+  { label: "Gamification", href: "/gamification", icon: Trophy },
+  { label: "Reports", href: "/reports", icon: FileText },
+  { label: "Settings", href: "/settings", icon: Settings },
 ];
 
-export default function PlatformFrame({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function PlatformFrame({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const initials = currentUser.name
-    .split(" ")
-    .map((p) => p[0])
-    .join("");
+  const { theme, setTheme } = useTheme();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  
+  const initials = currentUser.name.split(" ").map((p) => p[0]).join("");
+
+  // Determine current module for the Topbar title
+  const currentModule = MODULES.find(m => pathname.startsWith(m.href)) || MODULES[0];
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col">
-      {/* Top app bar with premium glassmorphism */}
-      <header className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b border-white/5 bg-background/60 px-4 backdrop-blur-2xl md:px-6 transition-all">
-        <div className="flex items-center gap-2">
-          <span className="flex size-8 items-center justify-center rounded-lg bg-primary/15 text-primary">
+    <div className="flex min-h-screen w-full bg-esg-bg-root text-esg-text-primary transition-colors duration-300">
+      
+      {/* Mobile Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 z-40 bg-black/80 backdrop-blur-sm md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
+      {/* Left Sidebar */}
+      <aside className={cn(
+        "fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-esg-border-subtle bg-esg-bg-surface transition-transform duration-300 md:translate-x-0 md:static",
+        isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+      )}>
+        <div className="flex h-16 shrink-0 items-center gap-3 px-6 border-b border-esg-border-subtle">
+          <span className="flex size-8 items-center justify-center rounded-lg bg-[var(--color-esg-accent-primary)]/15 text-[var(--color-esg-accent-primary)] shadow-sm">
             <Leaf className="size-4.5" />
           </span>
           <div className="leading-tight">
-            <p className="text-sm font-semibold">EcoSphere</p>
-            <p className="text-[10px] text-muted-foreground">
-              ESG Management Platform
-            </p>
+            <h2 className="text-sm font-bold tracking-tight">EcoSphere</h2>
+            <p className="text-[10px] font-medium text-esg-text-muted uppercase tracking-wider">ESG Platform</p>
           </div>
+          <button className="ml-auto md:hidden text-esg-text-muted" onClick={() => setIsSidebarOpen(false)}>
+            <X className="size-5" />
+          </button>
         </div>
 
-        <div className="relative ml-auto hidden md:block">
-          <Search className="absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
-          <input
-            placeholder="Search…"
-            className="h-8 w-56 rounded-lg border border-input bg-input/30 pl-8 pr-3 text-sm outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/40"
-          />
-        </div>
-
-        <button
-          className="relative flex size-9 items-center justify-center rounded-xl bg-white/5 text-muted-foreground transition-all hover:bg-primary/10 hover:text-primary active:scale-95 border border-white/5 shadow-sm"
-          aria-label="Notifications"
-        >
-          <Bell className="size-4.5" />
-          <span className="absolute right-2 top-2 size-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse" />
-        </button>
-
-        <div className="flex items-center gap-2">
-          <span className="flex size-8 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
-            {initials}
-          </span>
-          <div className="hidden leading-tight sm:block">
-            <p className="text-xs font-medium">{currentUser.name}</p>
-            <p className="text-[10px] text-muted-foreground">
-              {currentUser.role}
-            </p>
-          </div>
-        </div>
-      </header>
-
-      {/* Module tabs */}
-      <nav className="sticky top-16 z-30 border-b border-white/5 bg-background/60 px-2 backdrop-blur-xl md:px-6 shadow-sm">
-        <div className="flex items-center gap-2 overflow-x-auto py-1 scrollbar-none">
+        <nav className="flex-1 overflow-y-auto py-6 px-3 space-y-1 scrollbar-none">
           {MODULES.map((m) => {
             const active = pathname.startsWith(m.href);
+            const Icon = m.icon;
             return (
               <Link
                 key={m.href}
                 href={m.href}
                 className={cn(
-                  "relative whitespace-nowrap px-4 py-3 text-xs font-bold uppercase tracking-wider transition-all duration-300 rounded-lg my-1",
+                  "group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200 border-l-4",
                   active
-                    ? "text-primary bg-primary/10"
-                    : "text-muted-foreground hover:text-foreground hover:bg-white/5"
+                    ? "bg-[var(--color-esg-accent-primary)]/10 text-[var(--color-esg-accent-primary)] border-[var(--color-esg-accent-primary)] shadow-sm"
+                    : "text-esg-text-muted border-transparent hover:bg-esg-bg-surface-muted hover:text-esg-text-primary"
                 )}
+                onClick={() => setIsSidebarOpen(false)}
               >
+                <Icon className={cn("size-4.5 transition-colors", active ? "text-[var(--color-esg-accent-primary)]" : "group-hover:text-esg-text-primary")} />
                 {m.label}
-                {active && (
-                  <span className="absolute inset-x-3 -bottom-1 h-0.5 rounded-t-full bg-primary shadow-[0_-2px_8px_rgba(16,185,129,0.5)]" />
-                )}
               </Link>
             );
           })}
-        </div>
-      </nav>
+        </nav>
+      </aside>
 
-      {/* Window content */}
-      <main className="mx-auto max-w-[1400px] px-3 py-5 md:px-6 md:py-7">
-        {children}
-      </main>
+      {/* Main Content Area */}
+      <div className="flex flex-1 flex-col overflow-hidden">
+        
+        {/* Topbar */}
+        <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center gap-4 border-b border-esg-border-subtle bg-esg-bg-surface/80 px-4 backdrop-blur-2xl md:px-6">
+          <button 
+            className="md:hidden flex size-9 items-center justify-center rounded-xl bg-esg-bg-surface-muted border border-esg-border-subtle text-esg-text-muted"
+            onClick={() => setIsSidebarOpen(true)}
+          >
+            <Menu className="size-5" />
+          </button>
+
+          <h1 className="text-lg font-bold tracking-tight hidden sm:block">
+            {currentModule.label}
+          </h1>
+
+          <div className="relative ml-auto flex-1 max-w-md hidden md:block">
+            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-esg-text-muted" />
+            <input
+              placeholder="Search platform..."
+              className="h-9 w-full rounded-full border border-esg-border-subtle bg-esg-bg-surface-muted pl-9 pr-4 text-sm outline-none transition-all placeholder:text-esg-text-muted focus-visible:border-[var(--color-esg-accent-primary)] focus-visible:ring-2 focus-visible:ring-[var(--color-esg-accent-primary)]/30 focus-visible:bg-esg-bg-surface"
+            />
+          </div>
+
+          <div className="flex items-center gap-2 ml-auto md:ml-4">
+            <button
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="relative flex size-9 items-center justify-center rounded-full bg-esg-bg-surface-muted text-esg-text-muted transition-all hover:bg-esg-bg-surface-muted/80 hover:text-esg-text-primary active:scale-95 border border-esg-border-subtle"
+            >
+              <Sun className="h-[1.1rem] w-[1.1rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <Moon className="absolute h-[1.1rem] w-[1.1rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+              <span className="sr-only">Toggle theme</span>
+            </button>
+
+            <button
+              className="relative flex size-9 items-center justify-center rounded-full bg-esg-bg-surface-muted text-esg-text-muted transition-all hover:bg-esg-bg-surface-muted/80 hover:text-esg-text-primary active:scale-95 border border-esg-border-subtle"
+            >
+              <Bell className="size-4.5" />
+              <span className="absolute right-2 top-2 size-2 rounded-full bg-[var(--color-esg-accent-danger)] shadow-[0_0_8px_var(--color-esg-accent-danger)] animate-pulse" />
+            </button>
+
+            <div className="flex items-center gap-2 ml-2 pl-2 border-l border-esg-border-subtle">
+              <span className="flex size-8 items-center justify-center rounded-full bg-[var(--color-esg-accent-primary)] text-xs font-bold text-white shadow-sm">
+                {initials}
+              </span>
+              <div className="hidden leading-tight lg:block">
+                <p className="text-sm font-semibold">{currentUser.name}</p>
+                <p className="text-[10px] text-esg-text-muted uppercase tracking-wide">
+                  {currentUser.role}
+                </p>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* Scrollable Page Content */}
+        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 scroll-smooth">
+          <div className="mx-auto max-w-[1400px]">
+            {children}
+          </div>
+        </main>
+      </div>
     </div>
   );
 }

@@ -129,18 +129,17 @@ function EsgProgressRing({ score, size = 130 }: { score: number; size?: number }
         />
         <defs>
           <linearGradient id="esgObsidianGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#10b981" />
-            <stop offset="50%" stopColor="#3b82f6" />
-            <stop offset="100%" stopColor="#8b5cf6" />
+            <stop offset="0%" stopColor="var(--color-esg-accent-primary)" />
+            <stop offset="100%" stopColor="var(--color-esg-accent-secondary)" />
           </linearGradient>
         </defs>
       </svg>
       {/* Center Label */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-950/40 rounded-full backdrop-blur-sm m-2 border border-white/5 shadow-inner">
-        <span className="text-3xl font-black text-white font-mono tracking-tighter">
+      <div className="absolute inset-0 flex flex-col items-center justify-center bg-esg-bg-surface-muted rounded-full backdrop-blur-sm m-2 border border-esg-border-subtle shadow-inner">
+        <span className="text-3xl font-black text-esg-text-primary font-mono tracking-tighter">
           <AnimatedNumber value={score} />
         </span>
-        <span className="text-[7px] text-zinc-400 font-black uppercase tracking-widest mt-0.5">Sustain Index</span>
+        <span className="text-[7px] text-esg-text-muted font-black uppercase tracking-widest mt-0.5">Sustain Index</span>
       </div>
     </div>
   );
@@ -181,12 +180,12 @@ function Sparkline({ data, color }: { data: number[]; color: string }) {
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-zinc-950/95 backdrop-blur-md border border-white/10 p-3 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.8)]">
-        <p className="text-[9px] font-black text-zinc-500 uppercase tracking-wider">{label}</p>
+      <div className="bg-esg-bg-surface backdrop-blur-md border border-esg-border-subtle p-3 rounded-xl shadow-lg">
+        <p className="text-[9px] font-black text-esg-text-muted uppercase tracking-wider">{label}</p>
         <div className="mt-1 flex items-center gap-1.5">
           <div className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: payload[0].color || payload[0].fill }} />
-          <p className="text-xs font-bold text-white">
-            {payload[0].name}: <span className="text-emerald-400 font-extrabold">{payload[0].value.toLocaleString()}</span>
+          <p className="text-xs font-bold text-esg-text-primary">
+            {payload[0].name}: <span className="text-[var(--color-esg-accent-primary)] font-extrabold">{payload[0].value.toLocaleString()}</span>
           </p>
         </div>
       </div>
@@ -283,28 +282,28 @@ export default function DashboardPage() {
 
   const getScoreRangeStyle = (score: number) => {
     if (score >= 80) return {
-      border: "border-emerald-500/10 hover:border-emerald-500/30",
-      bg: "bg-emerald-950/10",
-      text: "text-emerald-400",
-      glow: "shadow-[0_0_15px_rgba(16,185,129,0.05)]",
-      badge: "bg-emerald-500/10 text-emerald-400 border-emerald-500/25",
-      sparklineColor: "#10b981",
+      border: "border-[var(--color-esg-accent-success)]/10 hover:border-[var(--color-esg-accent-success)]/30",
+      bg: "bg-[var(--color-esg-accent-success)]/10",
+      text: "text-[var(--color-esg-accent-success)]",
+      glow: "shadow-[0_0_15px_var(--color-esg-accent-success)]",
+      badge: "bg-[var(--color-esg-accent-success)]/10 text-[var(--color-esg-accent-success)] border-[var(--color-esg-accent-success)]/25",
+      sparklineColor: "var(--color-esg-accent-success)",
     };
     if (score >= 60) return {
-      border: "border-amber-500/10 hover:border-amber-500/30",
-      bg: "bg-amber-950/10",
-      text: "text-amber-400",
-      glow: "shadow-[0_0_15px_rgba(245,158,11,0.05)]",
-      badge: "bg-amber-500/10 text-amber-400 border-amber-500/25",
-      sparklineColor: "#f59e0b",
+      border: "border-[var(--color-esg-accent-warning)]/10 hover:border-[var(--color-esg-accent-warning)]/30",
+      bg: "bg-[var(--color-esg-accent-warning)]/10",
+      text: "text-[var(--color-esg-accent-warning)]",
+      glow: "shadow-[0_0_15px_var(--color-esg-accent-warning)]",
+      badge: "bg-[var(--color-esg-accent-warning)]/10 text-[var(--color-esg-accent-warning)] border-[var(--color-esg-accent-warning)]/25",
+      sparklineColor: "var(--color-esg-accent-warning)",
     };
     return {
-      border: "border-red-500/10 hover:border-red-500/30",
-      bg: "bg-red-950/10",
-      text: "text-red-400",
-      glow: "shadow-[0_0_15px_rgba(239,68,68,0.05)]",
-      badge: "bg-red-500/10 text-red-400 border-red-500/25",
-      sparklineColor: "#ef4444",
+      border: "border-[var(--color-esg-accent-danger)]/10 hover:border-[var(--color-esg-accent-danger)]/30",
+      bg: "bg-[var(--color-esg-accent-danger)]/10",
+      text: "text-[var(--color-esg-accent-danger)]",
+      glow: "shadow-[0_0_15px_var(--color-esg-accent-danger)]",
+      badge: "bg-[var(--color-esg-accent-danger)]/10 text-[var(--color-esg-accent-danger)] border-[var(--color-esg-accent-danger)]/25",
+      sparklineColor: "var(--color-esg-accent-danger)",
     };
   };
 
@@ -312,11 +311,11 @@ export default function DashboardPage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[70vh] gap-4">
         <div className="relative flex items-center justify-center">
-          <div className="h-12 w-12 border border-zinc-800 rounded-full" />
-          <div className="absolute h-12 w-12 border-t-2 border-emerald-500 rounded-full animate-spin" />
-          <Globe className="absolute h-5 w-5 text-emerald-500 animate-pulse" />
+          <div className="h-12 w-12 border border-esg-border-subtle rounded-full" />
+          <div className="absolute h-12 w-12 border-t-2 border-[var(--color-esg-accent-primary)] rounded-full animate-spin" />
+          <Globe className="absolute h-5 w-5 text-[var(--color-esg-accent-primary)] animate-pulse" />
         </div>
-        <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Initializing SustainOS Console...</p>
+        <p className="text-[10px] text-esg-text-muted font-bold uppercase tracking-widest">Initializing SustainOS Console...</p>
       </div>
     );
   }
@@ -338,50 +337,50 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-stretch">
         
         {/* Left Welcome panel (8 Columns) */}
-        <div className="xl:col-span-8 flex flex-col justify-between p-6 rounded-2xl border border-white/5 bg-zinc-950/20 backdrop-blur-md relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-[400px] h-[300px] bg-gradient-to-b from-emerald-500/5 to-transparent blur-[80px] rounded-full pointer-events-none" />
+        <div className="xl:col-span-8 flex flex-col justify-between p-6 rounded-2xl border border-esg-border-subtle bg-esg-bg-surface backdrop-blur-md relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-[400px] h-[300px] bg-gradient-to-b from-[var(--color-esg-accent-primary)]/10 to-transparent blur-[80px] rounded-full pointer-events-none" />
           
           <div className="space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-white/5">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-esg-bg-surface-muted border border-esg-border-subtle">
               <span className="relative flex h-1.5 w-1.5">
-                <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${isAuditing ? "bg-amber-400" : "bg-emerald-400"}`}></span>
-                <span className={`relative inline-flex rounded-full h-1.5 w-1.5 ${isAuditing ? "bg-amber-500" : "bg-emerald-500"}`}></span>
+                <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${isAuditing ? "bg-[var(--color-esg-accent-warning)]" : "bg-[var(--color-esg-accent-success)]"}`}></span>
+                <span className={`relative inline-flex rounded-full h-1.5 w-1.5 ${isAuditing ? "bg-[var(--color-esg-accent-warning)]" : "bg-[var(--color-esg-accent-success)]"}`}></span>
               </span>
-              <span className="text-[9px] text-zinc-400 font-extrabold uppercase tracking-widest">
+              <span className="text-[9px] text-esg-text-muted font-extrabold uppercase tracking-widest">
                 {isAuditing ? "RUNNING SYSTEM AUDIT..." : "SYSTEM OPERATIONAL: NOMINAL"}
               </span>
             </div>
             
             <div className="space-y-2">
-              <h1 className="text-4xl font-extrabold tracking-tight text-white leading-none">
-                SustainOS <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-500 bg-clip-text text-transparent">Control Center</span>
+              <h1 className="text-4xl font-extrabold tracking-tight text-esg-text-primary leading-none">
+                SustainOS <span className="text-[var(--color-esg-accent-primary)]">Control Center</span>
               </h1>
-              <p className="text-[11px] text-zinc-400 max-w-xl leading-relaxed">
+              <p className="text-[11px] text-esg-text-muted max-w-xl leading-relaxed">
                 Analyzing department profiles and environmental milestones in real-time. Direct synchronization with local MySQL database is active.
               </p>
             </div>
           </div>
 
           {/* Core Mini Metrics Ribbon */}
-          <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-white/5">
+          <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-esg-border-subtle">
             <div>
-              <span className="text-[8px] text-zinc-500 font-black uppercase tracking-widest">Monitoring Units</span>
-              <p className="text-xl font-bold text-white font-mono mt-0.5">{metrics?.departmentScores?.length || 0} <span className="text-xs text-zinc-400">Depts</span></p>
+              <span className="text-[8px] text-esg-text-muted font-black uppercase tracking-widest">Monitoring Units</span>
+              <p className="text-xl font-bold text-esg-text-primary font-mono mt-0.5">{metrics?.departmentScores?.length || 0} <span className="text-xs text-esg-text-muted">Depts</span></p>
             </div>
             <div>
-              <span className="text-[8px] text-zinc-500 font-black uppercase tracking-widest">Active System State</span>
-              <p className="text-xl font-bold text-emerald-400 font-mono mt-0.5">Live Sync</p>
+              <span className="text-[8px] text-esg-text-muted font-black uppercase tracking-widest">Active System State</span>
+              <p className="text-xl font-bold text-[var(--color-esg-accent-success)] font-mono mt-0.5">Live Sync</p>
             </div>
             <div>
-              <span className="text-[8px] text-zinc-500 font-black uppercase tracking-widest">Global ESG Grade</span>
-              <p className="text-xl font-bold text-white font-mono mt-0.5">Grade {overall >= 80 ? "A+" : "B"}</p>
+              <span className="text-[8px] text-esg-text-muted font-black uppercase tracking-widest">Global ESG Grade</span>
+              <p className="text-xl font-bold text-esg-text-primary font-mono mt-0.5">Grade {overall >= 80 ? "A+" : "B"}</p>
             </div>
           </div>
         </div>
 
         {/* Right Circular Progress panel (4 Columns) */}
-        <div className="xl:col-span-4 flex flex-col justify-center items-center p-6 rounded-2xl border border-white/5 bg-zinc-950/20 backdrop-blur-md relative">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-emerald-500/5 blur-[50px] rounded-full pointer-events-none" />
+        <div className="xl:col-span-4 flex flex-col justify-center items-center p-6 rounded-2xl border border-esg-border-subtle bg-esg-bg-surface backdrop-blur-md relative">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-[var(--color-esg-accent-primary)]/10 blur-[50px] rounded-full pointer-events-none" />
           
           <AnimatePresence mode="wait">
             {isAuditing ? (
@@ -392,12 +391,12 @@ export default function DashboardPage() {
                 className="flex flex-col items-center justify-center h-full space-y-4"
               >
                 <div className="relative">
-                  <div className="h-16 w-16 border-2 border-dashed border-emerald-500/20 rounded-full animate-spin" />
-                  <Database className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-6 w-6 text-emerald-400 animate-pulse" />
+                  <div className="h-16 w-16 border-2 border-dashed border-[var(--color-esg-accent-primary)]/20 rounded-full animate-spin" />
+                  <Database className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-6 w-6 text-[var(--color-esg-accent-primary)] animate-pulse" />
                 </div>
                 <div className="text-center space-y-1">
-                  <p className="text-[10px] text-emerald-400 font-black uppercase tracking-widest animate-pulse">Running Diagnostic</p>
-                  <p className="text-[9px] text-zinc-400 max-w-[200px] h-8 truncate font-mono">{auditStep}</p>
+                  <p className="text-[10px] text-[var(--color-esg-accent-primary)] font-black uppercase tracking-widest animate-pulse">Running Diagnostic</p>
+                  <p className="text-[9px] text-esg-text-muted max-w-[200px] h-8 truncate font-mono">{auditStep}</p>
                 </div>
               </motion.div>
             ) : (
@@ -409,9 +408,9 @@ export default function DashboardPage() {
               >
                 <EsgProgressRing score={overall} />
                 <div className="space-y-1">
-                  <span className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Global ESG Score</span>
-                  <h3 className="text-2xl font-black text-white font-mono leading-none">Index {overall}</h3>
-                  <div className="text-[8px] text-emerald-400 font-bold flex items-center gap-0.5 mt-2 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full w-max">
+                  <span className="text-[9px] font-black text-esg-text-muted uppercase tracking-widest">Global ESG Score</span>
+                  <h3 className="text-2xl font-black text-esg-text-primary font-mono leading-none">Index {overall}</h3>
+                  <div className="text-[8px] text-[var(--color-esg-accent-success)] font-bold flex items-center gap-0.5 mt-2 bg-[var(--color-esg-accent-success)]/10 border border-[var(--color-esg-accent-success)]/20 px-2 py-0.5 rounded-full w-max">
                     <TrendingUp className="h-2.5 w-2.5" />
                     <span>+2.4% vs last Q</span>
                   </div>
@@ -430,22 +429,22 @@ export default function DashboardPage() {
         <div className="xl:col-span-8 space-y-6">
           
           {/* AI Advisor Panel */}
-          <Card className="glass-card rounded-2xl relative overflow-hidden">
-            <CardHeader className="flex flex-row items-center justify-between pb-3 border-b border-white/5">
+          <Card className="rounded-2xl relative overflow-hidden bg-esg-bg-surface border-esg-border-subtle">
+            <CardHeader className="flex flex-row items-center justify-between pb-3 border-b border-esg-border-subtle">
               <div className="flex items-center gap-2.5">
-                <div className="p-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+                <div className="p-1.5 rounded-lg bg-[var(--color-esg-accent-primary)]/10 border border-[var(--color-esg-accent-primary)]/20 text-[var(--color-esg-accent-primary)]">
                   <BrainCircuit className="h-4 w-4" />
                 </div>
                 <div>
-                  <CardTitle className="text-xs font-black text-white uppercase tracking-wider">AI Advisory & Analytics Brief</CardTitle>
-                  <CardDescription className="text-[9px] text-zinc-500">Machine learning carbon mapping and audit forecasts</CardDescription>
+                  <CardTitle className="text-xs font-black text-esg-text-primary uppercase tracking-wider">AI Advisory & Analytics Brief</CardTitle>
+                  <CardDescription className="text-[9px] text-esg-text-muted">Machine learning carbon mapping and audit forecasts</CardDescription>
                 </div>
               </div>
               <Button 
                 variant="ghost" 
-                size="xs" 
+                size="sm" 
                 onClick={() => setAiExpanded(!aiExpanded)} 
-                className="text-[9px] uppercase font-black text-zinc-400 hover:text-white cursor-pointer"
+                className="text-[9px] uppercase font-black text-esg-text-muted hover:text-esg-text-primary hover:bg-esg-bg-surface-muted cursor-pointer"
               >
                 {aiExpanded ? "Minimize" : "Expand Insights"}
               </Button>
@@ -459,22 +458,22 @@ export default function DashboardPage() {
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <CardContent className="p-5 text-xs text-zinc-300 leading-relaxed grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2 md:border-r md:border-white/5 md:pr-6">
-                      <p className="font-extrabold text-[10px] text-emerald-400 uppercase tracking-widest flex items-center gap-1.5">
+                  <CardContent className="p-5 text-xs text-esg-text-muted leading-relaxed grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2 md:border-r md:border-esg-border-subtle md:pr-6">
+                      <p className="font-extrabold text-[10px] text-[var(--color-esg-accent-primary)] uppercase tracking-widest flex items-center gap-1.5">
                         <Leaf className="h-3 w-3" />
                         Carbon Reduction Forecast
                       </p>
-                      <p className="text-zinc-400">
-                        Current carbon transactions parsed directly from the database show a projected reduction of <strong className="text-white">18.4 tons</strong> over the next quarter. Accuracy checks stand at 95.8%.
+                      <p className="text-esg-text-muted">
+                        Current carbon transactions parsed directly from the database show a projected reduction of <strong className="text-esg-text-primary">18.4 tons</strong> over the next quarter. Accuracy checks stand at 95.8%.
                       </p>
                     </div>
                     <div className="space-y-2">
-                      <p className="font-extrabold text-[10px] text-teal-400 uppercase tracking-widest flex items-center gap-1.5">
+                      <p className="font-extrabold text-[10px] text-[var(--color-esg-accent-secondary)] uppercase tracking-widest flex items-center gap-1.5">
                         <Zap className="h-3 w-3" />
                         System Advisory
                       </p>
-                      <p className="text-zinc-400">
+                      <p className="text-esg-text-muted">
                         R&D compliance score is behind reduction limits. The AI recommends adjusting target goal limits for the R&D cycle or migrating fleet operations to electric average emission factors to optimize overall ratings.
                       </p>
                     </div>
@@ -485,15 +484,15 @@ export default function DashboardPage() {
           </Card>
 
           {/* Primary Recharts Line/Area Chart */}
-          <Card className="glass-card rounded-2xl shadow-xl overflow-hidden">
-            <CardHeader className="pb-4 border-b border-white/5">
+          <Card className="rounded-2xl shadow-xl overflow-hidden bg-esg-bg-surface border-esg-border-subtle">
+            <CardHeader className="pb-4 border-b border-esg-border-subtle">
               <div className="flex items-center justify-between">
                 <div>
-                  <CardTitle className="text-xs font-black text-white uppercase tracking-wider flex items-center gap-2">
-                    <Activity className="h-4 w-4 text-emerald-400" />
+                  <CardTitle className="text-xs font-black text-esg-text-primary uppercase tracking-wider flex items-center gap-2">
+                    <Activity className="h-4 w-4 text-[var(--color-esg-accent-primary)]" />
                     Carbon Footprint Telemetry
                   </CardTitle>
-                  <CardDescription className="text-[9px] text-zinc-500">Overall carbon emissions logged (kg CO₂e)</CardDescription>
+                  <CardDescription className="text-[9px] text-esg-text-muted">Overall carbon emissions logged (kg CO₂e)</CardDescription>
                 </div>
               </div>
             </CardHeader>
@@ -503,23 +502,23 @@ export default function DashboardPage() {
                   <AreaChart data={emissionsTrend} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                     <defs>
                       <linearGradient id="carbonTelemetryGlow" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#10b981" stopOpacity={0.15}/>
-                        <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                        <stop offset="5%" stopColor="var(--color-esg-accent-primary)" stopOpacity={0.15}/>
+                        <stop offset="95%" stopColor="var(--color-esg-accent-primary)" stopOpacity={0}/>
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#ffffff03" vertical={false} />
-                    <XAxis dataKey="date" stroke="#ffffff20" fontSize={9} tickLine={false} />
-                    <YAxis stroke="#ffffff20" fontSize={9} tickLine={false} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="var(--color-esg-border-subtle)" vertical={false} />
+                    <XAxis dataKey="date" stroke="var(--color-esg-text-muted)" fontSize={9} tickLine={false} />
+                    <YAxis stroke="var(--color-esg-text-muted)" fontSize={9} tickLine={false} />
                     <Tooltip content={<CustomTooltip />} />
                     <Area 
                       type="monotone" 
                       dataKey="emissions" 
                       name="Emissions" 
-                      stroke="#10b981" 
+                      stroke="var(--color-esg-accent-primary)" 
                       strokeWidth={2} 
                       fill="url(#carbonTelemetryGlow)"
-                      dot={{ fill: "#10b981", strokeWidth: 1, r: 3 }} 
-                      activeDot={{ r: 5, stroke: "#10b981", strokeWidth: 1.5, fill: "#fff" }} 
+                      dot={{ fill: "var(--color-esg-accent-primary)", strokeWidth: 1, r: 3 }} 
+                      activeDot={{ r: 5, stroke: "var(--color-esg-accent-primary)", strokeWidth: 1.5, fill: "var(--color-esg-bg-root)" }} 
                     />
                   </AreaChart>
                 </ResponsiveContainer>
@@ -531,21 +530,21 @@ export default function DashboardPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             
             {/* Environmental Pod */}
-            <Card className={`bg-zinc-950/20 backdrop-blur-md border ${envStyle.border} ${envStyle.glow} rounded-2xl transition-all duration-300`}>
+            <Card className={`bg-esg-bg-surface backdrop-blur-md border ${envStyle.border} ${envStyle.glow} rounded-2xl transition-all duration-300`}>
               <CardContent className="p-5 flex flex-col justify-between h-36">
                 <div className="flex items-center justify-between">
-                  <span className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">Environmental</span>
+                  <span className="text-[9px] font-black text-esg-text-muted uppercase tracking-widest">Environmental</span>
                   <Leaf className={`h-4.5 w-4.5 ${envStyle.text}`} />
                 </div>
                 <div className="flex items-baseline justify-between mt-2">
-                  <span className="text-3xl font-black text-white font-mono"><AnimatedNumber value={env} /></span>
+                  <span className="text-3xl font-black text-esg-text-primary font-mono"><AnimatedNumber value={env} /></span>
                   <span className={`text-[8px] uppercase tracking-wider px-2 py-0.5 rounded-full border font-bold ${envStyle.badge}`}>
                     {env >= 80 ? "Nominal" : "Alert"}
                   </span>
                 </div>
-                <div className="flex items-center justify-between pt-3 border-t border-white/5 mt-auto">
+                <div className="flex items-center justify-between pt-3 border-t border-esg-border-subtle mt-auto">
                   <Sparkline data={[60, 64, 68, 72, env]} color={envStyle.sparklineColor} />
-                  <span className="text-[9px] text-emerald-400 font-extrabold flex items-center">
+                  <span className="text-[9px] text-[var(--color-esg-accent-success)] font-extrabold flex items-center">
                     <TrendingUp className="h-2.5 w-2.5 mr-0.5" /> +12.4%
                   </span>
                 </div>
@@ -553,21 +552,21 @@ export default function DashboardPage() {
             </Card>
 
             {/* Social Pod */}
-            <Card className={`bg-zinc-950/20 backdrop-blur-md border ${socStyle.border} ${socStyle.glow} rounded-2xl transition-all duration-300`}>
+            <Card className={`bg-esg-bg-surface backdrop-blur-md border ${socStyle.border} ${socStyle.glow} rounded-2xl transition-all duration-300`}>
               <CardContent className="p-5 flex flex-col justify-between h-36">
                 <div className="flex items-center justify-between">
-                  <span className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">Social Pillar</span>
+                  <span className="text-[9px] font-black text-esg-text-muted uppercase tracking-widest">Social Pillar</span>
                   <Users className={`h-4.5 w-4.5 ${socStyle.text}`} />
                 </div>
                 <div className="flex items-baseline justify-between mt-2">
-                  <span className="text-3xl font-black text-white font-mono"><AnimatedNumber value={soc} /></span>
+                  <span className="text-3xl font-black text-esg-text-primary font-mono"><AnimatedNumber value={soc} /></span>
                   <span className={`text-[8px] uppercase tracking-wider px-2 py-0.5 rounded-full border font-bold ${socStyle.badge}`}>
                     {soc >= 80 ? "Nominal" : "Alert"}
                   </span>
                 </div>
-                <div className="flex items-center justify-between pt-3 border-t border-white/5 mt-auto">
+                <div className="flex items-center justify-between pt-3 border-t border-esg-border-subtle mt-auto">
                   <Sparkline data={[82, 80, 85, 83, soc]} color={socStyle.sparklineColor} />
-                  <span className="text-[9px] text-emerald-400 font-extrabold flex items-center">
+                  <span className="text-[9px] text-[var(--color-esg-accent-success)] font-extrabold flex items-center">
                     <TrendingUp className="h-2.5 w-2.5 mr-0.5" /> +4.2%
                   </span>
                 </div>
@@ -575,21 +574,21 @@ export default function DashboardPage() {
             </Card>
 
             {/* Governance Pod */}
-            <Card className={`bg-zinc-950/20 backdrop-blur-md border ${govStyle.border} ${govStyle.glow} rounded-2xl transition-all duration-300`}>
+            <Card className={`bg-esg-bg-surface backdrop-blur-md border ${govStyle.border} ${govStyle.glow} rounded-2xl transition-all duration-300`}>
               <CardContent className="p-5 flex flex-col justify-between h-36">
                 <div className="flex items-center justify-between">
-                  <span className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">Governance</span>
+                  <span className="text-[9px] font-black text-esg-text-muted uppercase tracking-widest">Governance</span>
                   <ShieldCheck className={`h-4.5 w-4.5 ${govStyle.text}`} />
                 </div>
                 <div className="flex items-baseline justify-between mt-2">
-                  <span className="text-3xl font-black text-white font-mono"><AnimatedNumber value={gov} /></span>
+                  <span className="text-3xl font-black text-esg-text-primary font-mono"><AnimatedNumber value={gov} /></span>
                   <span className={`text-[8px] uppercase tracking-wider px-2 py-0.5 rounded-full border font-bold ${govStyle.badge}`}>
                     {gov >= 80 ? "Nominal" : "Alert"}
                   </span>
                 </div>
-                <div className="flex items-center justify-between pt-3 border-t border-white/5 mt-auto">
+                <div className="flex items-center justify-between pt-3 border-t border-esg-border-subtle mt-auto">
                   <Sparkline data={[74, 78, 80, 84, gov]} color={govStyle.sparklineColor} />
-                  <span className="text-[9px] text-emerald-400 font-extrabold flex items-center">
+                  <span className="text-[9px] text-[var(--color-esg-accent-success)] font-extrabold flex items-center">
                     <TrendingUp className="h-2.5 w-2.5 mr-0.5" /> +8.1%
                   </span>
                 </div>
@@ -604,38 +603,38 @@ export default function DashboardPage() {
         <div className="xl:col-span-4 space-y-6">
           
           {/* Action Hub / Control Panel */}
-          <Card className="glass-card rounded-2xl">
-            <CardHeader className="pb-3 border-b border-white/5">
-              <CardTitle className="text-xs font-black text-white uppercase tracking-wider flex items-center gap-2">
-                <Sliders className="h-4 w-4 text-emerald-400" />
+          <Card className="rounded-2xl bg-esg-bg-surface border-esg-border-subtle">
+            <CardHeader className="pb-3 border-b border-esg-border-subtle">
+              <CardTitle className="text-xs font-black text-esg-text-primary uppercase tracking-wider flex items-center gap-2">
+                <Sliders className="h-4 w-4 text-[var(--color-esg-accent-primary)]" />
                 SustainOS Bezel Control
               </CardTitle>
-              <CardDescription className="text-[9px] text-zinc-500">Recalculate indexes or log transactions</CardDescription>
+              <CardDescription className="text-[9px] text-esg-text-muted">Recalculate indexes or log transactions</CardDescription>
             </CardHeader>
             <CardContent className="p-5 space-y-4">
               
               <div className="grid grid-cols-2 gap-3">
                 <Link href="/environmental/carbon-transactions" className="w-full">
-                  <Button variant="outline" className="w-full justify-start text-[10px] uppercase font-black tracking-wider py-5 rounded-xl border-white/5 hover:border-emerald-500/30 hover:bg-emerald-500/5 cursor-pointer gap-2">
-                    <Leaf className="h-3.5 w-3.5 text-emerald-400" />
+                  <Button variant="outline" className="w-full justify-start text-[10px] uppercase font-black tracking-wider py-5 rounded-xl border-esg-border-subtle hover:border-[var(--color-esg-accent-primary)]/30 hover:bg-[var(--color-esg-accent-primary)]/5 cursor-pointer gap-2">
+                    <Leaf className="h-3.5 w-3.5 text-[var(--color-esg-accent-primary)]" />
                     Log Carbon
                   </Button>
                 </Link>
                 <Button 
                   onClick={triggerAuditSequence}
                   disabled={isAuditing}
-                  className="w-full text-[10px] uppercase font-black tracking-wider py-5 rounded-xl bg-zinc-900 border border-white/5 hover:border-amber-500/30 hover:bg-amber-500/5 text-zinc-300 disabled:opacity-50 cursor-pointer gap-2"
+                  className="w-full text-[10px] uppercase font-black tracking-wider py-5 rounded-xl bg-esg-bg-surface-muted border border-esg-border-subtle hover:border-[var(--color-esg-accent-warning)]/30 hover:bg-[var(--color-esg-accent-warning)]/5 text-esg-text-muted disabled:opacity-50 cursor-pointer gap-2"
                 >
-                  <RefreshCw className={`h-3.5 w-3.5 text-amber-400 ${isAuditing ? "animate-spin" : ""}`} />
+                  <RefreshCw className={`h-3.5 w-3.5 text-[var(--color-esg-accent-warning)] ${isAuditing ? "animate-spin" : ""}`} />
                   Run Audit
                 </Button>
               </div>
 
               {/* Weight settings / control simulator */}
-              <div className="p-3.5 rounded-xl bg-zinc-900/60 border border-white/5 space-y-2">
-                <div className="flex items-center justify-between text-[8px] text-zinc-400 uppercase tracking-widest font-black">
+              <div className="p-3.5 rounded-xl bg-esg-bg-surface-muted border border-esg-border-subtle space-y-2">
+                <div className="flex items-center justify-between text-[8px] text-esg-text-muted uppercase tracking-widest font-black">
                   <span>Carbon Factor Weighting</span>
-                  <span className="text-emerald-400 font-extrabold">{weightMultiplier}x</span>
+                  <span className="text-[var(--color-esg-accent-primary)] font-extrabold">{weightMultiplier}x</span>
                 </div>
                 <input 
                   type="range" 
@@ -644,9 +643,9 @@ export default function DashboardPage() {
                   step="0.1" 
                   value={weightMultiplier}
                   onChange={(e) => setWeightMultiplier(parseFloat(e.target.value))}
-                  className="w-full accent-emerald-500 bg-zinc-800 rounded-lg cursor-pointer h-1" 
+                  className="w-full accent-[var(--color-esg-accent-primary)] bg-esg-bg-root rounded-lg cursor-pointer h-1" 
                 />
-                <p className="text-[8px] text-zinc-500 leading-normal">
+                <p className="text-[8px] text-esg-text-muted leading-normal">
                   Adjust ESG score sensitivity parameters client-side. Updates calculate composite index automatically.
                 </p>
               </div>
@@ -655,28 +654,28 @@ export default function DashboardPage() {
           </Card>
 
           {/* Leaderboard Module */}
-          <Card className="glass-card rounded-2xl">
-            <CardHeader className="pb-3 border-b border-white/5">
-              <CardTitle className="text-xs font-black text-white uppercase tracking-wider flex items-center gap-2">
-                <Award className="h-4 w-4 text-emerald-400" />
+          <Card className="rounded-2xl bg-esg-bg-surface border-esg-border-subtle">
+            <CardHeader className="pb-3 border-b border-esg-border-subtle">
+              <CardTitle className="text-xs font-black text-esg-text-primary uppercase tracking-wider flex items-center gap-2">
+                <Award className="h-4 w-4 text-[var(--color-esg-accent-primary)]" />
                 Department Index Rankings
               </CardTitle>
-              <CardDescription className="text-[9px] text-zinc-500">Live pillar indexes mapped from database</CardDescription>
+              <CardDescription className="text-[9px] text-esg-text-muted">Live pillar indexes mapped from database</CardDescription>
             </CardHeader>
             <CardContent className="p-5">
               <div className="space-y-4">
                 {(metrics?.departmentScores || []).map((dept, index) => {
-                  const colorClass = dept.overall >= 80 ? "text-emerald-400" : dept.overall >= 60 ? "text-amber-400" : "text-red-400";
+                  const colorClass = dept.overall >= 80 ? "text-[var(--color-esg-accent-success)]" : dept.overall >= 60 ? "text-[var(--color-esg-accent-warning)]" : "text-[var(--color-esg-accent-danger)]";
                   const widthPercent = `${dept.overall}%`;
                   return (
                     <div key={index} className="space-y-1.5">
                       <div className="flex justify-between items-center text-xs font-bold">
-                        <span className="text-white uppercase font-black text-[10px] tracking-wide">{dept.department}</span>
+                        <span className="text-esg-text-primary uppercase font-black text-[10px] tracking-wide">{dept.department}</span>
                         <span className={`font-mono text-[10px] font-extrabold ${colorClass}`}>{dept.overall} index</span>
                       </div>
-                      <div className="h-1.5 w-full bg-zinc-900 rounded-full overflow-hidden border border-white/5">
+                      <div className="h-1.5 w-full bg-esg-bg-root rounded-full overflow-hidden border border-esg-border-subtle">
                         <div 
-                          className={`h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-500`}
+                          className={`h-full rounded-full bg-[var(--color-esg-accent-primary)] transition-all duration-500`}
                           style={{ width: widthPercent }}
                         />
                       </div>
@@ -688,31 +687,31 @@ export default function DashboardPage() {
           </Card>
 
           {/* Recent Timeline Feed */}
-          <Card className="glass-card rounded-2xl">
-            <CardHeader className="pb-3 border-b border-white/5">
-              <CardTitle className="text-xs font-black text-white uppercase tracking-wider flex items-center gap-2">
-                <Activity className="h-4 w-4 text-emerald-400" />
+          <Card className="rounded-2xl bg-esg-bg-surface border-esg-border-subtle">
+            <CardHeader className="pb-3 border-b border-esg-border-subtle">
+              <CardTitle className="text-xs font-black text-esg-text-primary uppercase tracking-wider flex items-center gap-2">
+                <Activity className="h-4 w-4 text-[var(--color-esg-accent-primary)]" />
                 Environmental Log Stream
               </CardTitle>
-              <CardDescription className="text-[9px] text-zinc-500">Real-time ledger updates from XAMPP</CardDescription>
+              <CardDescription className="text-[9px] text-esg-text-muted">Real-time ledger updates from XAMPP</CardDescription>
             </CardHeader>
             <CardContent className="p-5">
-              <div className="relative pl-4 border-l border-white/10 space-y-5 max-h-[220px] overflow-y-auto pr-1">
+              <div className="relative pl-4 border-l border-esg-border-subtle space-y-5 max-h-[220px] overflow-y-auto pr-1">
                 {activities.map((act) => (
                   <div key={act.id} className="relative group text-xs">
                     {/* Timeline dynamic color nodes */}
-                    <div className={`absolute -left-[21px] top-1 h-1.5 w-1.5 rounded-full ring-2 ring-zinc-950 ${
-                      act.type === "carbon" ? "bg-emerald-400" :
-                      act.type === "csr" ? "bg-blue-400" :
-                      "bg-purple-400"
+                    <div className={`absolute -left-[21px] top-1 h-1.5 w-1.5 rounded-full ring-2 ring-esg-bg-surface ${
+                      act.type === "carbon" ? "bg-[var(--color-esg-accent-success)]" :
+                      act.type === "csr" ? "bg-[var(--color-esg-accent-secondary)]" :
+                      "bg-[var(--color-esg-accent-primary)]"
                     }`} />
                     
                     <div className="space-y-0.5">
-                      <div className="flex items-center justify-between text-[8px] text-zinc-500 font-extrabold uppercase tracking-widest">
+                      <div className="flex items-center justify-between text-[8px] text-esg-text-muted font-extrabold uppercase tracking-widest">
                         <span>{act.title}</span>
                         <span>{act.timestamp}</span>
                       </div>
-                      <p className="text-zinc-300 leading-normal">{act.description}</p>
+                      <p className="text-esg-text-muted leading-normal">{act.description}</p>
                     </div>
                   </div>
                 ))}
