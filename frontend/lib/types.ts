@@ -4,31 +4,45 @@
 // ─── Environmental ───────────────────────────────────────────
 export interface EmissionFactor {
   id: string;
-  category: string;
-  source: string;
-  factor: number;
+  name: string;
+  factorValue: number;
   unit: string;
+  status: "Active" | "Inactive";
+  category?: string;
+  source?: string;
+  factor?: number;
   updatedAt: string;
 }
 
 export interface CarbonTransaction {
   id: string;
-  date: string;
   department: string;
-  category: string;
-  amount: number;
-  unit: string;
-  description: string;
+  sourceType: "Purchase" | "Manufacturing" | "Expense" | "Fleet" | "Other";
+  quantity: number;
+  emissionsValue: number;
+  operationDate: string;
+  autoCalculated: boolean;
+  emissionFactorId?: string;
+  date?: string;
+  category?: string;
+  amount?: number;
+  unit?: string;
+  description?: string;
 }
 
 export interface EnvironmentalGoal {
   id: string;
-  title: string;
-  target: number;
-  current: number;
-  unit: string;
-  deadline: string;
+  department: string;
+  targetEmissions: number;
+  currentEmissions: number;
+  startDate: string;
+  endDate: string;
   status: "on-track" | "at-risk" | "behind";
+  title?: string;
+  target?: number;
+  current?: number;
+  unit?: string;
+  deadline?: string;
 }
 
 // ─── Social ──────────────────────────────────────────────────
@@ -263,4 +277,35 @@ export interface DepartmentScore {
   socialScore: number;
   governanceScore: number;
   totalScore: number;
+}
+
+// ─── Dashboard Specifics ──────────────────────────────────────
+export interface DepartmentScore {
+  department: string;
+  environmental: number;
+  social: number;
+  governance: number;
+  overall: number;
+}
+
+export interface DashboardMetric {
+  environmentalScore: number;
+  socialScore: number;
+  governanceScore: number;
+  overallScore: number;
+}
+
+export interface EmissionsPoint {
+  date: string;
+  emissions: number;
+}
+
+export interface RecentActivityItem {
+  id: string;
+  type: "csr" | "challenge" | "compliance" | "carbon" | "goal";
+  title: string;
+  description: string;
+  timestamp: string;
+  status?: string;
+  user?: string;
 }
