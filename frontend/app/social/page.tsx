@@ -69,44 +69,85 @@ export default function SocialPage({ children }: { children?: React.ReactNode })
         
         {children || (
           <div className="py-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h3 className="text-xl font-medium mb-4">Welcome to Social & Community</h3>
-            <p className="text-muted-foreground mb-8 max-w-2xl">
-              This module allows you to manage corporate social responsibility (CSR) activities, 
-              track employee participation, and monitor key diversity and training metrics across the organization.
+            <h3 className="text-2xl font-bold tracking-tight mb-2 text-slate-800 dark:text-slate-100">Social Command Center</h3>
+            <p className="text-muted-foreground mb-8 max-w-2xl text-sm">
+              Real-time insights into corporate social responsibility, diversity metrics, and employee participation.
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <Card className="cursor-pointer hover:bg-muted/50 transition-colors" onClick={() => router.push('/social/csr-activities')}>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-base">CSR Activities</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">Create and manage community events.</p>
-                </CardContent>
-              </Card>
-              <Card className="cursor-pointer hover:bg-muted/50 transition-colors" onClick={() => router.push('/social/participation')}>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-base">Participation</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">Review and approve employee entries.</p>
-                </CardContent>
-              </Card>
-              <Card className="cursor-pointer hover:bg-muted/50 transition-colors" onClick={() => router.push('/social/diversity-training')}>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-base">Diversity & Training</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">Monitor inclusion and learning metrics.</p>
-                </CardContent>
-              </Card>
-              <Card className="cursor-pointer hover:bg-muted/50 transition-colors" onClick={() => router.push('/social/dashboard')}>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-base">Dashboard</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">Analyze overall social impact.</p>
-                </CardContent>
-              </Card>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-4 auto-rows-fr">
+              {/* Bento 1: Large Hero - Recent Activities */}
+              <div 
+                className="md:col-span-2 md:row-span-2 relative overflow-hidden rounded-xl border bg-gradient-to-br from-orange-50 to-orange-100/50 dark:from-orange-950/20 dark:to-slate-900 p-6 shadow-sm cursor-pointer hover:shadow-md transition-all hover:scale-[1.01] group"
+                onClick={() => router.push('/social/csr-activities')}
+              >
+                <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+                  <Target className="w-32 h-32 text-orange-600" />
+                </div>
+                <div className="relative z-10 flex flex-col h-full">
+                  <h4 className="text-lg font-bold text-orange-900 dark:text-orange-400 mb-1">Active CSR Campaigns</h4>
+                  <p className="text-sm text-orange-800/70 dark:text-orange-200/50 mb-6">Drive community impact</p>
+                  
+                  <div className="flex flex-col gap-3 mt-auto">
+                    {/* Hardcoded slice of mockCsrActivities for visual impact */}
+                    <div className="bg-white/80 dark:bg-slate-950/50 backdrop-blur-sm p-4 rounded-lg border border-orange-200/50 dark:border-orange-900/50 flex justify-between items-center">
+                      <div>
+                        <p className="font-semibold text-sm text-slate-900 dark:text-slate-100">Beach Cleanup Drive</p>
+                        <p className="text-xs text-muted-foreground mt-0.5">Environment • 12 Participants</p>
+                      </div>
+                      <span className="px-2 py-1 bg-orange-100 dark:bg-orange-900/50 text-orange-700 dark:text-orange-300 rounded text-[10px] font-bold uppercase tracking-wider">Planned</span>
+                    </div>
+                    <div className="bg-white/80 dark:bg-slate-950/50 backdrop-blur-sm p-4 rounded-lg border border-orange-200/50 dark:border-orange-900/50 flex justify-between items-center">
+                      <div>
+                        <p className="font-semibold text-sm text-slate-900 dark:text-slate-100">Mentorship for Youth in Tech</p>
+                        <p className="text-xs text-muted-foreground mt-0.5">Education • 5 Participants</p>
+                      </div>
+                      <span className="px-2 py-1 bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 rounded text-[10px] font-bold uppercase tracking-wider">Ongoing</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bento 2: Participation Trends */}
+              <div 
+                className="md:col-span-1 md:row-span-1 rounded-xl border bg-card p-6 shadow-sm hover:shadow-md transition-all hover:scale-[1.02] cursor-pointer flex flex-col justify-between group"
+                onClick={() => router.push('/social/participation')}
+              >
+                <div className="flex items-start justify-between">
+                  <div>
+                    <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Participation</h4>
+                    <p className="text-xs text-muted-foreground mt-1">Pending Approvals</p>
+                  </div>
+                  <div className="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg group-hover:bg-orange-100 dark:group-hover:bg-orange-900/30 transition-colors">
+                    <Users className="w-4 h-4 text-slate-600 dark:text-slate-400 group-hover:text-orange-600" />
+                  </div>
+                </div>
+                <div className="mt-4">
+                  <span className="text-3xl font-bold tracking-tighter text-slate-900 dark:text-slate-50">128</span>
+                  <span className="text-sm text-muted-foreground ml-2">Total</span>
+                </div>
+              </div>
+
+              {/* Bento 3: Diversity & Training */}
+              <div 
+                className="md:col-span-1 md:row-span-1 rounded-xl border bg-card p-6 shadow-sm hover:shadow-md transition-all hover:scale-[1.02] cursor-pointer flex flex-col justify-between group"
+                onClick={() => router.push('/social/diversity-training')}
+              >
+                <div className="flex items-start justify-between">
+                  <div>
+                    <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Training Completion</h4>
+                    <p className="text-xs text-muted-foreground mt-1">Company-wide</p>
+                  </div>
+                  <div className="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg group-hover:bg-orange-100 dark:group-hover:bg-orange-900/30 transition-colors">
+                    <Award className="w-4 h-4 text-slate-600 dark:text-slate-400 group-hover:text-orange-600" />
+                  </div>
+                </div>
+                <div className="mt-4 flex items-end justify-between">
+                  <span className="text-3xl font-bold tracking-tighter text-slate-900 dark:text-slate-50">80%</span>
+                  <div className="w-full max-w-[80px] h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden mb-1.5 ml-3">
+                    <div className="h-full bg-orange-500 w-[80%] rounded-full" />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         )}

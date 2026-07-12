@@ -1,65 +1,117 @@
 "use client";
 
 import { CsrActivity } from "@/lib/types";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Calendar, Users } from "lucide-react";
-import { useTransition } from "react";
+import { Calendar, Users, Loader2, CheckCircle2 } from "lucide-react";
+import { useState, useTransition } from "react";
 import { apiPost } from "@/lib/api-client";
 
-export function CsrActivityCard({ activity, onJoin }: { activity: CsrActivity; onJoin: () => void }) {
+const CURRENT_EMPLOYEE_ID = "u-aditi"; // Seeded user ID — replace with auth context later
+
+const statusVariant: Record<string, "default" | "secondary" | "outline"> = {
+  ongoing: "default",
+  planned: "secondary",
+  completed: "outline",
+};
+
+export function CsrActivityCard({
+  activity,
+  onJoin,
+}: {
+  activity: CsrActivity;
+  onJoin: () => void;
+}) {
   const [isPending, startTransition] = useTransition();
+  const [joined, setJoined] = useState(false);
+  const [error, setError] = useState("");
 
   const handleJoin = () => {
+    setError("");
     startTransition(async () => {
       try {
         await apiPost("/social/participation", {
-          employeeId: "emp_current", // Mock current user
-          employeeName: "Current User",
+          employeeId: CURRENT_EMPLOYEE_ID,
           activityId: activity.id,
-          activityTitle: activity.title,
-          department: "Engineering"
         });
-        onJoin();
-      } catch (e) {
-        console.error("Failed to join activity", e);
+        setJoined(true);
+        onJoin(); // re-fetch activity list to update participantCount
+      } catch (e: unknown) {
+        const msg = e instanceof Error ? e.message : "Failed to join";
+        // 409 = already joined — treat as success visually
+        if (msg.includes("409") || msg.includes("Already")) {
+          setJoined(true);
+        } else {
+          setError("Could not join. Please try again.");
+          console.error("[handleJoin]", e);
+        }
       }
     });
   };
 
+  const isCompleted = activity.status === "completed";
+  const canJoin = !isCompleted && !joined;
+
   return (
-    <Card className="flex flex-col h-full">
+    <Card className="flex flex-col h-full hover:shadow-md transition-shadow duration-200 group">
       <CardHeader>
         <div className="flex justify-between items-start mb-2">
-          <Badge variant={activity.status === "ongoing" ? "default" : "secondary"}>
+          <Badge variant={statusVariant[activity.status] ?? "secondary"}>
             {activity.category}
           </Badge>
           <Badge variant="outline">{activity.defaultPoints} pts</Badge>
         </div>
-        <CardTitle className="text-lg">{activity.title}</CardTitle>
+        <CardTitle className="text-lg leading-snug">{activity.title}</CardTitle>
         <CardDescription className="line-clamp-2">{activity.description}</CardDescription>
       </CardHeader>
+
       <CardContent className="flex-grow">
         <div className="flex flex-col gap-2 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
-            <Calendar className="w-4 h-4" />
-            <span>{activity.startDate} to {activity.endDate}</span>
+            <Calendar className="w-4 h-4 shrink-0" />
+            <span>
+              {activity.startDate} → {activity.endDate}
+            </span>
           </div>
           <div className="flex items-center gap-2">
-            <Users className="w-4 h-4" />
+            <Users className="w-4 h-4 shrink-0" />
             <span>{activity.participantCount} Participants</span>
           </div>
         </div>
       </CardContent>
-      <CardFooter>
-        <Button 
-          className="w-full" 
-          onClick={handleJoin} 
-          disabled={isPending || activity.status === "completed"}
-        >
-          {isPending ? "Joining..." : activity.status === "completed" ? "Completed" : "Join Activity"}
-        </Button>
+
+      <CardFooter className="flex flex-col gap-2">
+        {joined || isCompleted ? (
+          <Button variant="outline" className="w-full" disabled>
+            <CheckCircle2 className="w-4 h-4 mr-2 text-green-500" />
+            {isCompleted ? "Activity Completed" : "Joined!"}
+          </Button>
+        ) : (
+          <Button
+            className="w-full"
+            onClick={handleJoin}
+            disabled={isPending || !canJoin}
+            id={`join-activity-${activity.id}`}
+          >
+            {isPending ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Joining...
+              </>
+            ) : (
+              "Join Activity"
+            )}
+          </Button>
+        )}
+        {error && <p className="text-xs text-destructive text-center">{error}</p>}
       </CardFooter>
     </Card>
   );
