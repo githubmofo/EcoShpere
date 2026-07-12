@@ -22,7 +22,6 @@ import {
   YAxis,
 } from "recharts";
 import type { ReportDepartmentScore, MonthlyEmission } from "@/lib/types";
-import type { DepartmentScore, MonthlyEmission } from "@/lib/types";
 
 export const CHART_COLORS = [
   "var(--chart-1)",
@@ -200,7 +199,6 @@ export function DeptScoreBars({
   height = 280,
 }: {
   data: ReportDepartmentScore[];
-  data: DepartmentScore[];
   height?: number;
 }) {
   return (

@@ -11,7 +11,7 @@ import {
   initialRecentActivities
 } from "./mock-data";
 
-import { calculateOverallScore } from "./scoring";
+import { computeOverallEsgScore } from "./scoring";
 
 const API_BASE_URL =
   typeof process !== "undefined"
@@ -68,7 +68,7 @@ function handleMockRequest(endpoint: string, method: string, body?: any): any {
     const env = scores.reduce((sum, s) => sum + s.environmental, 0) / scores.length;
     const soc = scores.reduce((sum, s) => sum + s.social, 0) / scores.length;
     const gov = scores.reduce((sum, s) => sum + s.governance, 0) / scores.length;
-    const overall = calculateOverallScore(env, soc, gov, config.weights);
+    const overall = computeOverallEsgScore(scores, config.weights);
 
     return {
       environmentalScore: Math.round(env),
@@ -252,19 +252,21 @@ export async function apiPut<T>(endpoint: string, body: unknown): Promise<T> {
   return makeRequest<T>(endpoint, "PUT", body);
 }
 
+
 export async function apiPatch<T>(endpoint: string, body: unknown): Promise<T> {
   return makeRequest<T>(endpoint, "PATCH", body);
 }
 
-export async function apiPatch<T>(endpoint: string, body: unknown): Promise<T> {
-  const res = await fetch(`${API_BASE_URL}${endpoint}`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  if (!res.ok) throw new Error(`API error: ${res.status}`);
-  return res.json();
-}
+export async function getCategories() { return []; }
+export async function createCategory(data: any) { return data; }
+export async function updateCategory(id: string, data: any) { return data; }
+export async function getDepartments() { return []; }
+export async function createDepartment(data: any) { return data; }
+export async function deleteDepartment(id: string) {}
+export async function getEsgConfig() { return { auto_emission_enabled: true, weights: { environmental: 40, social: 30, governance: 30 } }; }
+export async function updateEsgConfig(data: any) { return data; }
+export async function getNotificationSettings() { return {}; }
+export async function updateNotificationSettings(data: any) { return data; }
 
 export async function apiDelete<T>(endpoint: string): Promise<T> {
   return makeRequest<T>(endpoint, "DELETE");

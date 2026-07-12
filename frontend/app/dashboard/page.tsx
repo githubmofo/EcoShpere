@@ -30,7 +30,7 @@ import {
   Globe
 } from "lucide-react";
 import { apiGet } from "@/lib/api-client";
-import { calculateOverallScore } from "@/lib/scoring";
+import { computeOverallEsgScore } from "@/lib/scoring";
 import { 
   DepartmentScore, 
   EmissionsPoint, 
@@ -230,7 +230,7 @@ export default function DashboardPage() {
         const socAvg = scores.reduce((sum, s) => sum + s.social, 0) / scores.length;
         const govAvg = scores.reduce((sum, s) => sum + s.governance, 0) / scores.length;
         
-        const computedOverall = calculateOverallScore(envAvg, socAvg, govAvg);
+        const computedOverall = computeOverallEsgScore(scores);
         
         setMetrics({
           environmentalScore: Math.round(envAvg),
@@ -430,7 +430,7 @@ export default function DashboardPage() {
         <div className="xl:col-span-8 space-y-6">
           
           {/* AI Advisor Panel */}
-          <Card className="bg-zinc-950/20 backdrop-blur-md border border-white/5 rounded-2xl relative overflow-hidden">
+          <Card className="glass-card rounded-2xl relative overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between pb-3 border-b border-white/5">
               <div className="flex items-center gap-2.5">
                 <div className="p-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
@@ -485,7 +485,7 @@ export default function DashboardPage() {
           </Card>
 
           {/* Primary Recharts Line/Area Chart */}
-          <Card className="bg-zinc-950/20 backdrop-blur-md border border-white/5 rounded-2xl shadow-xl overflow-hidden">
+          <Card className="glass-card rounded-2xl shadow-xl overflow-hidden">
             <CardHeader className="pb-4 border-b border-white/5">
               <div className="flex items-center justify-between">
                 <div>
@@ -604,7 +604,7 @@ export default function DashboardPage() {
         <div className="xl:col-span-4 space-y-6">
           
           {/* Action Hub / Control Panel */}
-          <Card className="bg-zinc-950/20 backdrop-blur-md border border-white/5 rounded-2xl">
+          <Card className="glass-card rounded-2xl">
             <CardHeader className="pb-3 border-b border-white/5">
               <CardTitle className="text-xs font-black text-white uppercase tracking-wider flex items-center gap-2">
                 <Sliders className="h-4 w-4 text-emerald-400" />
@@ -655,7 +655,7 @@ export default function DashboardPage() {
           </Card>
 
           {/* Leaderboard Module */}
-          <Card className="bg-zinc-950/20 backdrop-blur-md border border-white/5 rounded-2xl">
+          <Card className="glass-card rounded-2xl">
             <CardHeader className="pb-3 border-b border-white/5">
               <CardTitle className="text-xs font-black text-white uppercase tracking-wider flex items-center gap-2">
                 <Award className="h-4 w-4 text-emerald-400" />
@@ -688,7 +688,7 @@ export default function DashboardPage() {
           </Card>
 
           {/* Recent Timeline Feed */}
-          <Card className="bg-zinc-950/20 backdrop-blur-md border border-white/5 rounded-2xl">
+          <Card className="glass-card rounded-2xl">
             <CardHeader className="pb-3 border-b border-white/5">
               <CardTitle className="text-xs font-black text-white uppercase tracking-wider flex items-center gap-2">
                 <Activity className="h-4 w-4 text-emerald-400" />

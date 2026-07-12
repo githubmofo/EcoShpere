@@ -14,22 +14,12 @@ import type {
   ReportRow,
   Reward,
   RewardRedemption,
-} from "./types";
-
-import type {
   EmissionFactor,
   CarbonTransaction,
   EnvironmentalGoal,
   DepartmentScore,
   EmissionsPoint,
   RecentActivityItem,
-} from "./types";
-
-// ═══════════════════════════════════════════════════════════════
-// GAMIFICATION & REPORTS MODULE (from gamification_and_report)
-// ═══════════════════════════════════════════════════════════════
-
-import {
   CsrActivity,
   EmployeeParticipation,
   DiversitySummary,
@@ -37,16 +27,6 @@ import {
   PolicyAcknowledgement,
   Audit,
   ComplianceIssue,
-  CurrentUser,
-  Challenge,
-  Badge,
-  Reward,
-  RewardRedemption,
-  ChallengeParticipation,
-  LeaderboardEntry,
-  DepartmentScore,
-  MonthlyEmission,
-  ReportRow
 } from "./types";
 
 export const DEPARTMENTS = [
@@ -634,7 +614,6 @@ export const leaderboard: LeaderboardEntry[] = [
 
 // ─── Reports: department scores & emissions ──────────────────
 export const departmentScores: ReportDepartmentScore[] = [
-export const departmentScores: DepartmentScore[] = [
   { department: "Manufacturing", environmental: 62, social: 78, governance: 70, total: 69 },
   { department: "Corporate", environmental: 80, social: 85, governance: 88, total: 84 },
   { department: "Logistics", environmental: 55, social: 68, governance: 72, total: 64 },

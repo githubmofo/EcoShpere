@@ -4,7 +4,6 @@
 // Member 3 – Gamification Tab: Challenges, Participation, Badges, Rewards, Leaderboard.
 
 import { useEffect, useState } from "react";
-import { useState } from "react";
 import { Award, Coins, Trophy, Zap } from "lucide-react";
 import PlatformFrame from "@/components/layout/PlatformFrame";
 import PillTabs from "@/components/shared/PillTabs";

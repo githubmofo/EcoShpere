@@ -64,15 +64,16 @@ export function KpiCard({
   hint?: React.ReactNode;
 }) {
   return (
-    <Card className="gap-0 p-4">
-      <div className="flex items-center justify-between">
-        <p className="text-xs font-medium text-muted-foreground">{label}</p>
-        <span className="flex size-8 items-center justify-center rounded-lg bg-primary/15 text-primary">
+    <Card className="gap-0 p-5 glass-card relative overflow-hidden group">
+      <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 blur-[30px] rounded-full group-hover:bg-primary/10 transition-colors" />
+      <div className="flex items-center justify-between relative z-10">
+        <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">{label}</p>
+        <span className="flex size-8 items-center justify-center rounded-xl bg-primary/10 border border-primary/20 text-primary transition-transform group-hover:scale-110">
           {icon}
         </span>
       </div>
-      <p className="mt-2 text-2xl font-semibold tracking-tight">{value}</p>
-      {hint && <p className="mt-1 text-xs text-muted-foreground">{hint}</p>}
+      <p className="mt-4 text-3xl font-black tracking-tight font-mono relative z-10 text-white">{value}</p>
+      {hint && <p className="mt-1 text-[10px] text-muted-foreground font-medium relative z-10">{hint}</p>}
     </Card>
   );
 }

@@ -32,9 +32,9 @@ export default function PlatformFrame({
     .join("");
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      {/* Top app bar */}
-      <header className="sticky top-0 z-40 flex h-14 items-center gap-4 border-b border-border/70 bg-background/80 px-4 backdrop-blur md:px-6">
+    <div className="min-h-screen bg-background text-foreground flex flex-col">
+      {/* Top app bar with premium glassmorphism */}
+      <header className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b border-white/5 bg-background/60 px-4 backdrop-blur-2xl md:px-6 transition-all">
         <div className="flex items-center gap-2">
           <span className="flex size-8 items-center justify-center rounded-lg bg-primary/15 text-primary">
             <Leaf className="size-4.5" />
@@ -56,11 +56,11 @@ export default function PlatformFrame({
         </div>
 
         <button
-          className="relative flex size-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+          className="relative flex size-9 items-center justify-center rounded-xl bg-white/5 text-muted-foreground transition-all hover:bg-primary/10 hover:text-primary active:scale-95 border border-white/5 shadow-sm"
           aria-label="Notifications"
         >
           <Bell className="size-4.5" />
-          <span className="absolute right-1.5 top-1.5 size-1.5 rounded-full bg-primary" />
+          <span className="absolute right-2 top-2 size-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse" />
         </button>
 
         <div className="flex items-center gap-2">
@@ -77,8 +77,8 @@ export default function PlatformFrame({
       </header>
 
       {/* Module tabs */}
-      <nav className="sticky top-14 z-30 border-b border-border/70 bg-background/80 px-2 backdrop-blur md:px-4">
-        <div className="flex items-center gap-1 overflow-x-auto">
+      <nav className="sticky top-16 z-30 border-b border-white/5 bg-background/60 px-2 backdrop-blur-xl md:px-6 shadow-sm">
+        <div className="flex items-center gap-2 overflow-x-auto py-1 scrollbar-none">
           {MODULES.map((m) => {
             const active = pathname.startsWith(m.href);
             return (
@@ -86,15 +86,15 @@ export default function PlatformFrame({
                 key={m.href}
                 href={m.href}
                 className={cn(
-                  "relative whitespace-nowrap px-3.5 py-3 text-sm font-medium transition-colors",
+                  "relative whitespace-nowrap px-4 py-3 text-xs font-bold uppercase tracking-wider transition-all duration-300 rounded-lg my-1",
                   active
-                    ? "text-foreground"
-                    : "text-muted-foreground hover:text-foreground"
+                    ? "text-primary bg-primary/10"
+                    : "text-muted-foreground hover:text-foreground hover:bg-white/5"
                 )}
               >
                 {m.label}
                 {active && (
-                  <span className="absolute inset-x-2 -bottom-px h-0.5 rounded-full bg-primary" />
+                  <span className="absolute inset-x-3 -bottom-1 h-0.5 rounded-t-full bg-primary shadow-[0_-2px_8px_rgba(16,185,129,0.5)]" />
                 )}
               </Link>
             );

@@ -29,20 +29,20 @@ export default function PillTabs({
             key={t.key}
             onClick={() => onChange(t.key)}
             className={cn(
-              "inline-flex items-center gap-1.5 rounded-lg border px-3.5 py-1.5 text-sm font-medium transition-colors",
+              "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-[11px] font-black uppercase tracking-wider transition-all duration-300",
               active
-                ? "border-primary bg-primary text-primary-foreground"
-                : "border-border bg-card text-muted-foreground hover:text-foreground"
+                ? "border-primary/50 bg-primary/20 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.2)]"
+                : "border-white/5 bg-white/5 text-muted-foreground hover:text-foreground hover:bg-white/10"
             )}
           >
             {t.label}
             {typeof t.count === "number" && (
               <span
                 className={cn(
-                  "rounded-full px-1.5 text-xs",
+                  "rounded-full px-1.5 py-0.5 text-[9px] font-extrabold flex items-center justify-center",
                   active
-                    ? "bg-primary-foreground/20 text-primary-foreground"
-                    : "bg-muted text-muted-foreground"
+                    ? "bg-primary text-background"
+                    : "bg-white/10 text-muted-foreground"
                 )}
               >
                 {t.count}
